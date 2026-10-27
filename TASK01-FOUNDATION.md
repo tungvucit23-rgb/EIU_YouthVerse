@@ -1,5 +1,7 @@
 # Task 01 — World architecture & navigation foundation
 
+**Bản ghi lịch sử:** phần staging đảo trong Task 01 gây lỗi mất đảo giữa hành trình. Bản sửa ngày 28/10/2026 đã xóa `WorldComposition.tsx` và `stageIslandIds()`, giữ cả 9 root luôn bật, tách camera/LOD/nhãn. Xem [CONTINUOUS-WORLD.md](CONTINUOUS-WORLD.md) để biết kiến trúc và bằng chứng hiện tại. Các số liệu/ảnh bên dưới ghi lại lần kiểm tra Task 01 trước bản sửa này.
+
 Hoàn tất trong dự án EIU YouthVerse hiện có, ngày **27/10/2026**. Phạm vi là bố cục, registry, đồ thị, mặt nước, camera và đồng bộ Hải đồ. Mô hình thuyền GLB, kiến trúc/đảo, sky WebP, font, màu sắc, ánh sáng, trang nội dung và giao diện đăng nhập hiện có được giữ lại. Không triển khai giai đoạn nâng cấp asset chi tiết.
 
 ## Nguyên nhân và thay đổi

@@ -33,7 +33,7 @@ describe("camera-safe composition",() => {
     const camera = new OrthographicCamera(-viewport.width / 2,viewport.width / 2,viewport.height / 2,-viewport.height / 2,.1,180);
     camera.position.set(...frame.target).add(new Vector3(...worldSettings.cameraOffset)); camera.lookAt(new Vector3(...frame.target)); camera.zoom = frame.zoom; camera.updateMatrixWorld(); camera.updateProjectionMatrix();
     const ids = heroIslandIds(viewport.mobile);
-    expect(ids.length).toBeGreaterThanOrEqual(4); expect(ids.length).toBeLessThanOrEqual(5);
+    expect(ids.length).toBe(viewport.mobile ? 4 : 6);
     for (const point of [...ids.flatMap((id) => islandBoundsPoints(getIsland(id))),...boatBoundsPoints(campus.dockingPoint)]) {
       const projected = new Vector3(...point).project(camera),screen = projectWorldToScreen(point,frame,viewport);
       expect((projected.x * .5 + .5) * viewport.width).toBeCloseTo(screen.x,5);

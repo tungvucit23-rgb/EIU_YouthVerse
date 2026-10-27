@@ -10,8 +10,8 @@ describe("nine-island registry",() => {
     expect(allIslandIds).toHaveLength(9);
     expect(new Set(allIslandIds).size).toBe(9);
     expect(new Set(destinations.map((island) => island.contentRoute)).size).toBe(8);
-    expect(destinations.filter((island) => island.nearOnIntro).length).toBeGreaterThanOrEqual(3);
-    expect(destinations.filter((island) => island.nearOnIntro).length).toBeLessThanOrEqual(4);
+    expect(destinations.filter((island) => island.nearOnIntro).length).toBeGreaterThanOrEqual(5);
+    expect(destinations.filter((island) => island.nearOnIntro).length).toBeLessThanOrEqual(8);
     for (const island of destinations) {
       expect(island.connections.length).toBeGreaterThan(0);
       expect(island.shape.radius * (island.scale ?? 1)).toBeLessThan(campus.shape.radius);

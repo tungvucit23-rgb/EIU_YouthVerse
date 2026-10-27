@@ -1,5 +1,11 @@
 # Verification record
 
+## Continuous archipelago correction — 28 October 2026
+
+The current architecture and verification are recorded in [CONTINUOUS-WORLD.md](CONTINUOUS-WORLD.md). The former phase-based island staging described in the historical Task 01 record below has been removed. All nine roots remain enabled; camera intersections and active LOD are measured separately. Current screenshots are in `artifacts/continuous/`.
+
+Final results: strict TypeScript, ESLint, production build, **102 unit tests**, **10 production browser tests (5.6 minutes)** and **5 development hydration tests (24.8 seconds)** passed. The six requested routes were exercised at all three required sizes, with **126 milestone observations** and **1,338 controlled sailing frames**. No disabled/remounted island root or empty-island viewport frame was recorded. The handoff includes **36 screenshots and 3 JSON evidence files**. Software WebGL does not establish physical-device FPS.
+
 ## Hydration correction
 
 The development log identified cursor-extension mutations (`data-cc-prev-cursor` and `style.cursor`) on `html`/`body`. A separate clean-browser reproduction with reduced motion identified a real hero mismatch: the server rendered `translateY(14px)` while the client initially rendered `none`.
@@ -10,7 +16,7 @@ Validation: strict TypeScript, ESLint, production build and all **94 unit tests*
 
 Reproduce with `npm.cmd run test:hydration`. It uses `playwright.hydration.config.ts` to start or reuse a development server; ordinary production E2E excludes this suite.
 
-## Task 01 foundation
+## Task 01 foundation — historical, before the continuous-world correction
 
 Verified locally on **27 October 2026**, in the existing Windows workspace.
 
@@ -35,7 +41,7 @@ The browser run used installed Microsoft Edge, headless, with SwiftShader WebGL.
 - Every distinct planned segment across those pairs is checked against the water mesh centerline, bounded width and upward normals.
 - Sampled routes avoid conservative footprints of unrelated islands. Intermediate bypass nodes prevent shortcuts through nearby destinations.
 - Hero and arrival bounds fit safe rectangles at all three required viewport sizes. The pure fit calculation is compared against an actual Three.js OrthographicCamera projection.
-- Desktop hero stages campus + four destinations; mobile stages campus + three. Campus is the largest visible island.
+- That version staged campus + four destinations on desktop and campus + three on mobile. This staging behavior was a bug and has been superseded by the persistent nine-root architecture; desktop camera framing now includes five secondary islands.
 - Real-browser projected bounds confirm unclipped hero islands and docked boat/destination beside or above the content panel.
 - HTML map-node centers match registry projections; the boat marker matches the current berth. Selected-target styling and the active route are exercised.
 - Moving samples verify changing boat coordinates, bounded camera zoom and a boat-to-water-centerline distance below **0.3 world unit**.

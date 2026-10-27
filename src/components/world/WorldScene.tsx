@@ -23,7 +23,6 @@ import { SceneMetrics } from "./SceneMetrics";
 import { WaterwaySystem } from "./water/WaterwaySystem";
 import { BoatWake } from "./boat/BoatWake";
 import { AtmosphericMotes } from "./AtmosphericMotes";
-import { WorldComposition } from "./WorldComposition";
 
 export interface WorldProps {
   state: JourneyState; plan: NavigationPlan; motion: RefObject<JourneyMotion>;
@@ -60,22 +59,21 @@ function SailingClock({ state,plan,motion:motionRef,onComplete,onStage,reducedMo
 
 export function WorldScene(props: WorldProps) {
   const { state,plan,motion,quality,reducedMotion,mobile,onSelect,onComplete,onStage,onReady } = props;
-  const selectable = state.phase === "SELECTING_DESTINATION";
+  const selectable = state.phase === "IDLE" || state.phase === "SELECTING_DESTINATION";
   const active = state.destination ?? state.currentIsland;
   const scene = useMemo(() => <SkyEnvironment reducedMotion={reducedMotion} />, [reducedMotion]);
   return <WorldQuality quality={quality} reducedMotion={reducedMotion}><TerrainTextures><SceneryMaterials>
     <WorldLighting motion={motion} />
     {scene}
     <SailingClock state={state} plan={plan} motion={motion} onComplete={onComplete} onStage={onStage} reducedMotion={reducedMotion} />
-    <group name="island:campus" onClick={(event) => { event.stopPropagation(); if (selectable) onSelect("campus"); }}><CentralEIUIsland /></group>
-    {destinations.map((island) => <DestinationIsland key={island.id} destination={island} enabled={selectable && island.isAvailable} selected={active === island.id} onSelect={onSelect} />)}
+    <group name="island:campus" visible onClick={(event) => { event.stopPropagation(); if (selectable) onSelect("campus"); }}><CentralEIUIsland /></group>
+    {destinations.map((island) => <DestinationIsland key={island.id} destination={island} motion={motion} enabled={selectable && island.isAvailable} selected={active === island.id} onSelect={onSelect} />)}
     <WaterwaySystem state={state} plan={plan} />
     <AtmosphericMotes />
-    <WorldComposition state={state} motion={motion} mobile={mobile} />
     <BoatWake motion={motion} />
     <SailingBoat state={state} motion={motion} onReady={onReady} />
-    <CameraController state={state} motion={motion} mobile={mobile} reducedMotion={reducedMotion} />
-    <IslandInteraction state={state} />
-    <SceneMetrics />
+    <CameraController state={state} plan={plan} motion={motion} mobile={mobile} reducedMotion={reducedMotion} />
+    <IslandInteraction state={state} motion={motion} mobile={mobile} />
+    <SceneMetrics state={state} motion={motion} plan={plan} />
   </SceneryMaterials></TerrainTextures></WorldQuality>;
 }

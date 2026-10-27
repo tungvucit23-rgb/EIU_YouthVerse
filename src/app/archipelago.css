@@ -5,6 +5,8 @@
 .archipelago-world.phase-selecting_destination .destination-hint { left: 6.3vw; right: auto; top: 15%; max-width: 460px; text-align: left; }
 .archipelago-world .destination-hint h1 { font: 400 clamp(27px,2.4vw,37px)/1.35 var(--display); }
 .archipelago-world .island-label { visibility: hidden; gap: 7px; font-size: 10px; padding: 9px 12px; min-height: 38px; }
+.archipelago-world.phase-sailing .island-labels { opacity: 1; }
+.archipelago-world .island-label.is-target { border-color: #c6b47a; background: #fff8e5d9; }
 .archipelago-world .scene-loading { left: 50%; bottom: 14%; transform: translateX(-50%); background: #f8fcffcc; padding: 10px 15px; border-radius: 30px; }
 .archipelago-world .sailing-status { min-width: 240px; max-width: calc(100% - 40px); }
 .sailing-status > div { display: flex; flex-direction: column; gap: 5px; }

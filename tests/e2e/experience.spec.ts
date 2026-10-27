@@ -35,7 +35,7 @@ test("desktop: real boat, raycasting, graph sailing, map during travel and retur
   await page.goto("/?inspect=1");
   await ready(page);
   await expect(page.locator("canvas")).toHaveAttribute("data-islands","9");
-  await expect(page.locator("canvas")).toHaveAttribute("data-detailed-islands",/activities.*clubs.*news.*volunteer/);
+  await expect(page.locator("canvas")).toHaveAttribute("data-loaded-detailed-islands",/activities.*clubs.*news.*volunteer/);
   await expect(page.getByRole("heading",{name:"Hoist the Sails"})).toBeVisible();
   await expect(page.locator("header").getByRole("link")).toHaveCount(2);
   await page.screenshot({path:"artifacts/desktop-home.png"});
@@ -43,12 +43,11 @@ test("desktop: real boat, raycasting, graph sailing, map during travel and retur
   await page.getByRole("button",{name:"Bắt đầu hành trình"}).click();
   await expect(page.locator("main")).toHaveAttribute("data-phase","SELECTING_DESTINATION");
   await page.waitForTimeout(1300);
-  expect(await page.locator(".island-label:visible").count()).toBeLessThanOrEqual(3);
+  expect(await page.locator(".island-label:visible").count()).toBeLessThanOrEqual(5);
   await page.screenshot({path:"artifacts/desktop-overview.png"});
-  const label = await page.locator("#island-label-activities").boundingBox();
-  expect(label).not.toBeNull();
+  const island = await page.locator("canvas").evaluate((canvas) => (JSON.parse(canvas.dataset.islandStates!) as {id:string;groundScreen:{x:number;y:number}}[]).find((entry) => entry.id === "activities")!);
   const before = await page.locator("canvas").getAttribute("data-boat-position");
-  await page.mouse.click(label!.x + label!.width / 2,label!.y - 72);
+  await page.mouse.click(island.groundScreen.x,island.groundScreen.y);
   await expect(page.locator("main")).toHaveAttribute("data-phase","SAILING");
   await expect.poll(() => page.locator("canvas").getAttribute("data-boat-position")).not.toBe(before);
   await page.screenshot({path:"artifacts/desktop-sailing.png"});
@@ -125,7 +124,7 @@ test("mobile: map, docking sheet, graphics and lightweight navigation",async ({p
   await page.emulateMedia({reducedMotion:"reduce"});
   await page.goto("/?inspect=1"); await ready(page);
   await expect(page.locator("canvas")).toHaveAttribute("data-quality","low");
-  await expect(page.locator("canvas")).toHaveAttribute("data-detailed-islands",/activities.*clubs.*news.*volunteer/);
+  await expect(page.locator("canvas")).toHaveAttribute("data-loaded-detailed-islands",/activities.*clubs.*news.*volunteer/);
   await page.screenshot({path:"artifacts/mobile-home.png"});
   await page.getByRole("button",{name:"Bắt đầu hành trình"}).click();
   await map(page); await choose(page,"Tin tức – Thông báo");

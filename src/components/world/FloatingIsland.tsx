@@ -14,9 +14,11 @@ type Props = ThreeElements["group"] & { radius?: number; depth?: number; grass?:
 export function FloatingIsland({ radius = 5.3, depth = 3.8, grass = "#ffffff", shape: configured, simple = false, children, ...props }: Props) {
   const { preset,quality } = useWorldQuality();
   const shape = useMemo(() => configured ?? { radius, depth, seed: 1.2, stretch: [1, 0.94] as [number, number] }, [configured, radius, depth]);
-  const segments = simple ? 24 : preset.terrainSegments;
+  const segments = preset.terrainSegments;
   const cliff = useMemo(() => makeCliff(shape, segments), [shape, segments]);
   const terrain = useMemo(() => makeTerrain(shape, segments), [shape, segments]);
+  const distantCliff = useMemo(() => makeCliff(shape,24), [shape]);
+  const distantTerrain = useMemo(() => makeTerrain(shape,24), [shape]);
   const vines = useMemo(() => {
     const positions: number[] = [];
     for (let root = 0; root < 8; root++) {
@@ -31,12 +33,12 @@ export function FloatingIsland({ radius = 5.3, depth = 3.8, grass = "#ffffff", s
     const geometry = new BufferGeometry(); geometry.setAttribute("position", new Float32BufferAttribute(positions, 3)); return geometry;
   }, [shape]);
   const textures = useTerrainTextures();
-  useEffect(() => () => { cliff.dispose(); terrain.dispose(); vines.dispose(); }, [cliff,terrain,vines]);
+  useEffect(() => () => { cliff.dispose(); terrain.dispose(); }, [cliff,terrain]);
+  useEffect(() => () => { distantCliff.dispose(); distantTerrain.dispose(); vines.dispose(); }, [distantCliff,distantTerrain,vines]);
   return <group {...props}>
-    <mesh geometry={cliff}><meshStandardMaterial vertexColors map={textures?.stone} bumpMap={quality === "low" ? null : textures?.stone} bumpScale={0.075} roughness={0.97} /></mesh>
-    {!simple && <IslandRockStrata shape={shape} radius={shape.radius} depth={shape.depth} />}
-    <mesh geometry={terrain} receiveShadow><meshStandardMaterial color={grass} vertexColors map={textures?.grass} roughness={1} /></mesh>
-    {!simple && <lineSegments geometry={vines}><lineBasicMaterial color="#647044" transparent opacity={0.75} /></lineSegments>}
+    <mesh geometry={simple ? distantCliff : cliff}><meshStandardMaterial vertexColors map={textures?.stone} bumpMap={quality === "low" ? null : textures?.stone} bumpScale={0.075} roughness={0.97} /></mesh>
+    <mesh geometry={simple ? distantTerrain : terrain} receiveShadow><meshStandardMaterial color={grass} vertexColors map={textures?.grass} roughness={1} /></mesh>
+    <group visible={!simple}><IslandRockStrata shape={shape} radius={shape.radius} depth={shape.depth} /><lineSegments geometry={vines}><lineBasicMaterial color="#647044" transparent opacity={0.75} /></lineSegments></group>
     {children}
   </group>;
 }
