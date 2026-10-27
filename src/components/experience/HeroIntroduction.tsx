@@ -1,10 +1,11 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 import { ArrowRight, Compass } from "lucide-react";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 export function HeroIntroduction({ onStart }: { onStart: () => void }) {
-  const reduced = useReducedMotion();
+  const reduced = useMediaQuery("(prefers-reduced-motion: reduce)");
   return (
     <motion.section className="hero-introduction" aria-labelledby="hero-title" initial={{ opacity: 0, y: reduced ? 0 : 14 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: reduced ? 0 : -15 }} transition={{ duration: reduced ? 0 : 0.6 }}>
       <p className="eyebrow">EIU YOUTHVERSE</p>

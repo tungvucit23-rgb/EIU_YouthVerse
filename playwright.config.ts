@@ -5,6 +5,7 @@ const port = new URL(baseURL).port || "3000";
 
 export default defineConfig({
   testDir: "./tests/e2e",
+  testIgnore: "**/hydration.spec.ts",
   timeout: 120000,
   fullyParallel: false,
   workers: 1,

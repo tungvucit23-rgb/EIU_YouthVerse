@@ -14,6 +14,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:e2e": "playwright test",
+    "test:hydration": "playwright test --config=playwright.hydration.config.ts",
     "assets:boat": "node scripts/build-boat-model.mjs"
   },
   "dependencies": {

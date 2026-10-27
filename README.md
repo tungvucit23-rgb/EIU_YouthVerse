@@ -86,9 +86,12 @@ npm run lint
 npm test
 npm run build
 npm run test:e2e
+npm run test:hydration
 ```
 
 Browser tests use installed Microsoft Edge with software WebGL. Build before running them. Set `PLAYWRIGHT_BASE_URL` to choose a different local server/port; tests can start or reuse a production server.
+
+`test:hydration` uses a development server because React's attribute-mismatch diagnostics are development-only. It covers reduced motion, stored graphics preferences, mobile and root attributes injected by cursor extensions. An intentional nested mismatch confirms that application components still report hydration errors. The normal production browser suite excludes these development-only checks.
 
 `node scripts/capture-preview.mjs http://127.0.0.1:3001/?inspect=1` captures an already-running preview. The optional `?inspect=1` query exposes renderer counters and boat coordinates as canvas data attributes for QA, with no product overlay.
 

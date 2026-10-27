@@ -18,5 +18,6 @@ export const metadata: Metadata = {
 export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#cce8f4" };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="vi"><body><a href="#main-content" className="skip-link">Đến nội dung chính</a>{children}</body></html>;
+  // Browser cursor extensions mutate these root attributes before hydration; application children remain checked.
+  return <html lang="vi" suppressHydrationWarning><body suppressHydrationWarning><a href="#main-content" className="skip-link">Đến nội dung chính</a>{children}</body></html>;
 }

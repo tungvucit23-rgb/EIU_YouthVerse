@@ -1,4 +1,16 @@
-# Verification — Task 01 foundation
+# Verification record
+
+## Hydration correction
+
+The development log identified cursor-extension mutations (`data-cc-prev-cursor` and `style.cursor`) on `html`/`body`. A separate clean-browser reproduction with reduced motion identified a real hero mismatch: the server rendered `translateY(14px)` while the client initially rendered `none`.
+
+Hero and destination-hint motion preferences now use the existing `useSyncExternalStore` media-query hook with a stable server snapshot. Only root `html`/`body` attribute warnings are suppressed to tolerate cursor extensions; application children remain checked.
+
+Validation: strict TypeScript, ESLint, production build and all **94 unit tests** passed. The dedicated development browser suite passed **5 tests in 29.6 seconds**, covering desktop, reduced motion, mobile/stored graphics settings, extension-modified roots on home/login, and an intentional nested mismatch that must still report a hydration error. Before the fix, the same suite reproduced three failures; after the fix, all five passed. Production mode alone cannot validate these attribute diagnostics.
+
+Reproduce with `npm.cmd run test:hydration`. It uses `playwright.hydration.config.ts` to start or reuse a development server; ordinary production E2E excludes this suite.
+
+## Task 01 foundation
 
 Verified locally on **27 October 2026**, in the existing Windows workspace.
 
