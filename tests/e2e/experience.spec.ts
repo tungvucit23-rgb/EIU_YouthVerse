@@ -1,0 +1,244 @@
+import { expect, test, type Page } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
+
+const islands = [
+  {id:"activities", title:"Hoạt động Đoàn – Hội", route:"/activities"},
+  {id:"news", title:"Tin tức – Thông báo", route:"/news"},
+  {id:"clubs", title:"Làng câu lạc bộ", route:"/clubs"},
+  {id:"events", title:"Sự kiện – Lịch hoạt động", route:"/events"},
+  {id:"volunteer", title:"Tình nguyện – Chiến dịch", route:"/volunteer"},
+  {id:"office", title:"Văn phòng điện tử", route:"/office"},
+  {id:"achievements", title:"Thành tích – Điểm rèn luyện", route:"/achievements"},
+  {id:"resources", title:"Cộng đồng – Tài nguyên", route:"/resources"},
+];
+async function ready(page:Page) {
+  await expect(page.locator(".scene-loading")).toHaveCount(0,{timeout:30000});
+  await expect(page.locator("canvas")).toHaveAttribute("data-boat-loaded","true",{timeout:30000});
+}
+async function map(page:Page) {
+  await page.getByRole("button",{name:/^(Hải đồ · Danh sách điểm đến|Hải đồ)$/}).click();
+  await expect(page.getByRole("dialog",{name:"Hải đồ của những chân trời."})).toBeVisible();
+}
+async function choose(page:Page,title:string) {
+  await page.getByRole("dialog").getByRole("button",{name:"Căng buồm đến " + title,exact:true}).click();
+}
+async function arrived(page:Page,id:string,title:string) {
+  await expect(page.locator("main")).toHaveAttribute("data-current-island",id,{timeout:40000});
+  await expect(page.getByRole("dialog").getByRole("heading",{name:title,exact:true})).toBeVisible({timeout:40000});
+  await expect(page.locator("main")).toHaveAttribute("data-phase","EXPLORING_CONTENT");
+}
+
+test("desktop: real boat, raycasting, graph sailing, map during travel and return",async ({page},testInfo) => {
+  const errors:string[] = [];
+  page.on("pageerror",error => errors.push(error.message));
+  page.on("console",message => { if (message.type() === "error") errors.push(message.text()); });
+  await page.goto("/?inspect=1");
+  await ready(page);
+  await expect(page.locator("canvas")).toHaveAttribute("data-islands","9");
+  await expect(page.locator("canvas")).toHaveAttribute("data-detailed-islands",/activities.*clubs.*news.*volunteer/);
+  await expect(page.getByRole("heading",{name:"Hoist the Sails"})).toBeVisible();
+  await expect(page.locator("header").getByRole("link")).toHaveCount(2);
+  await page.screenshot({path:"artifacts/desktop-home.png"});
+  await testInfo.attach("initial-renderer-metrics",{body:JSON.stringify(await page.locator("canvas").evaluate(canvas => ({...canvas.dataset}))),contentType:"application/json"});
+  await page.getByRole("button",{name:"Bắt đầu hành trình"}).click();
+  await expect(page.locator("main")).toHaveAttribute("data-phase","SELECTING_DESTINATION");
+  await page.waitForTimeout(1300);
+  expect(await page.locator(".island-label:visible").count()).toBeLessThanOrEqual(3);
+  await page.screenshot({path:"artifacts/desktop-overview.png"});
+  const label = await page.locator("#island-label-activities").boundingBox();
+  expect(label).not.toBeNull();
+  const before = await page.locator("canvas").getAttribute("data-boat-position");
+  await page.mouse.click(label!.x + label!.width / 2,label!.y - 72);
+  await expect(page.locator("main")).toHaveAttribute("data-phase","SAILING");
+  await expect.poll(() => page.locator("canvas").getAttribute("data-boat-position")).not.toBe(before);
+  await page.screenshot({path:"artifacts/desktop-sailing.png"});
+  await map(page);
+  await expect(page.locator(".map-island-node")).toHaveCount(9);
+  await expect(page.getByRole("dialog").getByRole("button",{name:"Căng buồm đến Văn phòng điện tử",exact:true})).toBeDisabled();
+  const marker = page.getByTestId("map-boat-marker"), x = await marker.getAttribute("cx");
+  await expect.poll(() => marker.getAttribute("cx")).not.toBe(x);
+  await arrived(page,"activities","Hoạt động Đoàn – Hội");
+  await expect(page.getByRole("dialog")).toHaveCount(1);
+  await page.waitForTimeout(700);
+  await page.screenshot({path:"artifacts/desktop-arrival.png"});
+  await page.keyboard.press("Escape");
+  await expect(page.locator("main")).toHaveAttribute("data-phase","SELECTING_DESTINATION");
+  await expect(page.locator("main")).toHaveAttribute("data-current-island","activities");
+  await expect(page.getByRole("button",{name:"Hải đồ · Danh sách điểm đến",exact:true})).toBeFocused();
+  await page.getByRole("button",{name:"Trở về EIU",exact:true}).click();
+  await expect(page.locator("main")).toHaveAttribute("data-phase","SAILING");
+  await expect(page.locator("main")).toHaveAttribute("data-current-island","campus",{timeout:40000});
+  await expect(page.locator("main")).toHaveAttribute("data-phase","SELECTING_DESTINATION");
+  expect(errors).toEqual([]);
+});
+
+test("all eight destinations: continuous island travel, correct panels and one persistent canvas",async ({page}) => {
+  test.setTimeout(240000);
+  await page.emulateMedia({reducedMotion:"reduce"});
+  await page.addInitScript(() => localStorage.setItem("youthverse.graphics-quality","low"));
+  await page.goto("/?inspect=1");
+  await ready(page);
+  const canvas = await page.locator("canvas").elementHandle();
+  for (const island of islands) {
+    await map(page);
+    await choose(page,island.title);
+    await arrived(page,island.id,island.title);
+    await expect(page.locator("canvas")).toHaveAttribute("data-detailed-islands",new RegExp(island.id));
+    await expect(page.getByRole("dialog").locator("a.primary-button")).toHaveAttribute("href",island.route);
+    expect(await canvas!.evaluate(element => element === document.querySelector("canvas"))).toBe(true);
+    if (["events","volunteer","resources","achievements"].includes(island.id)) await page.screenshot({path:"artifacts/island-" + island.id + ".png"});
+    await page.keyboard.press("Escape");
+    await expect(page.locator("main")).toHaveAttribute("data-current-island",island.id);
+    await expect(page.locator("main")).toHaveAttribute("data-phase","SELECTING_DESTINATION");
+  }
+  await map(page);
+  await page.screenshot({path:"artifacts/archipelago-map.png"});
+  await page.getByRole("dialog").getByRole("button",{name:"Căng buồm trở về EIU Grand Campus"}).click();
+  await expect(page.locator("main")).toHaveAttribute("data-current-island","campus",{timeout:20000});
+});
+
+test("history: interrupt a trip, back, forward and direct links",async ({page}) => {
+  await page.goto("/?inspect=1");
+  await ready(page);
+  await map(page); await choose(page,"Hoạt động Đoàn – Hội");
+  await expect(page.locator("main")).toHaveAttribute("data-phase","SAILING");
+  await page.goBack();
+  await expect(page.locator("main")).toHaveAttribute("data-current-island","campus");
+  await page.waitForTimeout(600);
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  await page.goForward(); await arrived(page,"activities","Hoạt động Đoàn – Hội");
+  await page.keyboard.press("Escape");
+  await map(page); await choose(page,"Tin tức – Thông báo");
+  await page.goBack();
+  await expect(page.locator("main")).toHaveAttribute("data-current-island","activities");
+  await expect(page.locator("main")).toHaveAttribute("data-phase","SELECTING_DESTINATION");
+  await page.goForward(); await arrived(page,"news","Tin tức – Thông báo");
+  await page.goto("/?inspect=1#clubs");
+  await arrived(page,"clubs","Làng câu lạc bộ");
+  await page.getByRole("link",{name:"Khám phá câu lạc bộ",exact:true}).click();
+  await expect(page).toHaveURL(/\/clubs$/);
+  await expect(page.locator("canvas")).toHaveCount(0);
+});
+
+test("mobile: map, docking sheet, graphics and lightweight navigation",async ({page}) => {
+  await page.setViewportSize({width:390,height:844});
+  await page.emulateMedia({reducedMotion:"reduce"});
+  await page.goto("/?inspect=1"); await ready(page);
+  await expect(page.locator("canvas")).toHaveAttribute("data-quality","low");
+  await expect(page.locator("canvas")).toHaveAttribute("data-detailed-islands",/activities.*clubs.*news.*volunteer/);
+  await page.screenshot({path:"artifacts/mobile-home.png"});
+  await page.getByRole("button",{name:"Bắt đầu hành trình"}).click();
+  await map(page); await choose(page,"Tin tức – Thông báo");
+  await arrived(page,"news","Tin tức – Thông báo");
+  await page.screenshot({path:"artifacts/mobile-arrival.png"});
+  const bounds = await page.getByRole("dialog").boundingBox();
+  expect(bounds!.x).toBeGreaterThanOrEqual(0);
+  expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(390);
+  await page.keyboard.press("Escape");
+  await page.getByRole("button",{name:"Cài đặt đồ họa"}).click();
+  await page.getByRole("radio",{name:/Chi tiết/}).check();
+  await page.getByRole("button",{name:"Dùng hải đồ nhẹ, không cần 3D"}).click();
+  await expect(page.locator(".lightweight-world")).toBeVisible();
+  await expect(page.locator("main")).toHaveAttribute("data-current-island","news");
+  await map(page); await choose(page,"Cộng đồng – Tài nguyên");
+  await arrived(page,"resources","Cộng đồng – Tài nguyên");
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+});
+
+test("no WebGL: keyboard search, locked service and all nine map nodes",async ({page}) => {
+  await page.emulateMedia({reducedMotion:"reduce"});
+  await page.addInitScript(() => {
+    const original = HTMLCanvasElement.prototype.getContext;
+    HTMLCanvasElement.prototype.getContext = function(this:HTMLCanvasElement,type:string,...args:unknown[]) {
+      if (type.startsWith("webgl") || type === "experimental-webgl") return null;
+      return Reflect.apply(original,this,[type,...args]);
+    } as typeof original;
+  });
+  await page.goto("/");
+  await expect(page.locator(".lightweight-world")).toBeVisible({timeout:30000});
+  await page.getByRole("button",{name:"Hải đồ · Danh sách điểm đến",exact:true}).focus();
+  await page.keyboard.press("Enter");
+  await expect(page.locator(".map-island-node")).toHaveCount(9);
+  await page.getByRole("button",{name:"Xem danh sách điểm đến",exact:true}).click();
+  await expect(page.locator(".archipelago-list li")).toHaveCount(9);
+  await page.getByRole("searchbox",{name:"Tìm đảo trên hải đồ"}).fill("van phong");
+  await expect(page.locator(".archipelago-list li")).toHaveCount(2);
+  await page.getByRole("dialog").getByRole("button",{name:/06 Văn phòng điện tử/}).focus();
+  await page.keyboard.press("Enter");
+  await arrived(page,"office","Văn phòng điện tử");
+  await expect(page.getByRole("dialog")).toContainText("Cần quyền cán bộ");
+});
+
+test("content: existing filters, calendar, resources, locked data and all ten routes",async ({page}) => {
+  await page.goto("/activities");
+  await page.getByRole("button",{name:"Cộng đồng",exact:true}).click();
+  await expect(page.locator("article.content-card")).toHaveCount(2);
+  await page.getByRole("searchbox").fill("không có kết quả");
+  await expect(page.getByRole("heading",{name:"Một chân trời khác đang chờ."})).toBeVisible();
+  await page.getByRole("button",{name:"Xem lại tất cả"}).click();
+  await expect(page.locator("article.content-card")).toHaveCount(4);
+  for (const route of ["news","clubs","journey","events","volunteer","office","achievements","resources","login"]) {
+    const response = await page.goto("/" + route);
+    expect(response?.status()).toBe(200);
+    await expect(page.locator("canvas")).toHaveCount(0);
+  }
+  await page.getByLabel("Email sinh viên").fill("demo@example.com");
+  await page.getByLabel("Mật khẩu",{exact:true}).fill("example-only");
+  await page.getByRole("button",{name:"Xem trước đăng nhập"}).click();
+  await expect(page.getByRole("status")).toContainText("Chưa có phiên đăng nhập được tạo");
+  await page.goto("/events");
+  await expect(page.locator(".calendar-selection article")).toHaveCount(3);
+  await page.locator('[data-calendar-date="2026-11-09"]').click();
+  await expect(page.locator(".calendar-selection article")).toHaveCount(1);
+  await page.getByRole("button",{name:"Xem sự kiện"}).click();
+  await expect(page.getByRole("dialog")).toContainText("Chưa có địa điểm");
+  await page.keyboard.press("Escape");
+  await page.getByRole("button",{name:"Tháng sau"}).click();
+  await expect(page.locator(".calendar-selection article")).toHaveCount(0);
+  await page.getByRole("button",{name:"Về tháng minh họa"}).click();
+  await expect(page.locator(".calendar-selection article")).toHaveCount(3);
+  await page.goto("/resources");
+  await page.getByRole("button",{name:/Đọc nội dung: La bàn sinh viên/}).click();
+  const download = page.waitForEvent("download");
+  await page.getByRole("link",{name:"Tải tài liệu Markdown minh họa"}).click();
+  expect((await download).suggestedFilename()).toBe("student-compass-demo.md");
+  await page.goto("/office");
+  await expect(page.locator(".access-notice")).toContainText("chưa kết nối xác thực");
+  await page.getByRole("button",{name:"Thông tin truy cập: Tài liệu tổ chức"}).click();
+  await expect(page.getByRole("dialog").locator(".access-notice")).toBeVisible();
+  await page.goto("/achievements");
+  await page.getByRole("button",{name:"Thông tin truy cập: Điểm rèn luyện cá nhân"}).click();
+  await expect(page.getByRole("dialog")).toContainText("Thông tin cá nhân cần đăng nhập");
+});
+
+test("accessibility, quality persistence and narrow layouts",async ({page}) => {
+  await page.emulateMedia({reducedMotion:"reduce"});
+  await page.goto("/?inspect=1"); await ready(page);
+  const check = async () => {
+    const result = await new AxeBuilder({page}).withTags(["wcag2a","wcag2aa","wcag21aa"]).analyze();
+    expect(result.violations.map(item => ({id:item.id,nodes:item.nodes.map(node => ({target:node.target,summary:node.failureSummary}))}))).toEqual([]);
+  };
+  await check(); await map(page); await check();
+  await choose(page,"Làng câu lạc bộ"); await arrived(page,"clubs","Làng câu lạc bộ"); await check();
+  await page.keyboard.press("Escape");
+  await page.getByRole("button",{name:"Cài đặt đồ họa và hướng dẫn"}).click();
+  for (const [label,value] of [["Thấp","low"],["Chi tiết","high"],["Cân bằng","balanced"]]) {
+    await page.getByRole("radio",{name:new RegExp(label)}).check();
+    await expect(page.locator("canvas")).toHaveAttribute("data-quality",value,{timeout:20000});
+  }
+  await page.getByRole("radio",{name:/Thấp/}).check();
+  await page.reload(); await ready(page);
+  await expect(page.locator("canvas")).toHaveAttribute("data-quality","low");
+  for (const [width,height,name] of [[820,1180,"tablet"],[320,740,"small-phone"]] as const) {
+    await page.setViewportSize({width,height});
+    await page.goto("/?inspect=1"); await ready(page);
+    await page.screenshot({path:"artifacts/" + name + "-home.png"});
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    await map(page);
+    const bounds = await page.getByRole("dialog").boundingBox();
+    expect(bounds!.width).toBeLessThanOrEqual(width);
+    await page.keyboard.press("Escape");
+  }
+  await page.goto("/office"); await check();
+  await page.goto("/login"); await check();
+});
