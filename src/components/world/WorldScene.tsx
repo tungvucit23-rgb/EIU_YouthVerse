@@ -31,7 +31,7 @@ export interface WorldProps {
   onStage: (phase: "APPROACHING" | "DOCKING", trip: number) => void; onReady: () => void;
 }
 
-function SailingClock({ state,plan,motion:motionRef,onComplete,onStage,reducedMotion }: Pick<WorldProps,"state"|"plan"|"motion"|"onComplete"|"onStage"|"reducedMotion">) {
+function SailingClock({ state,plan,motion:motionRef,onComplete,onStage }: Pick<WorldProps,"state"|"plan"|"motion"|"onComplete"|"onStage"|"reducedMotion">) {
   const sample = useRef<RouteSample>({position:[0,0,0],tangent:[0,0,-1],edgeIndex:0});
   const stage = useRef(0);
   useFrame((_,delta) => {
@@ -40,7 +40,7 @@ function SailingClock({ state,plan,motion:motionRef,onComplete,onStage,reducedMo
       if (current.trip !== state.trip) { current.trip = state.trip; current.elapsed = 0; current.progress = 0; current.completed = false; stage.current = 0; }
       if (current.completed) return;
       current.elapsed += Math.min(delta,0.1);
-      const raw = Math.min(1,current.elapsed / (reducedMotion ? worldSettings.reducedMotionSeconds : plan.duration));
+      const raw = Math.min(1,current.elapsed / plan.duration);
       const progress = easeSailing(raw), previous = current.progress;
       samplePlanInto(plan,progress,sample.current);
       for (let axis = 0; axis < 3; axis++) { current.position[axis] = sample.current.position[axis]; current.tangent[axis] = sample.current.tangent[axis]; }
@@ -49,13 +49,12 @@ function SailingClock({ state,plan,motion:motionRef,onComplete,onStage,reducedMo
       if (progress >= worldSettings.dockingAt && stage.current < 2) { stage.current = 2; onStage("DOCKING",state.trip); }
       if (raw >= 1) { current.completed = true; current.speed = 0; onComplete(state.trip); }
     } else {
-      const island = getIsland(state.currentIsland); const heading = island.dockHeading;
+      const island = getIsland(state.currentIsland); const heading = state.atLaunch ? worldSettings.launchHeading : island.dockHeading;
       const rest = state.atLaunch ? HOME_BOAT_POSITION : island.dockingPoint;
       for (let axis = 0; axis < 3; axis++) current.position[axis] = rest[axis];
       current.tangent[0] = Math.sin(heading); current.tangent[1] = 0; current.tangent[2] = Math.cos(heading); current.speed = 0;
       if (state.phase === "ROUTE_PLANNING") {
         current.elapsed = 0;current.progress = 0;current.completed = false;stage.current = 0;current.trip = state.trip;
-        if(plan.to === state.destination && plan.segments.length) {samplePlanInto(plan,0,sample.current);for(let axis = 0;axis < 3;axis++) current.tangent[axis] = sample.current.tangent[axis];}
       }
     }
   }, -2);

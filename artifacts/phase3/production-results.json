@@ -1,0 +1,201 @@
+{
+  "stats": {
+    "startTime": "2026-10-28T12:53:03.647Z",
+    "duration": 1390732.4100000001,
+    "expected": 16,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  },
+  "tests": [
+    {
+      "file": "asset-upgrade.spec.ts",
+      "title": "assets: exported models load, sails animate, and quality switches release cloned resources",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 19718
+        }
+      ]
+    },
+    {
+      "file": "asset-upgrade.spec.ts",
+      "title": "assets: failed environment GLBs retain procedural architecture and navigation",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 4770
+        }
+      ]
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "desktop: real boat, raycasting, graph sailing, map during travel and return",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 17755,
+          "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mnot\u001b[2m.\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: not \u001b[32m\"300.60989565784485\"\u001b[39m\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate"
+        }
+      ]
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "all four destinations: continuous island travel, correct panels and one persistent canvas",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 11456
+        }
+      ]
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "history: interrupt a trip, back, forward and direct links",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 19485
+        }
+      ]
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "mobile: map, docking sheet, graphics and lightweight navigation",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 5065
+        }
+      ]
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "no WebGL: keyboard search, locked service and all five map nodes",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2198
+        }
+      ]
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "content: existing filters, calendar, resources, locked data and all ten routes",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 5394
+        }
+      ]
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "accessibility, quality persistence and narrow layouts",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 24116
+        }
+      ]
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "legacy world links map to five parents while original content stays accessible",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 4450
+        }
+      ]
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "optional direct navigation persists and keeps the existing scene",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 10682
+        }
+      ]
+    },
+    {
+      "file": "world-foundation.spec.ts",
+      "title": "stable five-island sailing: all 20 pairs at 1440",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 425443
+        }
+      ]
+    },
+    {
+      "file": "world-foundation.spec.ts",
+      "title": "stable five-island sailing: all 20 pairs at 1920",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 533237
+        }
+      ]
+    },
+    {
+      "file": "world-foundation.spec.ts",
+      "title": "stable five-island sailing: all 20 pairs at 390",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 142870
+        }
+      ]
+    },
+    {
+      "file": "world-foundation.spec.ts",
+      "title": "reduced motion: all 20 direct transitions at 1440",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 62262
+        }
+      ]
+    },
+    {
+      "file": "world-foundation.spec.ts",
+      "title": "reduced motion: all 20 direct transitions at 1920",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 77805
+        }
+      ]
+    },
+    {
+      "file": "world-foundation.spec.ts",
+      "title": "reduced motion: all 20 direct transitions at 390",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 17680
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

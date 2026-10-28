@@ -20,7 +20,7 @@ export function LightweightWorld({ state,motion,onSelect }: { state:JourneyState
   return <div className="scene-fallback lightweight-world">
     <svg viewBox="0 0 640 340" className="lightweight-archipelago" aria-label="Quần đảo EIU ở chế độ nhẹ" role="group">
       <defs><linearGradient id="light-rock" x2="0" y2="1"><stop stopColor="#bacac3" /><stop offset="1" stopColor="#789aaa" /></linearGradient></defs>
-      {navigationGraph.edges.map((edge) => <path key={edge.id} d={mapEdgePath(edge)} fill="none" stroke="#8cc7d5" strokeWidth="2.5" opacity="0.55" />)}
+      {navigationGraph.edges.filter(edge => edge.mapLane).map((edge) => <path key={edge.id} d={mapEdgePath(edge)} fill="none" stroke="#8cc7d5" strokeWidth="2.5" opacity="0.55" />)}
       {[campus,...destinations].map((island) => {
         const point = mapPoint(island.position), radius = island.id === "campus" ? 38 : 18;
         return <g key={island.id} transform={"translate(" + point.x + " " + point.y + ")"} role="button" tabIndex={enabled ? 0 : -1} aria-label={"Ghé đảo " + island.title} aria-disabled={!enabled} onClick={() => { if (enabled) onSelect(island.id); }} onKeyDown={(event) => { if (enabled && (event.key === "Enter" || event.key === " ")) { event.preventDefault(); onSelect(island.id); } }} className="lightweight-island">

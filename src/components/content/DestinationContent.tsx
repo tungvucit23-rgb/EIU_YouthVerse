@@ -2,14 +2,14 @@
 
 import { useMemo, useState } from "react";
 import { ArrowLeft, ArrowRight, Download, LockKeyhole, Search, X } from "lucide-react";
-import type { Destination, DestinationEntry } from "@/types";
+import type { PortalSection, DestinationEntry } from "@/types";
 import { anonymousPrincipal, canAccess } from "@/lib/access-policy";
 import { Modal } from "@/components/ui/Modal";
 import { AccessNotice } from "@/components/experience/AccessNotice";
 import { DestinationIcon } from "@/components/experience/DestinationIcon";
 import { EventsCalendar } from "./EventsCalendar";
 
-export function DestinationContent({ destination,entries }: { destination:Destination; entries:DestinationEntry[] }) {
+export function DestinationContent({ destination,entries }: { destination:PortalSection; entries:DestinationEntry[] }) {
   const [query,setQuery] = useState(""), [category,setCategory] = useState("Tất cả"), [selected,setSelected] = useState<DestinationEntry|null>(null);
   const filtered = useMemo(() => entries.filter((entry) => (category === "Tất cả" || entry.category === category) && (entry.title + " " + entry.description).toLocaleLowerCase("vi").includes(query.toLocaleLowerCase("vi").trim())), [entries,query,category]);
   const categories = ["Tất cả",...new Set(entries.map((entry) => entry.category))];
@@ -23,7 +23,7 @@ export function DestinationContent({ destination,entries }: { destination:Destin
   </>;
 }
 
-export function EntryCard({entry,destination,onSelect}: {entry:DestinationEntry; destination:Destination; onSelect:() => void}) {
+export function EntryCard({entry,destination,onSelect}: {entry:DestinationEntry; destination:PortalSection; onSelect:() => void}) {
   const locked = entry.access && !canAccess(anonymousPrincipal,entry.access);
   return <article className="destination-entry-card"><DestinationIcon id={destination.id} size={28} /><span className="card-category">{entry.category} · DEMO</span><h2>{entry.title}</h2><p>{entry.description}</p>{entry.date && <span className="entry-date">Lịch minh họa · {entry.date.split("-").reverse().join(".")}</span>}<button className="card-action" onClick={onSelect} aria-label={(locked ? "Thông tin truy cập: " : "Đọc nội dung: ") + entry.title}>{locked ? "Thông tin truy cập" : "Đọc nội dung"}{locked ? <LockKeyhole size={15} /> : <ArrowRight size={16} />}</button></article>;
 }

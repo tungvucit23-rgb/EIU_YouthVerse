@@ -1,0 +1,35 @@
+{
+  "stats": {
+    "startTime": "2026-10-28T13:33:17.534Z",
+    "duration": 128894.306,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "tests": [
+    {
+      "file": "phase3-video.spec.ts",
+      "title": "video: five consecutive voyages with the actual sky and rendered scene",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 118829
+        }
+      ]
+    },
+    {
+      "file": "world-foundation.spec.ts",
+      "title": "reduced motion can retain animated sailing with a fixed camera heading",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 8319
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

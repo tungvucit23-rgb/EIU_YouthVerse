@@ -10,6 +10,7 @@ import { worldSettings } from "@/data/world-settings";
 import { useJourney } from "@/hooks/use-journey";
 import { useGraphicsQuality } from "@/hooks/use-graphics-quality";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import {useNavigationComfort} from "@/hooks/use-navigation-comfort";
 import { isTransitioning } from "@/lib/journey-machine";
 import { easeSailing, samplePlanInto } from "@/lib/navigation-graph";
 import type { JourneyMotion } from "@/lib/journey-runtime";
@@ -30,7 +31,8 @@ const WorldCanvas = dynamic(() => import("@/components/world/WorldCanvas"), { ss
 
 export function YouthVerseExperience({ previews }: { previews:WorldPreviews }) {
   const reducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
-  const { state,plan,start,select,returnHome,closeContent,complete,stage } = useJourney(reducedMotion);
+  const {directTransition,setDirectTransition} = useNavigationComfort(reducedMotion);
+  const { state,plan,start,select,returnHome,closeContent,complete,stage } = useJourney(reducedMotion,directTransition);
   const { quality,setQuality } = useGraphicsQuality();
   const [ready,setReady] = useState(false), [unavailable,setUnavailable] = useState(false), [simplified,setSimplified] = useState(false);
   const [pickerOpen,setPickerOpen] = useState(false), [helpOpen,setHelpOpen] = useState(false);
@@ -80,7 +82,7 @@ export function YouthVerseExperience({ previews }: { previews:WorldPreviews }) {
 
   return <main className={"world-page archipelago-world boat-centric phase-" + state.phase.toLowerCase() + (fallback ? " is-fallback" : "")} id="main-content" tabIndex={-1} data-phase={state.phase} data-current-island={state.currentIsland} data-at-launch={state.atLaunch}>
     <div className="sky-backdrop" aria-hidden="true"><div className="sky-photograph" /><div className="sun-glow" /><div className="sky-haze" /></div>
-    <div className="world-canvas" data-testid="world-canvas">{fallback ? <LightweightWorld state={state} motion={motion} onSelect={select} /> : <SceneErrorBoundary onError={sceneUnavailable}><WorldCanvas state={state} plan={plan} motion={motion} quality={quality} mobile={mobile} reducedMotion={reducedMotion} onSelect={select} onComplete={handleDocked} onStage={stage} onReady={sceneReady} onUnavailable={sceneUnavailable} /></SceneErrorBoundary>}</div>
+    <div className="world-canvas" data-testid="world-canvas">{fallback ? <LightweightWorld state={state} motion={motion} onSelect={select} /> : <SceneErrorBoundary onError={sceneUnavailable}><WorldCanvas state={state} plan={plan} motion={motion} quality={quality} mobile={mobile} reducedMotion={reducedMotion || directTransition} onSelect={select} onComplete={handleDocked} onStage={stage} onReady={sceneReady} onUnavailable={sceneUnavailable} /></SceneErrorBoundary>}</div>
     <div className="world-vignette" aria-hidden="true" /><SiteHeader onSearch={openMap} />
     <AnimatePresence>{state.phase === "IDLE" && <HeroIntroduction key="hero" onStart={start} />}</AnimatePresence>
     {state.phase === "SELECTING_DESTINATION" && <DestinationHint />}
@@ -100,7 +102,7 @@ export function YouthVerseExperience({ previews }: { previews:WorldPreviews }) {
     </footer>}
     {mobile && state.phase === "SELECTING_DESTINATION" && <MobileDestinationSheet atLaunch={state.atLaunch} current={state.currentIsland} onMap={openMap} onSettings={() => setHelpOpen(true)} buttonRef={mobilePicker} />}
     {pickerOpen && <DestinationPicker state={state} plan={plan} motion={motion} onSelect={select} onClose={() => setPickerOpen(false)} />}
-    {helpOpen && <HelpDialog onClose={() => setHelpOpen(false)} simplified={simplified} onToggleSimplified={() => { setSimplified((value) => !value); setHelpOpen(false); }} quality={quality} onQuality={setQuality} />}
+    {helpOpen && <HelpDialog onClose={() => setHelpOpen(false)} simplified={simplified} onToggleSimplified={() => { setSimplified((value) => !value); setHelpOpen(false); }} quality={quality} onQuality={setQuality} directTransition={directTransition} onDirectTransition={setDirectTransition} />}
     <div className="sr-only" aria-live="polite" aria-atomic="true">{state.phase === "SELECTING_DESTINATION" ? "Bạn đang ở " + (state.atLaunch ? "Bến khởi hành" : getIsland(state.currentIsland).title) + ". Mở Hải đồ hoặc chọn một đảo gần để tiếp tục." : state.phase === "EXPLORING_CONTENT" ? "Đã cập bến " + destination?.fullTitle : ""}</div>
   </main>;
 }

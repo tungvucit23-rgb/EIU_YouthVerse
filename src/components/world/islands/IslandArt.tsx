@@ -40,6 +40,7 @@ export function ReplaceableIslandModel({ asset,fallback }: { asset:IslandAsset; 
   return asset.kind === "glb" ? <Suspense fallback={fallback}><ModelBoundary key={asset.url} fallback={fallback}><Model url={asset.url} /></ModelBoundary></Suspense> : fallback;
 }
 export function IslandArt({ destination }: { destination: Destination }) {
+  if (destination.id === "campus") return null; // Campus has its dedicated upgraded architecture root.
   const Theme = art[destination.id];
   const fallback = destination.id === "activities" ? <Theme/> : <StaticSceneryBatch><Theme/></StaticSceneryBatch>;
   return <Suspense fallback={<IslandSilhouette id={destination.id} />}>

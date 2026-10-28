@@ -1,0 +1,50 @@
+[
+  {
+    "width": 1440,
+    "normalRoutes": 20,
+    "launchRoutes": 1,
+    "movingFrames": 5989,
+    "rootErrors": 0,
+    "anchorErrors": 0,
+    "cameraRateDegrees": 12.013007713053005,
+    "cameraAccelerationDegrees": 8.000000000000004,
+    "boatRateDegrees": 52.54022981349618,
+    "maxStep": 0.5499973631473031,
+    "maxRoll": 2.8691594993540906e-17,
+    "maxPitchRangeDegrees": 0.0028800332972917153,
+    "emptyFrames": 111,
+    "maxIslandFreeSeconds": 5.5
+  },
+  {
+    "width": 1920,
+    "normalRoutes": 20,
+    "launchRoutes": 1,
+    "movingFrames": 5989,
+    "rootErrors": 0,
+    "anchorErrors": 0,
+    "cameraRateDegrees": 12.013007713053005,
+    "cameraAccelerationDegrees": 8.000000000000004,
+    "boatRateDegrees": 52.54022981349618,
+    "maxStep": 0.5499973631473031,
+    "maxRoll": 2.8691594993540906e-17,
+    "maxPitchRangeDegrees": 0.0028800332972917153,
+    "emptyFrames": 98,
+    "maxIslandFreeSeconds": 5
+  },
+  {
+    "width": 390,
+    "normalRoutes": 20,
+    "launchRoutes": 1,
+    "movingFrames": 5989,
+    "rootErrors": 0,
+    "anchorErrors": 0,
+    "cameraRateDegrees": 12.00353126257714,
+    "cameraAccelerationDegrees": 8.000000000000004,
+    "boatRateDegrees": 52.54022981349618,
+    "maxStep": 0.5499973631473031,
+    "maxRoll": 2.843498526668663e-17,
+    "maxPitchRangeDegrees": 0.0002164233862172639,
+    "emptyFrames": 452,
+    "maxIslandFreeSeconds": 7.800000000000001
+  }
+]

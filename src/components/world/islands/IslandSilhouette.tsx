@@ -1,10 +1,10 @@
 "use client";
 
-import type { DestinationId } from "@/types";
+import type { DestinationId,IslandId } from "@/types";
 import { useSceneryMaterials } from "../SceneryMaterials";
 
 /** Small silhouettes are only used for distant LOD / chunk-loading previews. */
-export function IslandSilhouette({ id }: { id: DestinationId }) {
+export function IslandSilhouette({ id }: { id: DestinationId|IslandId }) {
   const m = useSceneryMaterials();
   if (id === "news") return <group><mesh position={[0,1.05,0]} material={m.ivory}><cylinderGeometry args={[0.22,0.4,1.9,8]} /></mesh><mesh position={[0,2.1,0]} material={m.roof}><sphereGeometry args={[0.4,10,6,0,Math.PI * 2,0,Math.PI / 2]} /></mesh></group>;
   if (id === "achievements") return <group><mesh position={[0,0.4,0]} material={m.ivory}><boxGeometry args={[0.85,0.65,0.8]} /></mesh><mesh position={[0,1.08,0]} material={m.gold}><cylinderGeometry args={[0.5,0.13,0.8,12]} /></mesh></group>;

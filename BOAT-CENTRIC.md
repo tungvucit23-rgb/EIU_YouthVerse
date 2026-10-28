@@ -1,5 +1,7 @@
 # Boat-centric exploration — 28 October 2026
 
+Historical nine-island camera record. [PHASE3.md](PHASE3.md) supersedes this layout and hull-yaw follow logic with five consolidated islands, heading-aware routes and a stabilized camera. The models and business features remain preserved.
+
 The homepage now starts behind the sailing boat, looking forward toward EIU Campus and a layered horizon. A perspective chase camera replaces the orthographic world-fitting camera. The boat owns the framing throughout a trip; island bounds no longer determine camera position or zoom.
 
 ## Camera

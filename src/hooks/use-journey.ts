@@ -1,13 +1,13 @@
 "use client";
 
 import { useCallback, useEffect, useReducer, useRef, useState } from "react";
-import { destinationFromHash } from "@/data/islands";
+import { destinationFromHash,legacyIslandParents } from "@/data/islands";
 import { initialJourney, journeyReducer, canNavigate, type JourneyAction } from "@/lib/journey-machine";
 import { planLaunchRoute,planRoute } from "@/lib/navigation-graph";
 import {worldSettings} from "@/data/world-settings";
 import type { IslandId } from "@/types";
 
-export function useJourney(reducedMotion = false) {
+export function useJourney(reducedMotion = false,directTransition = reducedMotion) {
   const [state,dispatch] = useReducer(journeyReducer,initialJourney);
   const [plan,setPlan] = useState(() => planRoute("campus","campus"));
   const latest = useRef(initialJourney);
@@ -16,7 +16,10 @@ export function useJourney(reducedMotion = false) {
     const restore = () => {
       if (location.hash === "#main-content") return;
       const island = destinationFromHash(location.hash) ?? "campus";
-      send({type:"RESTORE",island,openContent:island !== "campus" && history.state?.view !== "world",atLaunch:island === "campus" && location.hash !== "#campus" && (history.state?.atLaunch ?? !history.state?.youthverse)});
+      const legacy = Object.hasOwn(legacyIslandParents,location.hash.slice(1));
+      const atLaunch = !legacy && island === "campus" && location.hash !== "#campus" && (history.state?.atLaunch ?? !history.state?.youthverse);
+      if(legacy) history.replaceState({...history.state,youthverse:true,view:"content",atLaunch:false},"",location.pathname + location.search + "#" + island);
+      send({type:"RESTORE",island,openContent:!atLaunch && history.state?.view !== "world",atLaunch});
       setPlan(planRoute(island,island));
     };
     if (location.hash || history.state?.youthverse) restore();
@@ -42,9 +45,10 @@ export function useJourney(reducedMotion = false) {
   const select = useCallback((destination:IslandId) => {
     if (!canNavigate(latest.current)) return;
     const hash = "#" + destination;
-    history.pushState({youthverse:true,view:destination === "campus" ? "world" : "content",atLaunch:false},"",location.pathname + location.search + hash);
+    history.pushState({youthverse:true,view:"content",atLaunch:false},"",location.pathname + location.search + hash);
+    if(directTransition){setPlan(planRoute(destination,destination));send({type:"RESTORE",island:destination,openContent:true,atLaunch:false});return;}
     send({type:"SAIL",destination});
-  },[send]);
+  },[send,directTransition]);
   const closeContent = useCallback(() => { history.replaceState({youthverse:true,view:"world"},"",location.href); send({type:"CLOSE_CONTENT"}); },[send]);
   useEffect(() => {
     if (state.phase !== "ARRIVED") return;

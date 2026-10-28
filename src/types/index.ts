@@ -1,5 +1,6 @@
 export type DestinationId = "activities" | "news" | "clubs" | "events" | "volunteer" | "office" | "achievements" | "resources";
-export type IslandId = "campus" | DestinationId;
+/** Physical destinations are distinct from the eight preserved portal domains. */
+export type IslandId = "campus" | "activities" | "clubs" | "achievements" | "office";
 export type Vector3Tuple = [number, number, number];
 export type GraphicsQuality = "low" | "balanced" | "high";
 export type AccessPolicy = "public" | "student" | "staff";
@@ -7,7 +8,7 @@ export interface IslandAsset { kind: "procedural" | "glb"; key: string; url: str
 export interface IslandShape { radius: number; depth: number; seed: number; stretch: [number, number] }
 
 export interface ContentPreview { id: string; title: string; category: string }
-export type WorldPreviews = Record<DestinationId, ContentPreview[]>;
+export type WorldPreviews = Record<IslandId, ContentPreview[]>;
 
 export interface IslandDockConfig {
   position: Vector3Tuple;
@@ -15,6 +16,8 @@ export interface IslandDockConfig {
   length: number;
   clearance: number;
   waterOffset: number;
+  /** Local along-shore berth heading; departure and arrival share this forward tangent. */
+  heading?: number;
 }
 export interface WorldBounds { min: Vector3Tuple; max: Vector3Tuple }
 export interface WorldIsland {
@@ -39,7 +42,7 @@ export interface WorldIsland {
   nearOnIntro: boolean;
 }
 export interface Destination extends WorldIsland {
-  id: DestinationId;
+  id: IslandId;
   slug: string;
   fullTitle: string;
   subtitle: string;
@@ -50,6 +53,8 @@ export interface Destination extends WorldIsland {
   number: string;
   action: string;
 }
+
+export type PortalSection = Pick<Destination,"slug"|"title"|"fullTitle"|"subtitle"|"description"|"contentRoute"|"access"|"number"|"action"> & {id:DestinationId};
 
 export interface DestinationEntry {
   id: string;

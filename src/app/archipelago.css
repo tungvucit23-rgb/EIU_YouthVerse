@@ -146,6 +146,12 @@
 }
 
 /* The vessel owns the composition; keep copy and panels clear of its forward view. */
+.navigation-comfort { display:flex; gap:12px; padding:16px 0; border-block:1px solid #cedee7; margin-bottom:18px; color:var(--navy); }
+.navigation-comfort input { width:19px; height:19px; accent-color:var(--navy); flex-shrink:0; }
+.navigation-comfort span { display:grid; gap:7px; font-size:12px; }
+.navigation-comfort small { line-height:1.6; color:#56788f; font-size:10px; }
+.island-feature-links { display:flex; flex-wrap:wrap; gap:7px; margin:16px 0 4px; }
+.island-feature-links a { display:flex; align-items:center; gap:7px; padding:9px 11px; min-height:40px; border:1px solid #c3d8e3; border-radius:22px; font-size:10px; color:var(--navy); background:#eaf3f8; }
 .boat-centric .hero-introduction { top: 13%; width: min(490px,38vw); }
 .boat-centric .hero-introduction h1 { font-size: clamp(48px,4.8vw,82px); }
 .boat-centric .hero-flourish { width: 100%; }

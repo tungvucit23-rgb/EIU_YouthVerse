@@ -1,5 +1,17 @@
 # Verification record
 
+## Phase 3: stable navigation and five islands — 28 October 2026
+
+The current five-island registry, retained eight portal domains, root-cause audit, directed heading-aware lanes and stabilized camera are documented in [PHASE3.md](PHASE3.md). The nine-island counts and hull-follow camera below are historical stages.
+
+Strict TypeScript, ESLint, production build and **81 unit tests** passed. All **20 ordered island pairs** passed real-browser sailing at **1920×1080, 1440×900 and 390×844**, along with three actual launch voyages and **60 reduced-motion direct transitions**. The main audit observed **17,967 moving frames**, with no root identity/enablement or boat-anchor violation. Actual camera yaw stayed below **12.014°/s**, controller acceleration at **8°/s²**, effectively zero roll and below **0.003°** pitch variation within a trip. [Raw frame summary](artifacts/phase3/frame-summary.json).
+
+The handoff includes **48 screenshots and a WebM journey recording**. Existing GLB bytes and dependency manifests are unchanged; the graphics-preset regression retained **186 geometries before and after** warming caches. Current evidence is under `artifacts/phase3/`.
+
+Final browser coverage: **19 production scenarios passed** across the full run and focused regression/media reruns, plus **5 development hydration cases passed**. Focused reruns corrected old single-axis marker and short-voyage timing assumptions, verified content-to-parent links/list numbering and checked a presented decoded video frame. Normal/reduced navigation, the reduced-motion animated override, all original HTML routes, calendar, resource download, access notices, accessibility, fallback models, quality persistence and history were exercised. See [browser results](artifacts/phase3/browser-results.json), [hydration results](artifacts/phase3/hydration-results.json) and [video metadata](artifacts/phase3/video-metadata.json).
+
+The world-aligned camera can temporarily face open water during outer maneuvers: measured longest intervals were 5.5 / 5.0 / 7.8 controlled seconds at the three sizes. The boat stays readable and all five roots remain enabled. Software WebGL does not establish physical-device FPS or subjective comfort.
+
 ## Boat-centric redesign — 28 October 2026
 
 Current camera, forward 2 / 3 / 4 island layout, launch/Campus distinction and captures are documented in [BOAT-CENTRIC.md](BOAT-CENTRIC.md). The asset and continuous-world records below describe earlier camera compositions; their persistent roots, models, animations and functional systems remain preserved.

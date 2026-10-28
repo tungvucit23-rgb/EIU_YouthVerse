@@ -1,0 +1,69 @@
+{
+  "stats": {
+    "startTime": "2026-10-28T13:25:22.746Z",
+    "duration": 223793.858,
+    "expected": 4,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  },
+  "tests": [
+    {
+      "file": "experience.spec.ts",
+      "title": "desktop: real boat, raycasting, graph sailing, map during travel and return",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 78002
+        }
+      ]
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "content: existing filters, calendar, resources, locked data and all ten routes",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 4802
+        }
+      ]
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "legacy world links map to five parents while original content stays accessible",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 4246
+        }
+      ]
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "optional direct navigation persists and keeps the existing scene",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 12043
+        }
+      ]
+    },
+    {
+      "file": "phase3-video.spec.ts",
+      "title": "video: five consecutive voyages with the actual sky and rendered scene",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 122021,
+          "error": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m150\u001b[39m\nReceived:   \u001b[31m0\u001b[39m"
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

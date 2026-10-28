@@ -24,7 +24,7 @@ export function journeyReducer(state:JourneyState,action:JourneyAction):JourneyS
     case "START": return state.phase === "IDLE" ? {...state,phase:"SELECTING_DESTINATION"} : state;
     case "SAIL":
       if (!canNavigate(state)) return state;
-      if (action.destination === state.currentIsland && !state.atLaunch) return {...state,phase:state.currentIsland === "campus" ? "SELECTING_DESTINATION" : "EXPLORING_CONTENT",routeError:null};
+      if (action.destination === state.currentIsland && !state.atLaunch) return {...state,phase:"EXPLORING_CONTENT",routeError:null};
       return {...state,phase:"ROUTE_PLANNING",origin:state.currentIsland,destination:action.destination,trip:state.trip + 1,routeError:null};
     case "PLAN_READY": return state.phase === "ROUTE_PLANNING" && action.trip === state.trip ? {...state,phase:"SAILING"} : state;
     case "PLAN_FAILED": return state.phase === "ROUTE_PLANNING" && action.trip === state.trip ? {...state,phase:"SELECTING_DESTINATION",destination:null,routeError:action.message} : state;
@@ -33,8 +33,8 @@ export function journeyReducer(state:JourneyState,action:JourneyAction):JourneyS
       if (state.phase === "APPROACHING" && action.phase === "APPROACHING") return state;
       return {...state,phase:action.phase};
     case "ARRIVE": return action.trip === state.trip && ["SAILING","APPROACHING","DOCKING"].includes(state.phase) && state.destination ? {...state,currentIsland:state.destination,phase:"ARRIVED",atLaunch:false} : state;
-    case "OPEN_CONTENT": return state.phase === "ARRIVED" && state.trip === action.trip ? {...state,phase:state.currentIsland === "campus" ? "SELECTING_DESTINATION" : "EXPLORING_CONTENT",destination:null} : state;
+    case "OPEN_CONTENT": return state.phase === "ARRIVED" && state.trip === action.trip ? {...state,phase:"EXPLORING_CONTENT",destination:null} : state;
     case "CLOSE_CONTENT": return state.phase === "EXPLORING_CONTENT" ? {...state,phase:"SELECTING_DESTINATION",destination:null} : state;
-    case "RESTORE": return {phase:action.openContent && action.island !== "campus" ? "EXPLORING_CONTENT" : "SELECTING_DESTINATION",currentIsland:action.island,origin:action.island,destination:null,trip:state.trip + 1,routeError:null,atLaunch:action.atLaunch ?? false};
+    case "RESTORE": return {phase:action.openContent ? "EXPLORING_CONTENT" : "SELECTING_DESTINATION",currentIsland:action.island,origin:action.island,destination:null,trip:state.trip + 1,routeError:null,atLaunch:action.atLaunch ?? false};
   }
 }

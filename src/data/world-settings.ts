@@ -12,11 +12,13 @@ export function effectiveQuality(requested: GraphicsQuality, mobile: boolean, co
 
 export const worldSettings = {
   boatScale: 0.82,
-  launchPosition: [0,-.3,34] as [number,number,number],
+  launchPosition: [0,-.3,25] as [number,number,number],
+  launchHeading: Math.PI,
   chase: {distance:12.5,height:6.2,lookAhead:10,shoulder:1.2,fov:50,mobileFov:72,mobileLookAhead:14},
-  departureTurnMs: 700,
-  minSailingSeconds: 3.8,
-  maxSailingSeconds: 8.5,
+  cameraComfort: {maxYawSpeed:12 * Math.PI / 180,maxYawAcceleration:8 * Math.PI / 180,yawCorridor:18 * Math.PI / 180,positionDamping:7,rigDamping:3,routeLookAhead:3,routeLead:.8},
+  navigation: {turnRadius:6,departureLead:6,maxSpeed:5.5,clearance:.7},
+  departureTurnMs: 0,
+  minSailingSeconds: 8,
   reducedMotionSeconds: 0.45,
   approachAt: 0.78,
   dockingAt: 0.94,

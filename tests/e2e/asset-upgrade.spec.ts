@@ -22,7 +22,7 @@ test("assets: exported models load, sails animate, and quality switches release 
   for(const name of [/Chi tiết/,/Tiết kiệm/,/Cân bằng/]) {await page.getByRole("radio",{name}).check();await page.waitForTimeout(650);}
   await page.keyboard.press("Escape");await page.waitForTimeout(500);
   const final = Number(await canvas.getAttribute("data-geometries"));expect(final).toBeLessThanOrEqual(baseline + 4);
-  await expect(canvas).toHaveAttribute("data-enabled-island-count","9");
+  await expect(canvas).toHaveAttribute("data-enabled-island-count","5");
   const evidence = {before,animated:await animation(),frozen,baselineGeometries:baseline,finalGeometries:final,canvas:await canvas.evaluate(element => ({...element.dataset}))};
   await mkdir("artifacts/task02/after",{recursive:true});await writeFile("artifacts/task02/after/runtime-metrics.json",JSON.stringify(evidence,null,2));
   await testInfo.attach("asset-and-renderer-metrics",{body:JSON.stringify(evidence),contentType:"application/json"});
@@ -36,10 +36,10 @@ test("assets: failed environment GLBs retain procedural architecture and navigat
   const canvas = page.locator("canvas");await expect(canvas).toHaveAttribute("data-boat-loaded","true",{timeout:30000});
   await expect(canvas).toHaveAttribute("data-campus-architecture","true");
   await expect(canvas).not.toHaveAttribute("data-model-assets",/eiu-campus|islands\/activities/);
-  await expect(canvas).toHaveAttribute("data-enabled-island-count","9");
+  await expect(canvas).toHaveAttribute("data-enabled-island-count","5");
   await page.getByRole("button",{name:"Hải đồ · Danh sách điểm đến"}).click();
   await page.getByRole("dialog").locator('[data-island-id="activities"]').click();
   await expect(page.locator("main")).toHaveAttribute("data-current-island","activities",{timeout:15000});
-  await expect(page.getByRole("dialog").getByRole("heading",{name:"Hoạt động Đoàn – Hội",exact:true})).toBeVisible();
-  await expect(canvas).toHaveAttribute("data-enabled-island-count","9");
+  await expect(page.getByRole("dialog").getByRole("heading",{name:"Đoàn – Hội & Hoạt động",exact:true})).toBeVisible();
+  await expect(canvas).toHaveAttribute("data-enabled-island-count","5");
 });

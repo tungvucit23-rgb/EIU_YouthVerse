@@ -1,7 +1,7 @@
 "use client";
 
 import { useFrame } from "@react-three/fiber";
-import { Mesh,OrthographicCamera,PerspectiveCamera,Vector3 } from "three";
+import { Euler,Mesh,OrthographicCamera,PerspectiveCamera,Vector3 } from "three";
 import type { RefObject } from "react";
 import type { Vector3Tuple } from "@/types";
 import type { JourneyState } from "@/lib/journey-machine";
@@ -49,6 +49,14 @@ export function SceneMetrics({state,motion,plan}: {state:JourneyState;motion:Ref
     canvas.dataset.cameraPosition = camera.position.toArray().map((value) => value.toFixed(4)).join(",");
     if (camera instanceof OrthographicCamera) canvas.dataset.cameraZoom = camera.zoom.toFixed(4);
     canvas.dataset.cameraType = camera.type;
+    const orientation = new Euler().setFromQuaternion(camera.quaternion,"YXZ");
+    canvas.dataset.cameraYaw = String(camera.userData.followHeading);
+    canvas.dataset.cameraYawVelocity = String(camera.userData.yawVelocity);
+    canvas.dataset.cameraYawAcceleration = String(camera.userData.yawAcceleration);
+    canvas.dataset.cameraPitch = String(orientation.x);canvas.dataset.cameraRoll = String(orientation.z);
+    const viewDirection = camera.getWorldDirection(new Vector3());canvas.dataset.cameraViewYaw = String(Math.atan2(viewDirection.x,viewDirection.z));
+    canvas.dataset.routeTangent = JSON.stringify(motion.current.tangent);
+    canvas.dataset.motionPosition = JSON.stringify(motion.current.position);canvas.dataset.boatSpeed = String(motion.current.speed);
     if(camera instanceof PerspectiveCamera) canvas.dataset.cameraFov = camera.fov.toFixed(4);
     let waterCount = 0,waterVertices = 0,waterDistance = Infinity;
     for (const object of scene.getObjectByName("connected-sky-waterways")?.children ?? []) {

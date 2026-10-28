@@ -2,11 +2,11 @@
 
 **Hoist the Sails — Khơi buồm hành trình sinh viên.**
 
-**Boat-centric redesign (28 October 2026):** a perspective third-person camera follows the boat toward a forward fan of nine islands: two foreground, three midground and four background. The offshore boat is the homepage anchor, with EIU Campus as the strongest destination ahead. See [BOAT-CENTRIC.md](BOAT-CENTRIC.md) for camera states, layout, navigation changes and screenshots at all three required sizes.
+**Phase 3 (28 October 2026):** five physical islands consolidate the original portal features. A stabilized third-person camera follows the boat's position with bounded yaw, while heading-aware routes replace departure U-turns. Campus is the central landmark, with two medium-distance and two farther destinations ahead. See [PHASE3.md](PHASE3.md) for the audit, route/camera design, category mappings, tests, screenshots and journey video.
 
-The earlier [Task 02A asset upgrade](TASK02-ASSET-UPGRADE.md) and [continuous archipelago correction](CONTINUOUS-WORLD.md) remain preserved. The real boat, Campus and Activities GLBs retain their animations and fallbacks. All nine island roots persist; spatial LOD and collision-aware labels operate independently of travel progress. Their historical camera/layout captures precede the boat-centric redesign.
+The earlier [Task 02A asset upgrade](TASK02-ASSET-UPGRADE.md), [continuous archipelago correction](CONTINUOUS-WORLD.md) and [boat-centric redesign](BOAT-CENTRIC.md) remain documented as historical stages. The real boat, Campus and Activities GLBs retain their animations and fallbacks. All five current island roots persist; spatial LOD and collision-aware labels operate independently of travel progress.
 
-An explorable nine-island university world built in the existing Next.js / React Three Fiber project. The boat leads the experience; eight destinations around the Campus represent student activities, news, clubs, events, volunteering, digital office, achievements, and community resources.
+An explorable five-island university world built in the existing Next.js / React Three Fiber project: **EIU Campus**, **Youth Union & Activities**, **Clubs & Community**, **Achievements & Development**, and **Digital Office**. All eight original business domains and their HTML content routes remain accessible through their parent islands.
 
 This is a working frontend demonstration. All content is marked demo. Authentication, private student records, document workflows and ASP.NET Core APIs are not connected.
 
@@ -29,20 +29,22 @@ npm run start
 ## Explore
 
 1. Start behind the boat offshore. Select **Bắt đầu hành trình**, click a visible island (including Campus) or open **Hải đồ**.
-2. The collapsed-by-default map contains all nine islands, shipping lanes, a live boat marker, search and an accessible list.
-3. Choose a destination. The wooden GLB boat follows a graph-planned curved route with acceleration, turns, wake, camera follow and slower docking.
+2. The collapsed-by-default map contains all five islands, shipping lanes, a live boat marker, category-aware search and an accessible list.
+3. Choose a destination. The wooden GLB boat sails forward through wide heading-compatible curves, with acceleration, wake, stable camera translation and slower docking.
 4. Arrival opens relevant previews and a link to the destination's HTML content.
 5. Close the panel to remain at that dock, then choose another island. **Trở về EIU** sails to the Campus berth using the same route graph.
 
-Desktop supports up to five contextual labels with screen-space collision avoidance; mobile supports two. Mobile uses a compact navigation bar and reduced rendering quality. Settings offer **Low / Balanced / High**, persistent preferences and a manual lightweight mode. WebGL failure, context loss or the 22-second asset timeout switches to a functional SVG archipelago. Reduced motion freezes ambient animation and shortens travel to 0.45 seconds.
+Desktop supports up to five contextual labels with screen-space collision avoidance; mobile supports two. Mobile uses a compact navigation bar and reduced rendering quality. Settings offer **Low / Balanced / High**, persistent preferences, a manual lightweight mode and **Chuyển thẳng đến đảo**. Reduced motion defaults to direct transitions and freezes decorative animation; animated sailing can be explicitly retained with a world-aligned camera. WebGL failure, context loss or the 22-second asset timeout switches to a functional SVG archipelago.
 
 Deep links such as `/#campus`, `/#events`, `/#office` and `/#resources` restore the appropriate berth. Back/Forward safely interrupts active trips and distinguishes the offshore launch from Campus. Closing a panel keeps the island hash and records that the user is viewing the world.
+
+Legacy world hashes map to parent islands: `#news → #campus`, `#events / #volunteer → #activities`, `#resources → #clubs`. The original `/news`, `/events`, `/volunteer` and `/resources` pages retain their existing features.
 
 ## Routes
 
 | Route | Function |
 | --- | --- |
-| `/` | Nine-island 3D world |
+| `/` | Five-island 3D world |
 | `/activities` | Activity filtering, search and details |
 | `/news` | News categories and reading previews |
 | `/clubs` | Club discovery and introductions |
@@ -59,8 +61,9 @@ Content routes contain no WebGL Canvas. Data flows through `src/lib/repository.t
 ## Source and assets
 
 - `src/data/islands.ts`: typed island registry, docks, themes, model slots, routes and access policies.
-- `src/data/navigation.ts`, `src/lib/navigation-graph.ts`: shared lanes, Dijkstra routing, cubic splines and arc-length sampling.
-- `src/lib/boat-camera.ts`, `src/components/world/CameraController.tsx`: boat-local perspective chase profiles and smooth follow.
+- `src/data/portal-sections.ts`: the eight preserved business domains, separate from physical destinations.
+- `src/data/navigation.ts`, `src/lib/heading-routes.ts`, `src/lib/navigation-graph.ts`: directed heading-aware lanes, clearance checks, bounded curves, Dijkstra routing and arc-length sampling.
+- `src/lib/boat-camera.ts`, `src/components/world/CameraController.tsx`: world-aligned camera heading with bounded angular speed/acceleration and smooth translation follow.
 - `src/lib/world-framing.ts`, `src/lib/world-transform.ts`: conservative observation bounds and shared world transforms.
 - `src/lib/journey-machine.ts`, `src/hooks/use-journey.ts`: explicit route planning, sailing stages, preserved UI states, command guards, history and stale-trip handling.
 - `src/components/world/`: irregular island geometry, detailed scenery, themed modules, boat, water, lighting and camera.

@@ -2,7 +2,7 @@ import { activities } from "@/data/mock/activities";
 import { news } from "@/data/mock/news";
 import { clubs } from "@/data/mock/clubs";
 import type { Activity, NewsArticle, StudentClub, StudentJourneySummary, DestinationEntry, DestinationId, WorldPreviews } from "@/types";
-import { destinations } from "@/data/islands";
+import { islands,islandSections } from "@/data/islands";
 import { destinationEntries } from "@/data/mock/destinations";
 
 /** Replace this adapter with fetch calls to ASP.NET Core; pages keep the same contract. */
@@ -25,8 +25,8 @@ export const repository: YouthVerseRepository = {
     if (id === "clubs") return clubs.map((item) => ({...item,body:item.description}));
     return destinationEntries[id];
   },
-  getWorldPreviews: async () => Object.fromEntries(await Promise.all(destinations.map(async (destination) => {
-    const entries = await repository.getDestinationEntries(destination.id);
+  getWorldPreviews: async () => Object.fromEntries(await Promise.all(islands.map(async (destination) => {
+    const entries = (await Promise.all(islandSections[destination.id].map(id => repository.getDestinationEntries(id)))).flat();
     return [destination.id,entries.slice(0,2).map(({id,title,category}) => ({id,title,category}))];
   }))) as WorldPreviews,
   getJourney: async () => ({
