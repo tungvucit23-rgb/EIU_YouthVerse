@@ -4,7 +4,7 @@ import { useMemo, useRef, type RefObject } from "react";
 import { useFrame } from "@react-three/fiber";
 import type { GraphicsQuality, IslandId } from "@/types";
 import type { NavigationPlan, RouteSample } from "@/types/navigation";
-import { destinations, getIsland } from "@/data/islands";
+import { destinations, getIsland,HOME_BOAT_POSITION } from "@/data/islands";
 import { worldSettings } from "@/data/world-settings";
 import { easeSailing, samplePlanInto } from "@/lib/navigation-graph";
 import type { JourneyState } from "@/lib/journey-machine";
@@ -50,8 +50,13 @@ function SailingClock({ state,plan,motion:motionRef,onComplete,onStage,reducedMo
       if (raw >= 1) { current.completed = true; current.speed = 0; onComplete(state.trip); }
     } else {
       const island = getIsland(state.currentIsland); const heading = island.dockHeading;
-      for (let axis = 0; axis < 3; axis++) current.position[axis] = island.dockingPoint[axis];
+      const rest = state.atLaunch ? HOME_BOAT_POSITION : island.dockingPoint;
+      for (let axis = 0; axis < 3; axis++) current.position[axis] = rest[axis];
       current.tangent[0] = Math.sin(heading); current.tangent[1] = 0; current.tangent[2] = Math.cos(heading); current.speed = 0;
+      if (state.phase === "ROUTE_PLANNING") {
+        current.elapsed = 0;current.progress = 0;current.completed = false;stage.current = 0;current.trip = state.trip;
+        if(plan.to === state.destination && plan.segments.length) {samplePlanInto(plan,0,sample.current);for(let axis = 0;axis < 3;axis++) current.tangent[axis] = sample.current.tangent[axis];}
+      }
     }
   }, -2);
   return null;

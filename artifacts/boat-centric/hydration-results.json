@@ -1,0 +1,63 @@
+{
+  "stats": {
+    "startTime": "2026-10-28T11:32:35.051Z",
+    "duration": 81402.208,
+    "expected": 5,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "tests": [
+    {
+      "title": "hydration: desktop",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 48841
+        }
+      ]
+    },
+    {
+      "title": "hydration: reduced motion",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 4449
+        }
+      ]
+    },
+    {
+      "title": "hydration: mobile reduced motion",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3317
+        }
+      ]
+    },
+    {
+      "title": "hydration: custom cursor root attributes survive without hiding component mismatches",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 6948
+        }
+      ]
+    },
+    {
+      "title": "hydration: a mismatch inside the application is still reported",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 5958
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

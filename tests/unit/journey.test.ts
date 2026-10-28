@@ -10,7 +10,7 @@ describe("nine-island registry",() => {
     expect(allIslandIds).toHaveLength(9);
     expect(new Set(allIslandIds).size).toBe(9);
     expect(new Set(destinations.map((island) => island.contentRoute)).size).toBe(8);
-    expect(destinations.filter((island) => island.nearOnIntro).length).toBeGreaterThanOrEqual(5);
+    expect(destinations.filter((island) => island.nearOnIntro).length).toBe(2);
     expect(destinations.filter((island) => island.nearOnIntro).length).toBeLessThanOrEqual(8);
     for (const island of destinations) {
       expect(island.connections.length).toBeGreaterThan(0);
@@ -56,7 +56,7 @@ describe("route graph and arc-length sampling",() => {
     for (const edge of navigationGraph.edges.filter((edge) => edge.from.endsWith("channel") && edge.to.endsWith("channel"))) {
       for (let i = 0; i <= 40; i++) {
         const point = cubicPoint(edge,i / 40,[0,0,0]);
-        expect(Math.hypot(point[0] / 5.3,point[2] / 5)).toBeGreaterThan(1);
+        expect(Math.hypot((point[0] - campus.position[0]) / (campus.shape.radius * campus.scale),(point[2] - campus.position[2]) / (campus.shape.radius * campus.shape.stretch[1] * campus.scale))).toBeGreaterThan(1);
       }
     }
   });

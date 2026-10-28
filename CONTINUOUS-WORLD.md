@@ -1,5 +1,7 @@
 # Continuous archipelago — 28/10/2026
 
+Historical camera/layout record. The persistent nine-root architecture remains; [BOAT-CENTRIC.md](BOAT-CENTRIC.md) supersedes the overview camera, layout and screenshots below with a perspective boat-follow experience.
+
 Đã bỏ cơ chế tắt đảo theo tiến trình hành trình. Cả 9 root `island:<id>` được mount một lần, giữ nguyên danh tính và tọa độ trong các chuyến đi. `Canvas` không được remount khi đổi điểm đến. Đảo đi ra khỏi viewport do camera là hành vi bình thường.
 
 ## Nguyên nhân và kiến trúc sau sửa

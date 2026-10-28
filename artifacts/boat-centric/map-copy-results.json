@@ -1,0 +1,32 @@
+[
+  {
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "launchLabel": true,
+    "campusDestinationEnabled": true,
+    "screenReaderLaunch": true,
+    "errors": []
+  },
+  {
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "launchLabel": true,
+    "campusDestinationEnabled": true,
+    "screenReaderLaunch": true,
+    "errors": []
+  },
+  {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "launchLabel": true,
+    "campusDestinationEnabled": true,
+    "screenReaderLaunch": true,
+    "errors": []
+  }
+]

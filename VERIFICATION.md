@@ -1,5 +1,15 @@
 # Verification record
 
+## Boat-centric redesign — 28 October 2026
+
+Current camera, forward 2 / 3 / 4 island layout, launch/Campus distinction and captures are documented in [BOAT-CENTRIC.md](BOAT-CENTRIC.md). The asset and continuous-world records below describe earlier camera compositions; their persistent roots, models, animations and functional systems remain preserved.
+
+TypeScript, lint, production build and **110 unit tests** passed. The three real-browser journey cases passed at **1920×1080, 1440×900 and 390×844**, covering **21 trips, 144 milestone samples and 1,947 controlled sailing frames**, with no root remount/disable, camera-behind or boat-anchor violation. All 72 directed island pairs plus nine launch routes retain dock, water orientation, continuity and unrelated-island clearance coverage. Current screenshots and raw measurements live in `artifacts/boat-centric/`.
+
+All **12 production browser scenarios** passed across the full run and targeted history rerun. The added berth-reload assertion compares X/Z, allowing the existing vertical hull bobbing. All **5 development hydration checks** passed; a final three-size map smoke check verifies launch copy, Campus availability and the screen-reader announcement. The handoff includes **41 screenshots**. See [production results](artifacts/boat-centric/production-results.json), [hydration results](artifacts/boat-centric/hydration-results.json) and [frame summary](artifacts/boat-centric/frame-summary.json).
+
+Physical perspective now permits open water to enter the field of view during a turn or bypass. The longest measured island-free interval was 1.36 controlled seconds on the narrow phone viewport, with the boat readable and all nine roots still enabled. This differs intentionally from fitting an overview around island landmarks. Software WebGL does not establish physical GPU FPS.
+
 ## Task 02A asset upgrade — 28 October 2026
 
 Current source, functional GLBs, matching visual comparisons and test evidence are documented in [TASK02-ASSET-UPGRADE.md](TASK02-ASSET-UPGRADE.md). This adds 6 meaningful unit cases (108 total) and 2 real-browser asset cases for GLB selection, cloth animation, repeat quality-switch resource counts and failed-model procedural fallback. Historical checks below retain their original asset sizes and screenshots; current art captures live in `artifacts/task02/`.

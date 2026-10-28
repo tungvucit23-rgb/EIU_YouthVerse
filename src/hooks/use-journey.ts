@@ -3,10 +3,11 @@
 import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import { destinationFromHash } from "@/data/islands";
 import { initialJourney, journeyReducer, canNavigate, type JourneyAction } from "@/lib/journey-machine";
-import { planRoute } from "@/lib/navigation-graph";
+import { planLaunchRoute,planRoute } from "@/lib/navigation-graph";
+import {worldSettings} from "@/data/world-settings";
 import type { IslandId } from "@/types";
 
-export function useJourney() {
+export function useJourney(reducedMotion = false) {
   const [state,dispatch] = useReducer(journeyReducer,initialJourney);
   const [plan,setPlan] = useState(() => planRoute("campus","campus"));
   const latest = useRef(initialJourney);
@@ -15,32 +16,33 @@ export function useJourney() {
     const restore = () => {
       if (location.hash === "#main-content") return;
       const island = destinationFromHash(location.hash) ?? "campus";
-      send({type:"RESTORE",island,openContent:island !== "campus" && history.state?.view !== "world"});
+      send({type:"RESTORE",island,openContent:island !== "campus" && history.state?.view !== "world",atLaunch:island === "campus" && location.hash !== "#campus" && (history.state?.atLaunch ?? !history.state?.youthverse)});
       setPlan(planRoute(island,island));
     };
-    if (location.hash) restore();
+    if (location.hash || history.state?.youthverse) restore();
     window.addEventListener("popstate",restore); window.addEventListener("hashchange",restore);
     return () => { window.removeEventListener("popstate",restore); window.removeEventListener("hashchange",restore); };
   },[send]);
   useEffect(() => {
     if (state.phase !== "ROUTE_PLANNING" || !state.destination) return;
+    let timer = 0;
     const frame = requestAnimationFrame(() => {
       if (latest.current.trip !== state.trip || latest.current.phase !== "ROUTE_PLANNING") return;
       try {
-        const route = planRoute(state.origin,state.destination!);
-        setPlan(route); send({type:"PLAN_READY",trip:state.trip});
+        const route = state.atLaunch ? planLaunchRoute(state.destination!) : planRoute(state.origin,state.destination!);
+        setPlan(route); timer = window.setTimeout(() => send({type:"PLAN_READY",trip:state.trip}),reducedMotion ? 0 : worldSettings.departureTurnMs);
       } catch {
-        const hash = state.currentIsland === "campus" ? "" : "#" + state.currentIsland;
-        history.replaceState({youthverse:true,view:"world"},"",location.pathname + location.search + hash);
+        const hash = state.atLaunch ? "" : "#" + state.currentIsland;
+        history.replaceState({youthverse:true,view:"world",atLaunch:state.atLaunch},"",location.pathname + location.search + hash);
         send({type:"PLAN_FAILED",trip:state.trip,message:"Chưa tìm được hải trình phù hợp. Hãy chọn lại một đảo trên Hải đồ."});
       }
     });
-    return () => cancelAnimationFrame(frame);
-  },[state.phase,state.trip,state.origin,state.destination,state.currentIsland,send]);
+    return () => {cancelAnimationFrame(frame);clearTimeout(timer);};
+  },[state.phase,state.trip,state.origin,state.destination,state.currentIsland,state.atLaunch,reducedMotion,send]);
   const select = useCallback((destination:IslandId) => {
     if (!canNavigate(latest.current)) return;
-    const hash = destination === "campus" ? "" : "#" + destination;
-    history.pushState({youthverse:true,view:destination === "campus" ? "world" : "content"},"",location.pathname + location.search + hash);
+    const hash = "#" + destination;
+    history.pushState({youthverse:true,view:destination === "campus" ? "world" : "content",atLaunch:false},"",location.pathname + location.search + hash);
     send({type:"SAIL",destination});
   },[send]);
   const closeContent = useCallback(() => { history.replaceState({youthverse:true,view:"world"},"",location.href); send({type:"CLOSE_CONTENT"}); },[send]);

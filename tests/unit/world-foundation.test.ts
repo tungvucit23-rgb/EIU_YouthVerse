@@ -1,8 +1,8 @@
 import { describe,expect,it } from "vitest";
-import { OrthographicCamera,Vector3 } from "three";
-import { allIslandIds,campus,getIsland,islandRegistry,islands } from "../../src/data/islands";
-import { worldSettings } from "../../src/data/world-settings";
-import { getCameraFrame,islandBoundsPoints,boatBoundsPoints,projectWorldToScreen,heroIslandIds } from "../../src/lib/world-framing";
+import {Vector3} from "three";
+import { allIslandIds,getIsland,islandRegistry,islands,HOME_BOAT_POSITION } from "../../src/data/islands";
+import {cameraFor,screen} from "../helpers/chase-camera";
+import {boatBoundsPoints} from "../../src/lib/world-framing";
 import { transformWorldPoint } from "../../src/lib/world-transform";
 import { initialJourney,journeyReducer } from "../../src/lib/journey-machine";
 import { navigationGraph,planRoute,samplePlan } from "../../src/lib/navigation-graph";
@@ -27,33 +27,22 @@ describe("one world registry and dock transforms",() => {
   });
 });
 
-describe("camera-safe composition",() => {
-  it.each(viewports)("fits the hero and boat at $width × $height",(viewport) => {
-    const frame = getCameraFrame(initialJourney,campus.dockingPoint,0,viewport,viewport.mobile);
-    const camera = new OrthographicCamera(-viewport.width / 2,viewport.width / 2,viewport.height / 2,-viewport.height / 2,.1,180);
-    camera.position.set(...frame.target).add(new Vector3(...worldSettings.cameraOffset)); camera.lookAt(new Vector3(...frame.target)); camera.zoom = frame.zoom; camera.updateMatrixWorld(); camera.updateProjectionMatrix();
-    const ids = heroIslandIds(viewport.mobile);
-    expect(ids.length).toBe(viewport.mobile ? 4 : 6);
-    for (const point of [...ids.flatMap((id) => islandBoundsPoints(getIsland(id))),...boatBoundsPoints(campus.dockingPoint)]) {
-      const projected = new Vector3(...point).project(camera),screen = projectWorldToScreen(point,frame,viewport);
-      expect((projected.x * .5 + .5) * viewport.width).toBeCloseTo(screen.x,5);
-      expect((-projected.y * .5 + .5) * viewport.height).toBeCloseTo(screen.y,5);
-      expect(screen.x).toBeGreaterThanOrEqual(frame.safeRect.left - .001); expect(screen.x).toBeLessThanOrEqual(frame.safeRect.right + .001);
-      expect(screen.y).toBeGreaterThanOrEqual(frame.safeRect.top - .001); expect(screen.y).toBeLessThanOrEqual(frame.safeRect.bottom + .001);
-    }
-    expect(frame.zoom * 4).toBeGreaterThan(viewport.mobile ? 60 : 120);
-  });
-  it.each(viewports)("fits every destination and the boat above/beside its content panel at $width",(viewport) => {
-    for (const id of allIslandIds) {
-      const island = getIsland(id),state = journeyReducer(initialJourney,{type:"RESTORE",island:id,openContent:id !== "campus"});
-      const frame = getCameraFrame(state,island.dockingPoint,1,viewport,viewport.mobile);
-      for (const point of [...islandBoundsPoints(island),...boatBoundsPoints(island.dockingPoint)]) {
-        const screen = projectWorldToScreen(point,frame,viewport);
-        expect(screen.x).toBeGreaterThanOrEqual(frame.safeRect.left - .001); expect(screen.x).toBeLessThanOrEqual(frame.safeRect.right + .001);
-        expect(screen.y).toBeGreaterThanOrEqual(frame.safeRect.top - .001); expect(screen.y).toBeLessThanOrEqual(frame.safeRect.bottom + .001);
-      }
-    }
-  });
+describe("third-person boat composition",() => {
+ it.each(viewports)("keeps the camera behind the launch boat and its anchor in the lower middle at $width",size => {
+  const p = HOME_BOAT_POSITION,camera = cameraFor(initialJourney,p,Math.PI,size),forward = new Vector3(0,0,-1);
+  expect(camera.position.clone().sub(new Vector3(...p)).dot(forward)).toBeLessThan(-10);
+  expect(camera.getWorldDirection(new Vector3()).dot(forward)).toBeGreaterThan(.9);
+  const anchor = screen([p[0],p[1] + 1.3,p[2]],camera,size);
+  expect(anchor.x / size.width).toBeGreaterThan(.4);expect(anchor.x / size.width).toBeLessThan(.6);
+  expect(anchor.y / size.height).toBeGreaterThan(.48);expect(anchor.y / size.height).toBeLessThan(.78);
+  for(const point of boatBoundsPoints(p)) {const v = screen(point,camera,size);expect(v.x).toBeGreaterThan(0);expect(v.x).toBeLessThan(size.width);expect(v.y).toBeGreaterThan(80);expect(v.y).toBeLessThan(size.height - 50);}
+ });
+ it.each(viewports)("keeps a docked vessel clear of its content panel at $width",size => {
+  for(const id of allIslandIds.filter(id => id !== "campus")) {
+   const island = getIsland(id),state = journeyReducer(initialJourney,{type:"RESTORE",island:id,openContent:true}),camera = cameraFor(state,island.dockingPoint,island.dockHeading,size);
+   for(const point of boatBoundsPoints(island.dockingPoint)) {const v = screen(point,camera,size);expect(v.x).toBeGreaterThan(0);expect(v.x).toBeLessThan(size.width * (size.mobile ? 1 : .68));expect(v.y).toBeGreaterThan(80);expect(v.y).toBeLessThan(size.height * (size.mobile ? .45 : .9));}
+  }
+ });
 });
 
 describe("water and route geometry stay synchronized",() => {

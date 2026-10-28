@@ -35,7 +35,7 @@ test("desktop: real boat, raycasting, graph sailing, map during travel and retur
   await page.goto("/?inspect=1");
   await ready(page);
   await expect(page.locator("canvas")).toHaveAttribute("data-islands","9");
-  await expect(page.locator("canvas")).toHaveAttribute("data-loaded-detailed-islands",/activities.*clubs.*news.*volunteer/);
+  await expect(page.locator("canvas")).toHaveAttribute("data-loaded-detailed-islands",/activities.*campus.*clubs/);
   await expect(page.getByRole("heading",{name:"Hoist the Sails"})).toBeVisible();
   await expect(page.locator("header").getByRole("link")).toHaveCount(2);
   await page.screenshot({path:"artifacts/desktop-home.png"});
@@ -103,6 +103,7 @@ test("history: interrupt a trip, back, forward and direct links",async ({page}) 
   await expect(page.locator("main")).toHaveAttribute("data-phase","SAILING");
   await page.goBack();
   await expect(page.locator("main")).toHaveAttribute("data-current-island","campus");
+  await expect(page.locator("main")).toHaveAttribute("data-at-launch","true");
   await page.waitForTimeout(600);
   await expect(page.getByRole("dialog")).toHaveCount(0);
   await page.goForward(); await arrived(page,"activities","Hoạt động Đoàn – Hội");
@@ -117,6 +118,18 @@ test("history: interrupt a trip, back, forward and direct links",async ({page}) 
   await page.getByRole("link",{name:"Khám phá câu lạc bộ",exact:true}).click();
   await expect(page).toHaveURL(/\/clubs$/);
   await expect(page.locator("canvas")).toHaveCount(0);
+  await page.goto("/?inspect=1#campus");
+  await ready(page);
+  await expect(page.locator("main")).toHaveAttribute("data-at-launch","false");
+  const berth = (await page.locator("canvas").getAttribute("data-boat-position"))!.split(",");
+  await page.evaluate(() => history.replaceState({youthverse:true,view:"world",atLaunch:false},"","/?inspect=1"));
+  await page.reload(); await ready(page);
+  await expect(page.locator("main")).toHaveAttribute("data-at-launch","false");
+  // The hull bobs vertically; its horizontal berth must survive reload exactly.
+  await expect.poll(async () => {
+    const position = (await page.locator("canvas").getAttribute("data-boat-position"))!.split(",");
+    return [position[0],position[2]];
+  }).toEqual([berth[0],berth[2]]);
 });
 
 test("mobile: map, docking sheet, graphics and lightweight navigation",async ({page}) => {
@@ -124,7 +137,7 @@ test("mobile: map, docking sheet, graphics and lightweight navigation",async ({p
   await page.emulateMedia({reducedMotion:"reduce"});
   await page.goto("/?inspect=1"); await ready(page);
   await expect(page.locator("canvas")).toHaveAttribute("data-quality","low");
-  await expect(page.locator("canvas")).toHaveAttribute("data-loaded-detailed-islands",/activities.*clubs.*news.*volunteer/);
+  await expect(page.locator("canvas")).toHaveAttribute("data-loaded-detailed-islands",/activities.*campus.*clubs/);
   await page.screenshot({path:"artifacts/mobile-home.png"});
   await page.getByRole("button",{name:"Bắt đầu hành trình"}).click();
   await map(page); await choose(page,"Tin tức – Thông báo");

@@ -1,0 +1,74 @@
+[
+  {
+    "width": 1440,
+    "trips": 7,
+    "samples": 48,
+    "frames": 649,
+    "rootViolations": 0,
+    "behindViolations": 0,
+    "anchorViolations": 0,
+    "emptyFrames": 5,
+    "maxEmptyRun": 2,
+    "behindRange": [
+      11.797545251459546,
+      15.597160018402775
+    ],
+    "waterMax": 0.0214,
+    "phases": [
+      "SAILING",
+      "SAILING",
+      "SAILING",
+      "APPROACHING",
+      "DOCKING",
+      "ARRIVED"
+    ]
+  },
+  {
+    "width": 1920,
+    "trips": 7,
+    "samples": 48,
+    "frames": 649,
+    "rootViolations": 0,
+    "behindViolations": 0,
+    "anchorViolations": 0,
+    "emptyFrames": 0,
+    "maxEmptyRun": 0,
+    "behindRange": [
+      11.797545251459546,
+      15.597160018402775
+    ],
+    "waterMax": 0.0214,
+    "phases": [
+      "SAILING",
+      "SAILING",
+      "SAILING",
+      "APPROACHING",
+      "DOCKING",
+      "ARRIVED"
+    ]
+  },
+  {
+    "width": 390,
+    "trips": 7,
+    "samples": 48,
+    "frames": 649,
+    "rootViolations": 0,
+    "behindViolations": 0,
+    "anchorViolations": 0,
+    "emptyFrames": 34,
+    "maxEmptyRun": 17,
+    "behindRange": [
+      11.800413203849434,
+      15.604881577427062
+    ],
+    "waterMax": 0.0214,
+    "phases": [
+      "SAILING",
+      "SAILING",
+      "SAILING",
+      "APPROACHING",
+      "DOCKING",
+      "ARRIVED"
+    ]
+  }
+]

@@ -10,7 +10,7 @@ import {CampusEntrance} from "@/components/world/CampusEntrance";
 import {FloatingIsland} from "@/components/world/FloatingIsland";
 import {IslandArt} from "@/components/world/islands/IslandArt";
 import {ExplorerBoatAsset} from "@/components/world/boat/ExplorerBoatAsset";
-import {getIsland} from "@/data/islands";
+import {campus,getIsland} from "@/data/islands";
 Object.assign(window,{React});
 const view = new URLSearchParams(location.search).get("view") ?? "boat";
 const baseline = new URLSearchParams(location.search).has("baseline");
@@ -33,6 +33,6 @@ function ReviewCamera() {
 }
 createRoot(document.getElementById("root")!).render(<Canvas orthographic shadows dpr={1} camera={{position:[8,5,10],near:.1,far:100}} gl={{antialias:true}}><color attach="background" args={["#d7e8ed"]}/><WorldQuality quality="balanced" reducedMotion><TerrainTextures><SceneryMaterials>
   <ambientLight intensity={.55}/><hemisphereLight args={["#dceeff","#667653",.9]}/><directionalLight position={[-4,9,6]} intensity={2.7} color="#ffe9ca" castShadow shadow-mapSize={[2048,2048]} shadow-camera-left={-10} shadow-camera-right={10} shadow-camera-top={10} shadow-camera-bottom={-10} shadow-normalBias={.015}/><directionalLight position={[8,4,-4]} intensity={.7} color="#cfeaff"/>
-  <Suspense fallback={null}>{view === "boat" ? baseline ? <HistoricalBoat onReady={() => undefined}/> : <ExplorerBoatAsset onReady={() => undefined}/> : baseline ? <HistoricalView view={view}/> : view === "entrance" ? <CampusEntrance/> : view === "activities" ? <FloatingIsland polished shape={getIsland("activities").shape}><IslandArt destination={getIsland("activities") as Parameters<typeof IslandArt>[0]["destination"]}/></FloatingIsland> : <CentralEIUIsland/>}</Suspense>
+  <Suspense fallback={null}>{view === "boat" ? baseline ? <HistoricalBoat onReady={() => undefined}/> : <ExplorerBoatAsset onReady={() => undefined}/> : baseline ? <HistoricalView view={view}/> : view === "entrance" ? <CampusEntrance/> : view === "activities" ? <FloatingIsland polished shape={getIsland("activities").shape}><IslandArt destination={getIsland("activities") as Parameters<typeof IslandArt>[0]["destination"]}/></FloatingIsland> : <group scale={1 / campus.scale} position={[-campus.position[0] / campus.scale,.4 - campus.position[1] / campus.scale,-campus.position[2] / campus.scale]}><CentralEIUIsland/></group>}</Suspense>
   <ReviewCamera/>
 </SceneryMaterials></TerrainTextures></WorldQuality></Canvas>);

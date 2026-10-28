@@ -144,3 +144,21 @@
   .calendar-days button { min-height: 45px; font-size: 10px; }
   .destination-entry-card { padding: 23px; }
 }
+
+/* The vessel owns the composition; keep copy and panels clear of its forward view. */
+.boat-centric .hero-introduction { top: 13%; width: min(490px,38vw); }
+.boat-centric .hero-introduction h1 { font-size: clamp(48px,4.8vw,82px); }
+.boat-centric .hero-flourish { width: 100%; }
+.boat-centric .hero-subtitle { font-size: 15px; margin-bottom: 20px; }
+.boat-centric .sky-note { top: 17%; }
+@media (max-width:767px) {
+ .boat-centric .hero-introduction { top: 12.5%; left: 24px; width: calc(100% - 48px); }
+ .boat-centric .hero-introduction .eyebrow { margin-bottom: 8px; font-size: 7px; }
+ .boat-centric .hero-introduction h1 { font-size: clamp(31px,9vw,55px); }
+ .boat-centric .hero-flourish { height: 19px; margin-bottom: 5px; }
+ .boat-centric .hero-subtitle { font-size: 12px; margin-bottom: 13px; }
+ .boat-centric .hero-introduction .primary-button { min-height: 43px; padding: 11px 18px; font-size: 11px; }
+ .boat-centric .island-info-panel { max-height: min(55svh,500px); }
+ .boat-centric .sailing-status { top: 98px; bottom: auto; padding: 10px 17px; }
+ .boat-centric.phase-selecting_destination .destination-hint { top: 13%; }
+}

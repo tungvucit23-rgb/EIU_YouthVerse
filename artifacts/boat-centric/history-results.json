@@ -1,0 +1,24 @@
+{
+  "stats": {
+    "startTime": "2026-10-28T11:30:39.143Z",
+    "duration": 25510.237999999998,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "tests": [
+    {
+      "file": "experience.spec.ts",
+      "title": "history: interrupt a trip, back, forward and direct links",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 23786
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

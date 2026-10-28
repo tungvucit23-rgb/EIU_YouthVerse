@@ -48,7 +48,7 @@ export function CloudLayer({ reducedMotion }: { reducedMotion: boolean }) {
 export function SkyEnvironment({ reducedMotion }: { reducedMotion: boolean }) {
   return (
     <>
-      <fog attach="fog" args={["#b9d8f4", 42, 95]} />
+      <fog attach="fog" args={["#b9d8f4", 52, 150]} />
       <CloudLayer reducedMotion={reducedMotion} />
     </>
   );

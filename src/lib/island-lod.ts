@@ -4,5 +4,5 @@ export interface IslandLodInput { distance:number; screenRadius:number; inViewpo
 export function shouldUseIslandDetail(input:IslandLodInput) {
   const radius = Math.max(12,input.detailDistance - 15);
   return input.selected || input.distance < radius + (input.detailed ? 3 : 0)
-    || input.inViewport && input.screenRadius > (input.detailed ? 90 : 110);
+    || input.inViewport && input.screenRadius > (input.detailed ? 35 : 45);
 }

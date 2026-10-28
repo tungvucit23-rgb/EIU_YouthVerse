@@ -1,5 +1,7 @@
 # Task 02A — 3D asset upgrade
 
+The models and animations documented here are preserved. [BOAT-CENTRIC.md](BOAT-CENTRIC.md) records the subsequent perspective camera and forward island layout; world-view captures below show the earlier overview composition.
+
 Thực hiện trong dự án hiện có, ngày **28/10/2026**. Phạm vi: thuyền, campus EIU và một đảo mẫu Hoạt động. Các model là GLB thật, được sinh từ source procedural có thể sửa và xuất lại. Đây là art stylized dựa trên ảnh; chưa phải mô hình kiến trúc đo đạc hoặc asset chính thức được EIU duyệt. Không tìm thấy Blender trong PATH/thư mục cài chuẩn đã kiểm tra; không tạo hoặc tuyên bố có tệp `.blend`.
 
 ## Thay đổi nhìn thấy

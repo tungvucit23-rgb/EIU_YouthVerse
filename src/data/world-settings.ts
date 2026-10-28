@@ -12,7 +12,9 @@ export function effectiveQuality(requested: GraphicsQuality, mobile: boolean, co
 
 export const worldSettings = {
   boatScale: 0.82,
-  cameraOffset: [15, 13, 22] as [number, number, number],
+  launchPosition: [0,-.3,34] as [number,number,number],
+  chase: {distance:12.5,height:6.2,lookAhead:10,shoulder:1.2,fov:50,mobileFov:72,mobileLookAhead:14},
+  departureTurnMs: 700,
   minSailingSeconds: 3.8,
   maxSailingSeconds: 8.5,
   reducedMotionSeconds: 0.45,

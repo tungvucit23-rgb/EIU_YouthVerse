@@ -1,7 +1,7 @@
 "use client";
 
 import { useFrame } from "@react-three/fiber";
-import { Mesh,OrthographicCamera,type Vector3 } from "three";
+import { Mesh,OrthographicCamera,PerspectiveCamera,Vector3 } from "three";
 import type { RefObject } from "react";
 import type { Vector3Tuple } from "@/types";
 import type { JourneyState } from "@/lib/journey-machine";
@@ -10,6 +10,7 @@ import type { NavigationPlan } from "@/types/navigation";
 import { boatBoundsPoints } from "@/lib/world-framing";
 import { observeIslandRoots,projectScreenBounds } from "@/lib/world-observation";
 import { useWorldQuality } from "./WorldQuality";
+import {worldSettings} from "@/data/world-settings";
 
 /** Opt-in QA observations: enabled roots are separate from camera intersections and active LODs. */
 export function SceneMetrics({state,motion,plan}: {state:JourneyState;motion:RefObject<JourneyMotion>;plan:NavigationPlan}) {
@@ -47,6 +48,8 @@ export function SceneMetrics({state,motion,plan}: {state:JourneyState;motion:Ref
     canvas.dataset.geometries = String(gl.info.memory.geometries);
     canvas.dataset.cameraPosition = camera.position.toArray().map((value) => value.toFixed(4)).join(",");
     if (camera instanceof OrthographicCamera) canvas.dataset.cameraZoom = camera.zoom.toFixed(4);
+    canvas.dataset.cameraType = camera.type;
+    if(camera instanceof PerspectiveCamera) canvas.dataset.cameraFov = camera.fov.toFixed(4);
     let waterCount = 0,waterVertices = 0,waterDistance = Infinity;
     for (const object of scene.getObjectByName("connected-sky-waterways")?.children ?? []) {
       if (!(object instanceof Mesh) || !object.visible) continue;
@@ -61,6 +64,12 @@ export function SceneMetrics({state,motion,plan}: {state:JourneyState;motion:Ref
     canvas.dataset.waterMeshes = String(waterCount); canvas.dataset.waterVertices = String(waterVertices); canvas.dataset.boatWaterDistance = waterDistance.toFixed(4);
     canvas.dataset.boatLoaded = String(Boolean(scene.getObjectByName("YouthVerse_Explorer")));
     if (vessel) {
+      const forward = new Vector3(Math.sin(vessel.rotation.y),0,Math.cos(vessel.rotation.y)),offset = camera.position.clone().sub(vessel.position);
+      canvas.dataset.cameraBehind = String(-offset.dot(forward));canvas.dataset.cameraHeight = String(offset.y);
+      canvas.dataset.cameraForwardAlignment = String(camera.getWorldDirection(new Vector3()).dot(forward));
+      const anchor = new Vector3(vessel.position.x,vessel.position.y + 1.3 * worldSettings.boatScale,vessel.position.z).project(camera);
+      canvas.dataset.boatAnchor = JSON.stringify({x:(anchor.x * .5 + .5) * size.width,y:(-anchor.y * .5 + .5) * size.height});
+      canvas.dataset.cameraTarget = JSON.stringify(camera.userData.followTarget);canvas.dataset.cameraShift = JSON.stringify(camera.userData.lensShift);
       canvas.dataset.boatPosition = vessel.position.toArray().map((value) => value.toFixed(4)).join(",");
       canvas.dataset.boatHeading = vessel.rotation.y.toFixed(4);
       canvas.dataset.boatScreen = JSON.stringify(projectScreenBounds(boatBoundsPoints((vessel.position as Vector3).toArray() as Vector3Tuple),camera,size));

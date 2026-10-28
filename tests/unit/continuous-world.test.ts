@@ -1,11 +1,12 @@
 import { describe,expect,it } from "vitest";
-import { Group,OrthographicCamera,Scene,Vector3 } from "three";
-import { allIslandIds,campus,getIsland,islands } from "../../src/data/islands";
-import { worldSettings } from "../../src/data/world-settings";
-import { getCameraFrame,boatBoundsPoints,projectWorldToScreen } from "../../src/lib/world-framing";
+import { Group,Scene,Vector3 } from "three";
+import { allIslandIds,getIsland,islands,HOME_BOAT_POSITION,islandLayers } from "../../src/data/islands";
+import {cameraFor,screen} from "../helpers/chase-camera";
+import {dampAngle} from "../../src/lib/boat-camera";
+
 import { observeIslandRoots } from "../../src/lib/world-observation";
-import { initialJourney,type JourneyState } from "../../src/lib/journey-machine";
-import { planRoute,samplePlan } from "../../src/lib/navigation-graph";
+import { initialJourney,journeyReducer,type JourneyState } from "../../src/lib/journey-machine";
+import { planLaunchRoute,planRoute,samplePlan } from "../../src/lib/navigation-graph";
 import { layoutIslandLabels,rectanglesOverlap,type IslandLabelCandidate } from "../../src/lib/island-label-layout";
 import { shouldUseIslandDetail } from "../../src/lib/island-lod";
 
@@ -14,50 +15,57 @@ function sceneWithRoots() {
   for (const island of islands) { const root = new Group(); root.name = "island:" + island.id; scene.add(root); }
   return scene;
 }
-function cameraFor(frame:ReturnType<typeof getCameraFrame>,size:{width:number;height:number}) {
-  const camera = new OrthographicCamera(-size.width / 2,size.width / 2,size.height / 2,-size.height / 2,.1,180);
-  camera.position.set(...frame.target).add(new Vector3(...worldSettings.cameraOffset)); camera.lookAt(new Vector3(...frame.target)); camera.zoom = frame.zoom; camera.updateMatrixWorld(); camera.updateProjectionMatrix();
-  return camera;
-}
 const milestones = [.1,.3,.45,.6,.85,1];
-describe("a continuous, enabled archipelago",() => {
-  it.each([{width:1440,height:900},{width:1920,height:1080},{width:390,height:844}])("keeps roots enabled and some land in view for all routes at $width",(size) => {
-    const scene = sceneWithRoots();
-    for (const from of allIslandIds) for (const to of allIslandIds.filter((id) => id !== from)) {
-      const plan = planRoute(from,to);
-      for (const progress of milestones) for (const closed of progress === 1 ? [false,true] : [false]) {
-        const position = samplePlan(plan,progress).position;
-        const state:JourneyState = {...initialJourney,phase:progress === 1 ? closed ? "SELECTING_DESTINATION" : "ARRIVED" : "SAILING",origin:from,currentIsland:progress === 1 ? to : from,destination:to};
-        const frame = getCameraFrame(state,position,progress,size,size.width < 768,plan);
-        const observations = observeIslandRoots(scene,cameraFor(frame,size),size);
-        expect(observations).toHaveLength(9); expect(observations.filter((island) => island.enabled)).toHaveLength(9);
-        expect(observations.filter((island) => island.inViewport).length,from + " → " + to + " at " + progress).toBeGreaterThan(0);
-        for (const point of boatBoundsPoints(position)) {
-          const screen = projectWorldToScreen(point,frame,size);
-          expect(screen.x).toBeGreaterThanOrEqual(frame.safeRect.left - .001); expect(screen.x).toBeLessThanOrEqual(frame.safeRect.right + .001);
-          expect(screen.y).toBeGreaterThanOrEqual(frame.safeRect.top - .001); expect(screen.y).toBeLessThanOrEqual(frame.safeRect.bottom + .001);
-        }
-      }
+describe("a continuous frontal archipelago",() => {
+ it("distinguishes launching toward campus from being docked there, including restored history",() => {
+  const planning = journeyReducer(initialJourney,{type:"SAIL",destination:"campus"});expect(planning.phase).toBe("ROUTE_PLANNING");
+  const sailing = journeyReducer(planning,{type:"PLAN_READY",trip:planning.trip}),arrived = journeyReducer(sailing,{type:"ARRIVE",trip:sailing.trip});expect(arrived.atLaunch).toBe(false);
+  expect(journeyReducer(arrived,{type:"RESTORE",island:"campus",openContent:false,atLaunch:true}).atLaunch).toBe(true);
+  expect(journeyReducer(initialJourney,{type:"RESTORE",island:"campus",openContent:false}).atLaunch).toBe(false);
+ });
+ it("sails from the separate launch to every island, including campus, without crossing other islands",() => {
+  for(const to of allIslandIds) {
+   const plan = planLaunchRoute(to);expect(plan.nodeIds[0]).toBe("launch-channel");expect(plan.distance).toBeGreaterThan(20);
+   expect(samplePlan(plan,0).position).toEqual(HOME_BOAT_POSITION);
+   samplePlan(plan,1).position.forEach((n,i) => expect(n).toBeCloseTo(getIsland(to).dockingPoint[i],6));
+   expect(samplePlan(plan,0).tangent[2]).toBeLessThan(-.99);
+   for(let i = 0;i <= 150;i++) {const p = samplePlan(plan,i / 150).position;
+    for(const island of islands.filter(island => island.id !== to)) {
+     const x = p[0] - island.position[0],z = p[2] - island.position[2],c = Math.cos(island.rotation),s = Math.sin(island.rotation);
+     expect(Math.hypot((x * c - z * s) / (island.shape.radius * island.shape.stretch[0] * island.scale * .9 + .3),(x * s + z * c) / (island.shape.radius * island.shape.stretch[1] * island.scale * .9 + .3))).toBeGreaterThan(1);
     }
-  });
-  it("distinguishes root existence, enabled state and camera intersection",() => {
-    const scene = sceneWithRoots(),size = {width:1440,height:900};
-    const state:JourneyState = {...initialJourney,phase:"EXPLORING_CONTENT",currentIsland:"office"};
-    const position = getIsland("office").dockingPoint;
-    const frame = getCameraFrame(state,position,1,size,false),camera = cameraFor(frame,size);
-    const observations = observeIslandRoots(scene,camera,size);
-    expect(observations).toHaveLength(9); expect(observations.every((island) => island.enabled)).toBe(true);
-    expect(observations.some((island) => !island.inViewport)).toBe(true);
-    scene.getObjectByName("island:office")!.visible = false;
-    const disabled = observeIslandRoots(scene,camera,size).find((island) => island.id === "office")!;
-    expect(disabled.enabled).toBe(false); expect(disabled.inViewport).toBe(false);
-  });
-  it("places five identifiable destination bounds in the desktop hero",() => {
-    const size = {width:1440,height:900},scene = sceneWithRoots();
-    const frame = getCameraFrame(initialJourney,campus.dockingPoint,0,size,false);
-    const visible = observeIslandRoots(scene,cameraFor(frame,size),size).filter((island) => island.inViewport && island.id !== "campus" && island.visibleFraction > .85 && island.width > 60);
-    expect(visible.length).toBeGreaterThanOrEqual(5);
-  });
+   }
+  }
+ });
+ it.each([{width:1440,height:900},{width:1920,height:1080},{width:390,height:844}])("keeps nine roots and a boat anchor for all routes at $width",size => {
+  const scene = sceneWithRoots();
+  for(const from of allIslandIds) for(const to of allIslandIds.filter(id => id !== from)) {
+   const plan = planRoute(from,to);
+   for(const progress of milestones) {
+    const sample = samplePlan(plan,progress),heading = Math.atan2(sample.tangent[0],sample.tangent[2]);
+    const state:JourneyState = {...initialJourney,atLaunch:false,phase:progress === 1 ? "ARRIVED" : "SAILING",origin:from,currentIsland:progress === 1 ? to : from,destination:to};
+    const camera = cameraFor(state,sample.position,heading,size,8),observations = observeIslandRoots(scene,camera,size);
+    expect(observations).toHaveLength(9);expect(observations.every(island => island.enabled)).toBe(true);
+    const anchor = screen([sample.position[0],sample.position[1] + 1.3,sample.position[2]],camera,size);
+    expect(anchor.x / size.width).toBeGreaterThan(.4);expect(anchor.x / size.width).toBeLessThan(.6);
+    expect(anchor.y / size.height).toBeGreaterThan(.45);expect(anchor.y / size.height).toBeLessThan(.8);
+    expect(camera.position.clone().sub(new Vector3(...sample.position)).dot(new Vector3(Math.sin(heading),0,Math.cos(heading)))).toBeLessThan(-10);
+   }
+  }
+ });
+ it("places exactly 2/3/4 islands in successive forward layers, with campus the visual landmark",() => {
+  expect(islandLayers.foreground).toHaveLength(2);expect(islandLayers.midground).toHaveLength(3);expect(islandLayers.background).toHaveLength(4);
+  const distances = Object.values(islandLayers).map(ids => ids.map(id => Math.hypot(getIsland(id).position[0],getIsland(id).position[2] - HOME_BOAT_POSITION[2])));
+  expect(Math.max(...distances[0])).toBeLessThan(Math.min(...distances[1]));expect(Math.max(...distances[1])).toBeLessThan(Math.min(...distances[2]));
+  for(const island of islands) expect(island.position[2]).toBeLessThan(HOME_BOAT_POSITION[2]);
+  const size = {width:1440,height:900},camera = cameraFor(initialJourney,HOME_BOAT_POSITION,Math.PI,size),view = observeIslandRoots(sceneWithRoots(),camera,size);
+  expect(view.find(island => island.id === "campus")!.inViewport).toBe(true);
+  expect(view.find(island => island.id === "campus")!.width).toBeGreaterThan(Math.max(...view.filter(island => island.id !== "campus").map(island => island.width)) * 1.3);
+ });
+ it("turns continuously across the heading wrap",() => {
+  const yaw = dampAngle(Math.PI - .01,-Math.PI + .01,.016);
+  expect(yaw).toBeGreaterThan(Math.PI - .01);expect(yaw).toBeLessThan(Math.PI + .01);
+ });
 });
 
 describe("screen-space labels",() => {

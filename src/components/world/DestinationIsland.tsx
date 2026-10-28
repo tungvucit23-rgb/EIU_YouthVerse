@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type RefObject } from "react";
 import { useFrame } from "@react-three/fiber";
-import { OrthographicCamera, Vector3 } from "three";
+import { OrthographicCamera,PerspectiveCamera, Vector3 } from "three";
 import type { Destination, IslandId } from "@/types";
 import type { JourneyMotion } from "@/lib/journey-runtime";
 import { shouldUseIslandDetail } from "@/lib/island-lod";
@@ -18,13 +18,13 @@ export function DestinationIsland({destination,motion,enabled,selected,onSelect}
   const [detailLoaded,setDetailLoaded] = useState(destination.nearOnIntro || selected);
   const {preset} = useWorldQuality();
   const elapsed = useRef(0),position = useRef(new Vector3(...destination.position)),projected = useRef(new Vector3());
-  useFrame(({camera},delta) => {
+  useFrame(({camera,size},delta) => {
     elapsed.current += delta; if (elapsed.current < .4) return; elapsed.current = 0;
     const focus = motion.current.position;
     const distance = Math.hypot(focus[0] - destination.position[0],focus[1] - destination.position[1],focus[2] - destination.position[2]);
     projected.current.copy(position.current).project(camera);
     const inViewport = Math.abs(projected.current.x) < 1.25 && Math.abs(projected.current.y) < 1.25 && Math.abs(projected.current.z) <= 1;
-    const screenRadius = camera instanceof OrthographicCamera ? destination.shape.radius * destination.scale * camera.zoom : 0;
+    const screenRadius = destination.shape.radius * destination.scale * (camera instanceof OrthographicCamera ? camera.zoom : camera instanceof PerspectiveCamera ? size.height / (2 * Math.tan(camera.fov * Math.PI / 360) * Math.max(1,camera.position.distanceTo(position.current))) : 0);
     const next = shouldUseIslandDetail({distance,screenRadius,inViewport,detailed,selected,detailDistance:preset.detailDistance});
     if (next && !detailLoaded) setDetailLoaded(true);
     if (next !== detailed) setDetailed(next);

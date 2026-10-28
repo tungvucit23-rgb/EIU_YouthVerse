@@ -11,7 +11,7 @@ export default function WorldCanvas(props: WorldProps & { onUnavailable: () => v
   const [constrained,setConstrained] = useState(false);
   const quality = effectiveQuality(props.quality,props.mobile,constrained);
   const preset = qualityPresets[quality];
-  return <Canvas orthographic camera={{position:worldSettings.cameraOffset,zoom:1,near:0.1,far:180}}
+  return <Canvas camera={{position:[-worldSettings.chase.shoulder,worldSettings.launchPosition[1] + worldSettings.chase.height,worldSettings.launchPosition[2] + worldSettings.chase.distance],fov:worldSettings.chase.fov,near:0.1,far:260}}
     dpr={[0.65,Math.max(0.75,preset.dpr * resolution)]} shadows={preset.shadows}
     gl={{antialias:quality !== "low",alpha:true,powerPreference:"default"}}
     onCreated={({gl}) => { gl.domElement.setAttribute("aria-label","Quần đảo EIU gồm chín đảo. Có thể điều hướng bằng Hải đồ hoặc danh sách điểm đến."); gl.domElement.setAttribute("role","img"); }}

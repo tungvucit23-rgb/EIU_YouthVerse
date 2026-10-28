@@ -1,0 +1,164 @@
+{
+  "note": "Final results combine the full production run with the targeted history rerun. The added reload assertion compares horizontal berth coordinates; vertical hull bobbing remains animated.",
+  "runs": [
+    {
+      "kind": "full production",
+      "stats": {
+        "startTime": "2026-10-28T11:20:00.558Z",
+        "duration": 479024.093,
+        "expected": 11,
+        "skipped": 0,
+        "unexpected": 1,
+        "flaky": 0
+      }
+    },
+    {
+      "kind": "history rerun after bob-aware assertion and corrected launch labels",
+      "stats": {
+        "startTime": "2026-10-28T11:30:39.143Z",
+        "duration": 25510.237999999998,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    }
+  ],
+  "passed": 12,
+  "total": 12,
+  "tests": [
+    {
+      "file": "asset-upgrade.spec.ts",
+      "title": "assets: exported models load, sails animate, and quality switches release cloned resources",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 23931
+        }
+      ]
+    },
+    {
+      "file": "asset-upgrade.spec.ts",
+      "title": "assets: failed environment GLBs retain procedural architecture and navigation",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 10062
+        }
+      ]
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "desktop: real boat, raycasting, graph sailing, map during travel and return",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 43539
+        }
+      ]
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "all eight destinations: continuous island travel, correct panels and one persistent canvas",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 57942
+        }
+      ]
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "history: interrupt a trip, back, forward and direct links",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 23786
+        }
+      ]
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "mobile: map, docking sheet, graphics and lightweight navigation",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 9173
+        }
+      ]
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "no WebGL: keyboard search, locked service and all nine map nodes",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3031
+        }
+      ]
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "content: existing filters, calendar, resources, locked data and all ten routes",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 5936
+        }
+      ]
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "accessibility, quality persistence and narrow layouts",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 31970
+        }
+      ]
+    },
+    {
+      "file": "world-foundation.spec.ts",
+      "title": "third-person boat journey at 1440x900",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 95722
+        }
+      ]
+    },
+    {
+      "file": "world-foundation.spec.ts",
+      "title": "third-person boat journey at 1920x1080",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 116423
+        }
+      ]
+    },
+    {
+      "file": "world-foundation.spec.ts",
+      "title": "third-person boat journey at 390x844",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 31795
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

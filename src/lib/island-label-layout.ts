@@ -1,8 +1,8 @@
-import type { DestinationId } from "@/types";
+import type { IslandId } from "@/types";
 
 export interface ScreenRect { x:number;y:number;width:number;height:number }
-export interface IslandLabelCandidate { id:DestinationId; x:number;y:number;width:number;height:number;priority:number;distance:number }
-export interface IslandLabelPlacement { id:DestinationId; rect:ScreenRect }
+export interface IslandLabelCandidate { id:IslandId; x:number;y:number;width:number;height:number;priority:number;distance:number }
+export interface IslandLabelPlacement { id:IslandId; rect:ScreenRect }
 export function rectanglesOverlap(a:ScreenRect,b:ScreenRect,gap = 0) {
   return a.x < b.x + b.width + gap && a.x + a.width + gap > b.x && a.y < b.y + b.height + gap && a.y + a.height + gap > b.y;
 }

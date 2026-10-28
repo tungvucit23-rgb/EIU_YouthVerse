@@ -54,11 +54,11 @@ const dockConnections: ConnectionSpec[] = islands.flatMap((island) => island.con
 })));
 export const navigationGraph = buildGraph([...islandNodes, ...channelNodes], [...channelConnections, ...dockConnections]);
 
-export function planRoute(from: IslandId, to: IslandId, graph: NavigationGraph = navigationGraph): NavigationPlan {
-  if (!graph.nodes[from] || !graph.nodes[to]) throw new Error("Unknown route endpoint");
-  if (from === to) return { from, to, nodeIds: [from], edgeIds: [], segments: [], distance: 0, duration: 0 };
+export function planRoute(from: IslandId, to: IslandId, graph: NavigationGraph = navigationGraph,startNode:string = from): NavigationPlan {
+  if (!graph.nodes[startNode] || !graph.nodes[to]) throw new Error("Unknown route endpoint");
+  if (startNode === to) return { from, to, nodeIds: [from], edgeIds: [], segments: [], distance: 0, duration: 0 };
   const unvisited = new Set(Object.keys(graph.nodes));
-  const costs: Record<string, number> = { [from]: 0 };
+  const costs: Record<string, number> = { [startNode]: 0 };
   const previous: Record<string, { node: string; edge: number }> = {};
   while (unvisited.size) {
     let closest: string | null = null;
@@ -75,7 +75,7 @@ export function planRoute(from: IslandId, to: IslandId, graph: NavigationGraph =
   const nodeIds: string[] = [to];
   const segments: NavigationEdge[] = [];
   let cursor: string = to;
-  while (cursor !== from) {
+  while (cursor !== startNode) {
     const step = previous[cursor];
     const edge = graph.edges[step.edge];
     segments.unshift(edge.from === step.node ? { ...edge, arcLengths:[...edge.arcLengths] } : measureEdge({ ...edge, from: edge.to, to: edge.from, start: edge.end, end: edge.start, c1: edge.c2, c2: edge.c1, arcLengths: [] }));
@@ -100,6 +100,8 @@ export function planRoute(from: IslandId, to: IslandId, graph: NavigationGraph =
   const routeDistance = segments.reduce((total,segment) => total + segment.length,0);
   return { from, to, nodeIds, edgeIds: segments.map((segment) => segment.id), segments, distance: routeDistance, duration: Math.min(worldSettings.maxSailingSeconds, Math.max(worldSettings.minSailingSeconds, routeDistance / 9 + 2)) };
 }
+
+export const planLaunchRoute = (to:IslandId) => planRoute("campus",to,navigationGraph,"launch-channel");
 
 export function samplePlanInto(plan: NavigationPlan, progress: number, target: RouteSample) {
   if (!plan.segments.length) {

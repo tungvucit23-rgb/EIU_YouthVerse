@@ -1,0 +1,63 @@
+{
+  "before": {
+    "main": 0.3727187216281891,
+    "jib": -0.2374683916568756,
+    "rig": -0.19832635046079466,
+    "wheel": 0
+  },
+  "animated": {
+    "main": 0.3799999952316284,
+    "jib": -0.23000000417232513,
+    "rig": -0.18,
+    "wheel": 0
+  },
+  "frozen": {
+    "main": 0.3702007234096527,
+    "jib": -0.2345932424068451,
+    "rig": -0.18,
+    "wheel": 0
+  },
+  "baselineGeometries": 243,
+  "finalGeometries": 243,
+  "canvas": {
+    "engine": "three.js r186",
+    "islands": "9",
+    "enabledIslandCount": "9",
+    "enabledIslands": "achievements,activities,campus,clubs,events,news,office,resources,volunteer",
+    "islandStates": "[{\"id\":\"campus\",\"uuid\":\"3dd3c6a4-4dd6-4905-83a7-b2c1cb63d294\",\"enabled\":true,\"inFrustum\":true,\"inViewport\":true,\"visibleFraction\":1,\"lod\":\"detailed\",\"detailLoaded\":true,\"groundScreen\":{\"x\":689.4857201764333,\"y\":284.11228788833336},\"x\":502.28562836565607,\"y\":215.547749804772,\"width\":378.75681671320376,\"height\":211.90932634957724},{\"id\":\"activities\",\"uuid\":\"67de1aa7-1da5-478d-a190-fed918598add\",\"enabled\":true,\"inFrustum\":true,\"inViewport\":true,\"visibleFraction\":1,\"lod\":\"detailed\",\"detailLoaded\":true,\"groundScreen\":{\"x\":373.7001085743924,\"y\":374.03104841018666},\"x\":217.8235760350071,\"y\":299.9730986280342,\"width\":269.65390994392624,\"height\":182.54964375701132},{\"id\":\"news\",\"uuid\":\"413f5961-feb3-420c-b7ff-b10b5cbdebff\",\"enabled\":true,\"inFrustum\":true,\"inViewport\":true,\"visibleFraction\":1,\"lod\":\"simplified\",\"detailLoaded\":false,\"groundScreen\":{\"x\":282.85651202832526,\"y\":262.90350976599774},\"x\":206.66934934481193,\"y\":208.41127050296427,\"width\":134.32609449350988,\"height\":116.56856351582178},{\"id\":\"clubs\",\"uuid\":\"93c4a708-86f9-48ea-ac46-a0678761af88\",\"enabled\":true,\"inFrustum\":true,\"inViewport\":true,\"visibleFraction\":1,\"lod\":\"detailed\",\"detailLoaded\":true,\"groundScreen\":{\"x\":993.2718618102799,\"y\":341.15308366857323},\"x\":894.0711961335787,\"y\":279.44493232840125,\"width\":232.195988899932,\"height\":144.99452679395222},{\"id\":\"events\",\"uuid\":\"9c3142fe-dccd-4fd3-97fb-bca693833626\",\"enabled\":true,\"inFrustum\":true,\"inViewport\":true,\"visibleFraction\":1,\"lod\":\"simplified\",\"detailLoaded\":false,\"groundScreen\":{\"x\":311.3447841807836,\"y\":230.05461151605704},\"x\":228.09490731270134,\"y\":198.6854586612435,\"width\":150.13316158064472,\"height\":75.60640022126529},{\"id\":\"volunteer\",\"uuid\":\"62a97a20-2e43-4a61-81d3-038cd4b69b82\",\"enabled\":true,\"inFrustum\":true,\"inViewport\":true,\"visibleFraction\":1,\"lod\":\"simplified\",\"detailLoaded\":false,\"groundScreen\":{\"x\":1045.557702553286,\"y\":246.46521761158235},\"x\":991.9926936112151,\"y\":212.66969835534874,\"width\":117.91028829290144,\"height\":87.19910580748737},{\"id\":\"office\",\"uuid\":\"9d183274-5a0b-404e-bf04-bcab60100fe3\",\"enabled\":true,\"inFrustum\":true,\"inViewport\":true,\"visibleFraction\":1,\"lod\":\"simplified\",\"detailLoaded\":false,\"groundScreen\":{\"x\":568.2899626096765,\"y\":211.41977776482764},\"x\":526.0907232677504,\"y\":185.56424567960664,\"width\":80.27642222859049,\"height\":69.66651800272928},{\"id\":\"achievements\",\"uuid\":\"6bda7366-f942-4b34-b584-3e0478e17f4a\",\"enabled\":true,\"inFrustum\":true,\"inViewport\":true,\"visibleFraction\":1,\"lod\":\"simplified\",\"detailLoaded\":false,\"groundScreen\":{\"x\":791.0922002459197,\"y\":199.70752305116025},\"x\":761.1453626001539,\"y\":173.16678443341533,\"width\":60.61925851678859,\"height\":72.83269437793803},{\"id\":\"resources\",\"uuid\":\"a2b33d1c-9bc6-4dea-9c7d-c91c667c0968\",\"enabled\":true,\"inFrustum\":true,\"inViewport\":true,\"visibleFraction\":1,\"lod\":\"simplified\",\"detailLoaded\":false,\"groundScreen\":{\"x\":1030.1845656419828,\"y\":222.406399035713},\"x\":977.923092843674,\"y\":196.57451632510094,\"width\":114.65755460111916,\"height\":58.568156030399365}]",
+    "islandRootIds": "{\"campus\":\"3dd3c6a4-4dd6-4905-83a7-b2c1cb63d294\",\"activities\":\"67de1aa7-1da5-478d-a190-fed918598add\",\"news\":\"413f5961-feb3-420c-b7ff-b10b5cbdebff\",\"clubs\":\"93c4a708-86f9-48ea-ac46-a0678761af88\",\"events\":\"9c3142fe-dccd-4fd3-97fb-bca693833626\",\"volunteer\":\"62a97a20-2e43-4a61-81d3-038cd4b69b82\",\"office\":\"9d183274-5a0b-404e-bf04-bcab60100fe3\",\"achievements\":\"6bda7366-f942-4b34-b584-3e0478e17f4a\",\"resources\":\"a2b33d1c-9bc6-4dea-9c7d-c91c667c0968\"}",
+    "viewportIslands": "achievements,activities,campus,clubs,events,news,office,resources,volunteer",
+    "visibleIslands": "[{\"id\":\"campus\",\"uuid\":\"3dd3c6a4-4dd6-4905-83a7-b2c1cb63d294\",\"enabled\":true,\"inFrustum\":true,\"inViewport\":true,\"visibleFraction\":1,\"lod\":\"detailed\",\"detailLoaded\":true,\"groundScreen\":{\"x\":689.4857201764333,\"y\":284.11228788833336},\"x\":502.28562836565607,\"y\":215.547749804772,\"width\":378.75681671320376,\"height\":211.90932634957724},{\"id\":\"activities\",\"uuid\":\"67de1aa7-1da5-478d-a190-fed918598add\",\"enabled\":true,\"inFrustum\":true,\"inViewport\":true,\"visibleFraction\":1,\"lod\":\"detailed\",\"detailLoaded\":true,\"groundScreen\":{\"x\":373.7001085743924,\"y\":374.03104841018666},\"x\":217.8235760350071,\"y\":299.9730986280342,\"width\":269.65390994392624,\"height\":182.54964375701132},{\"id\":\"news\",\"uuid\":\"413f5961-feb3-420c-b7ff-b10b5cbdebff\",\"enabled\":true,\"inFrustum\":true,\"inViewport\":true,\"visibleFraction\":1,\"lod\":\"simplified\",\"detailLoaded\":false,\"groundScreen\":{\"x\":282.85651202832526,\"y\":262.90350976599774},\"x\":206.66934934481193,\"y\":208.41127050296427,\"width\":134.32609449350988,\"height\":116.56856351582178},{\"id\":\"clubs\",\"uuid\":\"93c4a708-86f9-48ea-ac46-a0678761af88\",\"enabled\":true,\"inFrustum\":true,\"inViewport\":true,\"visibleFraction\":1,\"lod\":\"detailed\",\"detailLoaded\":true,\"groundScreen\":{\"x\":993.2718618102799,\"y\":341.15308366857323},\"x\":894.0711961335787,\"y\":279.44493232840125,\"width\":232.195988899932,\"height\":144.99452679395222},{\"id\":\"events\",\"uuid\":\"9c3142fe-dccd-4fd3-97fb-bca693833626\",\"enabled\":true,\"inFrustum\":true,\"inViewport\":true,\"visibleFraction\":1,\"lod\":\"simplified\",\"detailLoaded\":false,\"groundScreen\":{\"x\":311.3447841807836,\"y\":230.05461151605704},\"x\":228.09490731270134,\"y\":198.6854586612435,\"width\":150.13316158064472,\"height\":75.60640022126529},{\"id\":\"volunteer\",\"uuid\":\"62a97a20-2e43-4a61-81d3-038cd4b69b82\",\"enabled\":true,\"inFrustum\":true,\"inViewport\":true,\"visibleFraction\":1,\"lod\":\"simplified\",\"detailLoaded\":false,\"groundScreen\":{\"x\":1045.557702553286,\"y\":246.46521761158235},\"x\":991.9926936112151,\"y\":212.66969835534874,\"width\":117.91028829290144,\"height\":87.19910580748737},{\"id\":\"office\",\"uuid\":\"9d183274-5a0b-404e-bf04-bcab60100fe3\",\"enabled\":true,\"inFrustum\":true,\"inViewport\":true,\"visibleFraction\":1,\"lod\":\"simplified\",\"detailLoaded\":false,\"groundScreen\":{\"x\":568.2899626096765,\"y\":211.41977776482764},\"x\":526.0907232677504,\"y\":185.56424567960664,\"width\":80.27642222859049,\"height\":69.66651800272928},{\"id\":\"achievements\",\"uuid\":\"6bda7366-f942-4b34-b584-3e0478e17f4a\",\"enabled\":true,\"inFrustum\":true,\"inViewport\":true,\"visibleFraction\":1,\"lod\":\"simplified\",\"detailLoaded\":false,\"groundScreen\":{\"x\":791.0922002459197,\"y\":199.70752305116025},\"x\":761.1453626001539,\"y\":173.16678443341533,\"width\":60.61925851678859,\"height\":72.83269437793803},{\"id\":\"resources\",\"uuid\":\"a2b33d1c-9bc6-4dea-9c7d-c91c667c0968\",\"enabled\":true,\"inFrustum\":true,\"inViewport\":true,\"visibleFraction\":1,\"lod\":\"simplified\",\"detailLoaded\":false,\"groundScreen\":{\"x\":1030.1845656419828,\"y\":222.406399035713},\"x\":977.923092843674,\"y\":196.57451632510094,\"width\":114.65755460111916,\"height\":58.568156030399365}]",
+    "detailedIslands": "activities,campus,clubs",
+    "simplifiedIslands": "achievements,events,news,office,resources,volunteer",
+    "loadedDetailedIslands": "activities,campus,clubs",
+    "viewportDetailedIslands": "activities,campus,clubs",
+    "quality": "balanced",
+    "modelAssets": "[\"/models/eiu-campus.glb\",\"/models/islands/activities.glb\",\"/models/youthverse-explorer.glb?v=4.1\"]",
+    "campusArchitecture": "true",
+    "boatAnimation": "{\"main\":0.3799999952316284,\"jib\":-0.23000000417232513,\"rig\":-0.18,\"wheel\":0}",
+    "phase": "IDLE",
+    "journeyProgress": "0",
+    "journeyElapsed": "0",
+    "journeyDuration": "0",
+    "drawCalls": "288",
+    "triangles": "108107",
+    "geometries": "243",
+    "cameraPosition": "-1.2000,5.9000,46.5000",
+    "cameraType": "PerspectiveCamera",
+    "cameraFov": "50.0000",
+    "waterMeshes": "4",
+    "waterVertices": "515",
+    "boatWaterDistance": "0.0000",
+    "boatLoaded": "true",
+    "cameraBehind": "12.5",
+    "cameraHeight": "6.2",
+    "cameraForwardAlignment": "0.9660122791674568",
+    "boatAnchor": "{\"x\":758.2476150614372,\"y\":578.4423283078746}",
+    "cameraTarget": "[1.2246467991473533e-15,0,24]",
+    "cameraShift": "[0,0]",
+    "boatPosition": "0.0000,-0.3000,34.0000",
+    "boatHeading": "3.1416",
+    "boatScreen": "{\"x\":586.0931514103792,\"y\":385.72911863035876,\"width\":379.4599883604516,\"height\":383.97286289168716}"
+  }
+}

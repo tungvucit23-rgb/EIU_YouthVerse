@@ -36,7 +36,7 @@ export function WaterwaySystem({state,plan}:{state:JourneyState;plan:NavigationP
       const active = route.has(edge.id);
       const startDistance = Math.hypot(boat.position.x - edge.start[0],boat.position.y - edge.start[1],boat.position.z - edge.start[2]);
       const endDistance = Math.hypot(boat.position.x - edge.end[0],boat.position.y - edge.end[1],boat.position.z - edge.end[2]);
-      const docked = edge.from === state.currentIsland || edge.to === state.currentIsland;
+      const docked = state.atLaunch ? ["launch-channel~launch-wake-channel","horizon-channel~launch-channel","harbor-channel~horizon-channel","campus~harbor-channel"].includes(edge.id) : edge.from === state.currentIsland || edge.to === state.currentIsland;
       mesh.visible = moving ? active : docked;
       const middleDistance = Math.hypot(boat.position.x - midpoint[0],boat.position.y - midpoint[1],boat.position.z - midpoint[2]);
       mesh.geometry = Math.min(startDistance,endDistance,middleDistance) < 13 ? near : far;
