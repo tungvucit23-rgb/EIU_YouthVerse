@@ -1,0 +1,16 @@
+{
+  "baseline": "5a71416",
+  "routes": 20,
+  "before": {
+    "averageDistance": 85.6646510520589,
+    "averageSeconds": 29.203858313201884,
+    "maxSeconds": 40.92364461433812
+  },
+  "after": {
+    "averageDistance": 45.732639594516876,
+    "averageSeconds": 8.906188529444247,
+    "maxSeconds": 13.544103224784411
+  },
+  "distanceReductionPercent": 46.61433971554394,
+  "timeReductionPercent": 69.50338399149774
+}

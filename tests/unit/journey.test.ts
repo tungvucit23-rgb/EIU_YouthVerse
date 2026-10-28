@@ -28,7 +28,7 @@ describe("route graph and arc-length sampling",() => {
     const plan = planRoute(from,to);
     expect(plan.nodeIds[0]).toBe(from); expect(plan.nodeIds.at(-1)).toBe(to);
     expect(plan.segments.length).toBeGreaterThan(0);
-    expect(plan.duration).toBeGreaterThanOrEqual(8); expect(plan.distance * 1.875 / plan.duration).toBeLessThanOrEqual(5.5 + 1e-8);
+    expect(plan.duration).toBeGreaterThanOrEqual(4);expect(Math.max(...plan.timing.speeds)).toBeLessThanOrEqual(8.5 + 1e-8);
     samplePlan(plan,0).position.forEach((value,index) => expect(value).toBeCloseTo(getIsland(from).dockingPoint[index],6));
     samplePlan(plan,1).position.forEach((value,index) => expect(value).toBeCloseTo(getIsland(to).dockingPoint[index],6));
     for (let i = 0; i <= 30; i++) {

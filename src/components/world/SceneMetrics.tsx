@@ -11,13 +11,16 @@ import { boatBoundsPoints } from "@/lib/world-framing";
 import { observeIslandRoots,projectScreenBounds } from "@/lib/world-observation";
 import { useWorldQuality } from "./WorldQuality";
 import {worldSettings} from "@/data/world-settings";
+import {useRef} from "react";
 
 /** Opt-in QA observations: enabled roots are separate from camera intersections and active LODs. */
 export function SceneMetrics({state,motion,plan}: {state:JourneyState;motion:RefObject<JourneyMotion>;plan:NavigationPlan}) {
   const {quality} = useWorldQuality();
+  const previousPlan = useRef<NavigationPlan|null>(null);
   useFrame(({gl,scene,camera,size}) => {
     if (!window.location.search.includes("inspect=1")) return;
     const canvas = gl.domElement,vessel = scene.getObjectByName("sailing-boat");
+    if(previousPlan.current !== plan){canvas.dataset.journeyTiming = JSON.stringify(plan.timing);previousPlan.current = plan;}
     const observations = observeIslandRoots(scene,camera,size);
     const viewport = observations.filter((island) => island.inViewport);
     const ids = (items:typeof observations) => items.map((island) => island.id).sort().join(",");

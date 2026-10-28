@@ -1,0 +1,84 @@
+{
+  "departure": {
+    "phase": "SAILING",
+    "progress": 0.008064712576590118,
+    "elapsed": 0.30000000000000004,
+    "duration": 5.959337138429388,
+    "roots": "{\"campus\":\"e370c683-10b3-4a50-9c9f-e63a717fc273\",\"activities\":\"e8bcad3e-0f48-48c0-a400-140c86675422\",\"clubs\":\"19942c7d-0cfc-4622-b77a-6b584fabed7f\",\"achievements\":\"032ea70a-dcf2-4b1c-9bd0-690fe02a4265\",\"office\":\"c3c41c36-5f41-4fc5-ab89-a2312e99c29b\"}",
+    "enabled": 5,
+    "anchor": {
+      "x": 764.9973420738339,
+      "y": 588.0829039841424
+    },
+    "boat": {
+      "x": 590.7995985956417,
+      "y": 391.0171203788122,
+      "width": 388.2104818269977,
+      "height": 394.2020335650565
+    },
+    "position": [
+      -0.005623830712684347,
+      -0.29999561583813655,
+      24.775093562878457
+    ],
+    "heading": 3.1752,
+    "viewYaw": 3.0865883519588473,
+    "yaw": 3.139537121328032,
+    "velocity": -0.00935262553668139,
+    "acceleration": -0.022162431856739186,
+    "pitch": -0.2561045604006497,
+    "roll": 2.6898160243643643e-18,
+    "fov": 50,
+    "water": 0.0001,
+    "targetVisible": true
+  },
+  "arrived": {
+    "phase": "EXPLORING_CONTENT",
+    "progress": 1,
+    "elapsed": 5.999999999999995,
+    "duration": 5.959337138429388,
+    "roots": "{\"campus\":\"e370c683-10b3-4a50-9c9f-e63a717fc273\",\"activities\":\"e8bcad3e-0f48-48c0-a400-140c86675422\",\"clubs\":\"19942c7d-0cfc-4622-b77a-6b584fabed7f\",\"achievements\":\"032ea70a-dcf2-4b1c-9bd0-690fe02a4265\",\"office\":\"c3c41c36-5f41-4fc5-ab89-a2312e99c29b\"}",
+    "enabled": 5,
+    "anchor": {
+      "x": 562.2268507341115,
+      "y": 577.0013629248757
+    },
+    "boat": {
+      "x": 392.70577095262985,
+      "y": 383.7898247680972,
+      "width": 379.30063937676,
+      "height": 386.13141761716236
+    },
+    "position": [
+      0.405,
+      0.4620000000000001,
+      0.10249999999999915
+    ],
+    "heading": 1.5708,
+    "viewYaw": 3.0720221956988385,
+    "yaw": 3.125336102530597,
+    "velocity": -3.630561364409502e-7,
+    "acceleration": 0.0000010240044873975517,
+    "pitch": -0.25609980189372705,
+    "roll": 1.7932084485248367e-18,
+    "fov": 50,
+    "water": 0,
+    "targetVisible": true
+  },
+  "audit": {
+    "frames": 60,
+    "rootErrors": 0,
+    "anchorErrors": 0,
+    "maxStep": 0.8500002455789532,
+    "maxBoatRate": 0.9590000000000032,
+    "maxCameraRate": 0.01005938102659698,
+    "maxYawVelocity": 0.012158419880013106,
+    "maxYawAcceleration": 0.040663147299188074,
+    "maxRoll": 7.17289896256076e-18,
+    "minPitch": -0.25613449650262454,
+    "maxPitch": -0.2560853999837726,
+    "empty": 0,
+    "emptyRun": 0,
+    "maxEmptyRun": 0
+  }
+}

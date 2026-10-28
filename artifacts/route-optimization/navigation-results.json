@@ -1,0 +1,46 @@
+{
+  "stats": {
+    "startTime": "2026-10-28T14:32:26.659Z",
+    "duration": 587542.682,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "tests": [
+    {
+      "file": "world-foundation.spec.ts",
+      "title": "stable five-island sailing: all 20 pairs at 1440",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 221679
+        }
+      ]
+    },
+    {
+      "file": "world-foundation.spec.ts",
+      "title": "stable five-island sailing: all 20 pairs at 1920",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 284487
+        }
+      ]
+    },
+    {
+      "file": "world-foundation.spec.ts",
+      "title": "stable five-island sailing: all 20 pairs at 390",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 78645
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

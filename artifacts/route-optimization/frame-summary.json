@@ -1,0 +1,38 @@
+[
+  {
+    "width": 1440,
+    "routes": 20,
+    "launches": 1,
+    "frames": 1853,
+    "rootErrors": 0,
+    "anchorErrors": 0,
+    "maxCameraYawDegrees": 12.30100854892986,
+    "maxBoatYawDegrees": 55.003948332561116,
+    "maxStep": 0.8500019252665872,
+    "maxIslandFreeSeconds": 1.2000000000000002
+  },
+  {
+    "width": 1920,
+    "routes": 20,
+    "launches": 1,
+    "frames": 1853,
+    "rootErrors": 0,
+    "anchorErrors": 0,
+    "maxCameraYawDegrees": 12.30100854892986,
+    "maxBoatYawDegrees": 55.003948332561116,
+    "maxStep": 0.8500019252665872,
+    "maxIslandFreeSeconds": 1
+  },
+  {
+    "width": 390,
+    "routes": 20,
+    "launches": 1,
+    "frames": 1853,
+    "rootErrors": 0,
+    "anchorErrors": 0,
+    "maxCameraYawDegrees": 12.082419127426492,
+    "maxBoatYawDegrees": 55.003948332561116,
+    "maxStep": 0.8500019252665872,
+    "maxIslandFreeSeconds": 2.5
+  }
+]

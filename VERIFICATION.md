@@ -1,5 +1,13 @@
 # Verification record
 
+## Route length and waiting-time optimization — 28 October 2026
+
+[ROUTE-OPTIMIZATION.md](ROUTE-OPTIMIZATION.md) records the current path search and curvature-aware timing. Against the captured `5a71416` baseline, the 20 ordered routes have **46.6% less total distance** and **69.5% lower average planned sailing time**. Average duration changes from **29.20 s to 8.91 s**, with a maximum of **13.55 s**. All routes retain their berths/headings, conservative clearance and continuous tangents.
+
+TypeScript, ESLint, build and **83 unit tests** passed. The browser regression also verifies arrival at **five FPS** without the former two-times wait. The five-island configuration, camera comfort settings, original GLBs and portal features are preserved. Current measurements and representative captures live in `artifacts/route-optimization/`; earlier records below are historical.
+
+Final browser coverage: **20 production scenarios passed** across the full suite and focused navigation rerun, plus **5 development hydration checks**. The 63 animated voyages and 60 direct transitions retain five persistent roots; **5,559 moving frames** record no root or boat-anchor violation. The navigation rerun updates the old five-second minimum-frame assertion to use actual route duration. See [latest results](artifacts/route-optimization/verification-summary.json), [frame summary](artifacts/route-optimization/frame-summary.json) and [hydration results](artifacts/route-optimization/hydration-results.json).
+
 ## Phase 3: stable navigation and five islands — 28 October 2026
 
 The current five-island registry, retained eight portal domains, root-cause audit, directed heading-aware lanes and stabilized camera are documented in [PHASE3.md](PHASE3.md). The nine-island counts and hull-follow camera below are historical stages.

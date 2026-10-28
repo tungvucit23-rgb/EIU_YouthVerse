@@ -1,0 +1,191 @@
+{
+  "routes": [
+    {
+      "from": "campus",
+      "to": "activities",
+      "distance": 44.829882947650844,
+      "duration": 10.046318554215759,
+      "direct": 16.5470332235117,
+      "segments": 10
+    },
+    {
+      "from": "campus",
+      "to": "clubs",
+      "distance": 15.262292698555509,
+      "duration": 4.021283550471472,
+      "direct": 15.206644312602304,
+      "segments": 3
+    },
+    {
+      "from": "campus",
+      "to": "achievements",
+      "distance": 35.37891243824556,
+      "duration": 6.504231954824692,
+      "direct": 31.478953782646585,
+      "segments": 5
+    },
+    {
+      "from": "campus",
+      "to": "office",
+      "distance": 57.67512587043387,
+      "duration": 11.557563614327371,
+      "direct": 29.39707521591221,
+      "segments": 10
+    },
+    {
+      "from": "activities",
+      "to": "campus",
+      "distance": 16.686381126513876,
+      "duration": 4.2154425004782725,
+      "direct": 16.5470332235117,
+      "segments": 3
+    },
+    {
+      "from": "activities",
+      "to": "clubs",
+      "distance": 29.784467952511406,
+      "duration": 5.735716192019586,
+      "direct": 29.780899285448047,
+      "segments": 3
+    },
+    {
+      "from": "activities",
+      "to": "achievements",
+      "distance": 52.06529356475943,
+      "duration": 9.159097689122932,
+      "direct": 46.24615943243287,
+      "segments": 8
+    },
+    {
+      "from": "activities",
+      "to": "office",
+      "distance": 38.20947749017529,
+      "duration": 8.271559382417117,
+      "direct": 29.640303005367535,
+      "segments": 7
+    },
+    {
+      "from": "clubs",
+      "to": "campus",
+      "distance": 43.48278918109742,
+      "duration": 9.887642927516694,
+      "direct": 15.206644312602304,
+      "segments": 10
+    },
+    {
+      "from": "clubs",
+      "to": "activities",
+      "distance": 58.05703063977416,
+      "duration": 11.602480392611668,
+      "direct": 29.780899285448047,
+      "segments": 10
+    },
+    {
+      "from": "clubs",
+      "to": "achievements",
+      "distance": 39.81803830771121,
+      "duration": 7.824907038024594,
+      "direct": 30.85611770783875,
+      "segments": 7
+    },
+    {
+      "from": "clubs",
+      "to": "office",
+      "distance": 71.14949954413969,
+      "duration": 13.142430711513102,
+      "direct": 42.867236906523374,
+      "segments": 10
+    },
+    {
+      "from": "achievements",
+      "to": "campus",
+      "distance": 59.76920957066369,
+      "duration": 11.80391388350201,
+      "direct": 31.478953782646585,
+      "segments": 10
+    },
+    {
+      "from": "achievements",
+      "to": "activities",
+      "distance": 74.55446927003374,
+      "duration": 13.544103224784411,
+      "direct": 46.24615943243287,
+      "segments": 10
+    },
+    {
+      "from": "achievements",
+      "to": "clubs",
+      "distance": 43.757136579986394,
+      "duration": 8.509408214864367,
+      "direct": 30.85611770783875,
+      "segments": 9
+    },
+    {
+      "from": "achievements",
+      "to": "office",
+      "distance": 73.7361142463685,
+      "duration": 12.519895928104367,
+      "direct": 36.03359543537114,
+      "segments": 10
+    },
+    {
+      "from": "office",
+      "to": "campus",
+      "distance": 35.1790377661674,
+      "duration": 6.569641438115673,
+      "direct": 29.39707521591221,
+      "segments": 9
+    },
+    {
+      "from": "office",
+      "to": "activities",
+      "distance": 38.775491509740455,
+      "duration": 7.733734910139492,
+      "direct": 29.640303005367535,
+      "segments": 7
+    },
+    {
+      "from": "office",
+      "to": "clubs",
+      "distance": 50.4413304647229,
+      "duration": 8.99940910321474,
+      "direct": 42.867236906523374,
+      "segments": 12
+    },
+    {
+      "from": "office",
+      "to": "achievements",
+      "distance": 36.04081072108613,
+      "duration": 6.474989378616654,
+      "direct": 36.03359543537114,
+      "segments": 3
+    }
+  ],
+  "launches": [
+    {
+      "to": "campus",
+      "distance": 27.899320386583877,
+      "duration": 5.959337138429391
+    },
+    {
+      "to": "activities",
+      "distance": 32.534454561385736,
+      "duration": 7.398730037153145
+    },
+    {
+      "to": "clubs",
+      "distance": 25.988866672030397,
+      "duration": 5.415649877968786
+    },
+    {
+      "to": "achievements",
+      "distance": 55.5321100259497,
+      "duration": 8.959353692615574
+    },
+    {
+      "to": "office",
+      "distance": 67.40899128121411,
+      "duration": 10.161401488717159
+    }
+  ]
+}

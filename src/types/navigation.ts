@@ -9,5 +9,6 @@ export interface NavigationEdge {
   mapLane?:boolean;
 }
 export interface NavigationGraph { nodes: Record<string, NavigationNode>; edges: NavigationEdge[]; adjacency: Record<string, { node: string; edge: number }[]> }
-export interface NavigationPlan { from: IslandId; to: IslandId; nodeIds: string[]; edgeIds: string[]; segments: NavigationEdge[]; distance: number; duration: number }
+export interface TravelTiming {distances:number[];times:number[];speeds:number[]}
+export interface NavigationPlan { from: IslandId; to: IslandId; nodeIds: string[]; edgeIds: string[]; segments: NavigationEdge[]; distance: number; duration: number;timing:TravelTiming }
 export interface RouteSample { position: Vector3Tuple; tangent: Vector3Tuple; edgeIndex: number }

@@ -1,7 +1,7 @@
 import {navigationPoses,mapLanePairs} from "@/data/navigation";
-import {worldSettings} from "@/data/world-settings";
 import {headingRoute} from "./heading-routes";
 import {ARC_SAMPLES,cubicPoint,measureEdge} from "./route-geometry";
+import {createTravelTiming} from "./travel-timing";
 import type {IslandId,Vector3Tuple} from "@/types";
 import type {ConnectionSpec,NavigationEdge,NavigationGraph,NavigationNode,NavigationPlan,RouteSample} from "@/types/navigation";
 export {cubicPoint} from "./route-geometry";
@@ -45,7 +45,7 @@ function comfortGraph():NavigationGraph {
 export const navigationGraph = comfortGraph();
 export function planRoute(from:IslandId,to:IslandId,graph:NavigationGraph = navigationGraph,startNode:string = from):NavigationPlan {
  if(!graph.nodes[startNode] || !graph.nodes[to]) throw new Error("Unknown route endpoint");
- if(startNode === to) return {from,to,nodeIds:[from],edgeIds:[],segments:[],distance:0,duration:0};
+ if(startNode === to) return {from,to,nodeIds:[from],edgeIds:[],segments:[],distance:0,duration:0,timing:createTravelTiming([])};
  const costs:Record<string,number> = {[startNode]:0},previous:Record<string,{node:string;edge:number}> = {},pending = new Set(Object.keys(graph.nodes));
  while(pending.size) {
   let current:string|null = null;for(const id of pending) if(Number.isFinite(costs[id]) && (current === null || costs[id] < costs[current])) current = id;
@@ -56,7 +56,8 @@ export function planRoute(from:IslandId,to:IslandId,graph:NavigationGraph = navi
  const segments:NavigationEdge[] = [],nodeIds:string[] = [to];let current:string = to;
  while(current !== startNode){const step = previous[current],edge = graph.edges[step.edge];segments.unshift(edge.from === step.node ? edge : measureEdge({...edge,from:edge.to,to:edge.from,start:edge.end,end:edge.start,c1:edge.c2,c2:edge.c1,arcLengths:[]}));current = step.node;nodeIds.unshift(current);}
  const routeDistance = segments.reduce((n,e) => n + e.length,0);
- return {from,to,nodeIds,segments,edgeIds:segments.map(e => e.id),distance:routeDistance,duration:Math.max(worldSettings.minSailingSeconds,routeDistance * 1.875 / worldSettings.navigation.maxSpeed)};
+ const timing = createTravelTiming(segments);
+ return {from,to,nodeIds,segments,edgeIds:segments.map(e => e.id),distance:routeDistance,duration:timing.times.at(-1)!,timing};
 }
 export const planLaunchRoute = (to:IslandId) => planRoute("campus",to,navigationGraph,"launch-channel");
 

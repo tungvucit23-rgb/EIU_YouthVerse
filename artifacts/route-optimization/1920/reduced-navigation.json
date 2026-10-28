@@ -1,0 +1,262 @@
+[
+  {
+    "route": {
+      "from": "campus",
+      "to": "activities"
+    },
+    "position": [
+      -14.8215,
+      -0.274,
+      6.58
+    ],
+    "yaw": 3.141592653589793,
+    "phase": "EXPLORING_CONTENT"
+  },
+  {
+    "route": {
+      "from": "campus",
+      "to": "clubs"
+    },
+    "position": [
+      14.9,
+      0.12,
+      4.7
+    ],
+    "yaw": 3.141592653589793,
+    "phase": "EXPLORING_CONTENT"
+  },
+  {
+    "route": {
+      "from": "campus",
+      "to": "achievements"
+    },
+    "position": [
+      18,
+      1.626,
+      -26
+    ],
+    "yaw": 3.141592653589793,
+    "phase": "EXPLORING_CONTENT"
+  },
+  {
+    "route": {
+      "from": "campus",
+      "to": "office"
+    },
+    "position": [
+      -17.9,
+      1.02,
+      -22.9
+    ],
+    "yaw": 3.141592653589793,
+    "phase": "EXPLORING_CONTENT"
+  },
+  {
+    "route": {
+      "from": "activities",
+      "to": "campus"
+    },
+    "position": [
+      0.405,
+      0.4620000000000001,
+      0.10249999999999915
+    ],
+    "yaw": 3.141592653589793,
+    "phase": "EXPLORING_CONTENT"
+  },
+  {
+    "route": {
+      "from": "activities",
+      "to": "clubs"
+    },
+    "position": [
+      14.9,
+      0.12,
+      4.7
+    ],
+    "yaw": 3.141592653589793,
+    "phase": "EXPLORING_CONTENT"
+  },
+  {
+    "route": {
+      "from": "activities",
+      "to": "achievements"
+    },
+    "position": [
+      18,
+      1.626,
+      -26
+    ],
+    "yaw": 3.141592653589793,
+    "phase": "EXPLORING_CONTENT"
+  },
+  {
+    "route": {
+      "from": "activities",
+      "to": "office"
+    },
+    "position": [
+      -17.9,
+      1.02,
+      -22.9
+    ],
+    "yaw": 3.141592653589793,
+    "phase": "EXPLORING_CONTENT"
+  },
+  {
+    "route": {
+      "from": "clubs",
+      "to": "campus"
+    },
+    "position": [
+      0.405,
+      0.4620000000000001,
+      0.10249999999999915
+    ],
+    "yaw": 3.141592653589793,
+    "phase": "EXPLORING_CONTENT"
+  },
+  {
+    "route": {
+      "from": "clubs",
+      "to": "activities"
+    },
+    "position": [
+      -14.8215,
+      -0.274,
+      6.58
+    ],
+    "yaw": 3.141592653589793,
+    "phase": "EXPLORING_CONTENT"
+  },
+  {
+    "route": {
+      "from": "clubs",
+      "to": "achievements"
+    },
+    "position": [
+      18,
+      1.626,
+      -26
+    ],
+    "yaw": 3.141592653589793,
+    "phase": "EXPLORING_CONTENT"
+  },
+  {
+    "route": {
+      "from": "clubs",
+      "to": "office"
+    },
+    "position": [
+      -17.9,
+      1.02,
+      -22.9
+    ],
+    "yaw": 3.141592653589793,
+    "phase": "EXPLORING_CONTENT"
+  },
+  {
+    "route": {
+      "from": "achievements",
+      "to": "campus"
+    },
+    "position": [
+      0.405,
+      0.4620000000000001,
+      0.10249999999999915
+    ],
+    "yaw": 3.141592653589793,
+    "phase": "EXPLORING_CONTENT"
+  },
+  {
+    "route": {
+      "from": "achievements",
+      "to": "activities"
+    },
+    "position": [
+      -14.8215,
+      -0.274,
+      6.58
+    ],
+    "yaw": 3.141592653589793,
+    "phase": "EXPLORING_CONTENT"
+  },
+  {
+    "route": {
+      "from": "achievements",
+      "to": "clubs"
+    },
+    "position": [
+      14.9,
+      0.12,
+      4.7
+    ],
+    "yaw": 3.141592653589793,
+    "phase": "EXPLORING_CONTENT"
+  },
+  {
+    "route": {
+      "from": "achievements",
+      "to": "office"
+    },
+    "position": [
+      -17.9,
+      1.02,
+      -22.9
+    ],
+    "yaw": 3.141592653589793,
+    "phase": "EXPLORING_CONTENT"
+  },
+  {
+    "route": {
+      "from": "office",
+      "to": "campus"
+    },
+    "position": [
+      0.405,
+      0.4620000000000001,
+      0.10249999999999915
+    ],
+    "yaw": 3.141592653589793,
+    "phase": "EXPLORING_CONTENT"
+  },
+  {
+    "route": {
+      "from": "office",
+      "to": "activities"
+    },
+    "position": [
+      -14.8215,
+      -0.274,
+      6.58
+    ],
+    "yaw": 3.141592653589793,
+    "phase": "EXPLORING_CONTENT"
+  },
+  {
+    "route": {
+      "from": "office",
+      "to": "clubs"
+    },
+    "position": [
+      14.9,
+      0.12,
+      4.7
+    ],
+    "yaw": 3.141592653589793,
+    "phase": "EXPLORING_CONTENT"
+  },
+  {
+    "route": {
+      "from": "office",
+      "to": "achievements"
+    },
+    "position": [
+      18,
+      1.626,
+      -26
+    ],
+    "yaw": 3.141592653589793,
+    "phase": "EXPLORING_CONTENT"
+  }
+]

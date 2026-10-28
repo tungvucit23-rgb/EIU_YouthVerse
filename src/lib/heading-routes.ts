@@ -7,7 +7,7 @@ import {cubicPoint,measureEdge} from "./route-geometry";
 export interface RoutePose {position:Vector3Tuple;heading:number}
 type Word = {types:string;lengths:number[]};
 const tau = Math.PI * 2;
-const mod = (n:number) => ((n % tau) + tau) % tau;
+const mod = (n:number) => {const angle = ((n % tau) + tau) % tau;return angle < 1e-8 || tau - angle < 1e-8 ? 0 : angle;};
 // CSC Dubins formulas adapted from Andrew Walker's MIT-licensed Dubins-Curves.
 // See THIRD-PARTY-NOTICES.md. Cubic conversion, clearance and height profiles are local.
 function words(start:RoutePose,end:RoutePose,r:number):Word[] {
@@ -52,7 +52,7 @@ const move = (p:RoutePose,d:number):RoutePose => ({position:[p.position[0] + Mat
 
 function candidates(start:RoutePose,end:RoutePose,lead:number) {
  const a = move(start,lead),b = move(end,-lead),found:NavigationEdge[][] = [];
- for(const r of [worldSettings.navigation.turnRadius,8,10,12]) for(const word of words(a,b,r)) {
+ for(const r of [...new Set([worldSettings.navigation.turnRadius,6,8,10,12])]) for(const word of words(a,b,r)) {
   const curves = convert(a,word,r),last = curves.at(-1);
   if(!last || Math.hypot(last.end[0] - b.position[0],last.end[2] - b.position[2]) > .001) continue;
   const edges = [...(lead ? [line(start.position,a.position)] : []),...curves,...(lead ? [line(b.position,end.position)] : [])];
@@ -62,7 +62,9 @@ function candidates(start:RoutePose,end:RoutePose,lead:number) {
 }
 /** Forward-only, heading-constrained lanes. Reverse trips are generated independently. */
 export function headingRoute(start:RoutePose,end:RoutePose):NavigationEdge[] {
- const found = candidates(start,end,worldSettings.navigation.departureLead);
+ // A six-unit lead at every berth forced nearby trips into large loops.
+ // Search shorter forward departures too; every candidate retains both headings and clearance.
+ const found = [0,1.5,3,worldSettings.navigation.departureLead].flatMap(lead => candidates(start,end,lead));
  if(!found.length) {
   // A safe outer pose is a real maneuver, never an in-place heading reset.
   for(const x of [-36,36]) for(const z of [26,-48]) {

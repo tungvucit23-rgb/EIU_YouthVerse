@@ -2,6 +2,8 @@
 
 **Hoist the Sails — Khơi buồm hành trình sinh viên.**
 
+**Route optimization (28 October 2026):** average physical route length is reduced by **46.6%** and average planned sailing time by **69.5%** across all 20 ordered pairs. Trips now take approximately **4–13.6 seconds**, with faster straights, gentle turns and slower docking. See [ROUTE-OPTIMIZATION.md](ROUTE-OPTIMIZATION.md) for the measured comparison, timing profile and verification.
+
 **Phase 3 (28 October 2026):** five physical islands consolidate the original portal features. A stabilized third-person camera follows the boat's position with bounded yaw, while heading-aware routes replace departure U-turns. Campus is the central landmark, with two medium-distance and two farther destinations ahead. See [PHASE3.md](PHASE3.md) for the audit, route/camera design, category mappings, tests, screenshots and journey video.
 
 The earlier [Task 02A asset upgrade](TASK02-ASSET-UPGRADE.md), [continuous archipelago correction](CONTINUOUS-WORLD.md) and [boat-centric redesign](BOAT-CENTRIC.md) remain documented as historical stages. The real boat, Campus and Activities GLBs retain their animations and fallbacks. All five current island roots persist; spatial LOD and collision-aware labels operate independently of travel progress.

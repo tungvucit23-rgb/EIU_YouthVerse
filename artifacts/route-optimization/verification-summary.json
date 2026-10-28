@@ -1,0 +1,251 @@
+{
+  "note": "Latest results combine the full suite and the normal-navigation rerun after replacing the old five-second minimum-frame assertion with a duration-based check.",
+  "runs": [
+    {
+      "file": "browser-results.json",
+      "stats": {
+        "startTime": "2026-10-28T14:19:04.614Z",
+        "duration": 672272.6889999999,
+        "expected": 17,
+        "skipped": 0,
+        "unexpected": 3,
+        "flaky": 0
+      }
+    },
+    {
+      "file": "navigation-results.json",
+      "stats": {
+        "startTime": "2026-10-28T14:32:26.659Z",
+        "duration": 587542.682,
+        "expected": 3,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    }
+  ],
+  "passed": 20,
+  "total": 20,
+  "tests": [
+    {
+      "file": "asset-upgrade.spec.ts",
+      "title": "assets: exported models load, sails animate, and quality switches release cloned resources",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 21925
+        }
+      ]
+    },
+    {
+      "file": "asset-upgrade.spec.ts",
+      "title": "assets: failed environment GLBs retain procedural architecture and navigation",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 6674
+        }
+      ]
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "desktop: real boat, raycasting, graph sailing, map during travel and return",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 30902
+        }
+      ]
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "all four destinations: continuous island travel, correct panels and one persistent canvas",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 11992
+        }
+      ]
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "history: interrupt a trip, back, forward and direct links",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 26120
+        }
+      ]
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "mobile: map, docking sheet, graphics and lightweight navigation",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 6020
+        }
+      ]
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "no WebGL: keyboard search, locked service and all five map nodes",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2578
+        }
+      ]
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "content: existing filters, calendar, resources, locked data and all ten routes",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 6099
+        }
+      ]
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "accessibility, quality persistence and narrow layouts",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 29296
+        }
+      ]
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "legacy world links map to five parents while original content stays accessible",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 5185
+        }
+      ]
+    },
+    {
+      "file": "experience.spec.ts",
+      "title": "optional direct navigation persists and keeps the existing scene",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 17030
+        }
+      ]
+    },
+    {
+      "file": "phase3-video.spec.ts",
+      "title": "video: five consecutive voyages with the actual sky and rendered scene",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 72415
+        }
+      ]
+    },
+    {
+      "file": "world-foundation.spec.ts",
+      "title": "stable five-island sailing: all 20 pairs at 1440",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 221679
+        }
+      ]
+    },
+    {
+      "file": "world-foundation.spec.ts",
+      "title": "stable five-island sailing: all 20 pairs at 1920",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 284487
+        }
+      ]
+    },
+    {
+      "file": "world-foundation.spec.ts",
+      "title": "stable five-island sailing: all 20 pairs at 390",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 78645
+        }
+      ]
+    },
+    {
+      "file": "world-foundation.spec.ts",
+      "title": "reduced motion: all 20 direct transitions at 1440",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 69271
+        }
+      ]
+    },
+    {
+      "file": "world-foundation.spec.ts",
+      "title": "reduced motion: all 20 direct transitions at 1920",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 85574
+        }
+      ]
+    },
+    {
+      "file": "world-foundation.spec.ts",
+      "title": "reduced motion: all 20 direct transitions at 390",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 21364
+        }
+      ]
+    },
+    {
+      "file": "world-foundation.spec.ts",
+      "title": "reduced motion can retain animated sailing with a fixed camera heading",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 5278
+        }
+      ]
+    },
+    {
+      "file": "world-foundation.spec.ts",
+      "title": "sailing completes on time at five FPS instead of doubling the wait",
+      "status": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 5698
+        }
+      ]
+    }
+  ]
+}

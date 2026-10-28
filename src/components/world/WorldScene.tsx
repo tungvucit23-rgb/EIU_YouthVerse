@@ -6,7 +6,8 @@ import type { GraphicsQuality, IslandId } from "@/types";
 import type { NavigationPlan, RouteSample } from "@/types/navigation";
 import { destinations, getIsland,HOME_BOAT_POSITION } from "@/data/islands";
 import { worldSettings } from "@/data/world-settings";
-import { easeSailing, samplePlanInto } from "@/lib/navigation-graph";
+import { samplePlanInto } from "@/lib/navigation-graph";
+import {sampleTravelTiming} from "@/lib/travel-timing";
 import type { JourneyState } from "@/lib/journey-machine";
 import type { JourneyMotion } from "@/lib/journey-runtime";
 import { CameraController } from "./CameraController";
@@ -39,15 +40,15 @@ function SailingClock({ state,plan,motion:motionRef,onComplete,onStage }: Pick<W
     if (["SAILING","APPROACHING","DOCKING"].includes(state.phase)) {
       if (current.trip !== state.trip) { current.trip = state.trip; current.elapsed = 0; current.progress = 0; current.completed = false; stage.current = 0; }
       if (current.completed) return;
-      current.elapsed += Math.min(delta,0.1);
-      const raw = Math.min(1,current.elapsed / plan.duration);
-      const progress = easeSailing(raw), previous = current.progress;
+      if(document.hidden) return;
+      current.elapsed += Math.min(delta,.25);
+      const {progress,speed} = sampleTravelTiming(plan.timing,current.elapsed);
       samplePlanInto(plan,progress,sample.current);
       for (let axis = 0; axis < 3; axis++) { current.position[axis] = sample.current.position[axis]; current.tangent[axis] = sample.current.tangent[axis]; }
-      current.progress = progress; current.speed = Math.max(0,(progress - previous) * plan.distance / Math.max(delta,0.001));
+      current.progress = progress;current.speed = speed;
       if (progress >= worldSettings.approachAt && stage.current < 1) { stage.current = 1; onStage("APPROACHING",state.trip); }
       if (progress >= worldSettings.dockingAt && stage.current < 2) { stage.current = 2; onStage("DOCKING",state.trip); }
-      if (raw >= 1) { current.completed = true; current.speed = 0; onComplete(state.trip); }
+      if (progress >= 1) { current.completed = true; current.speed = 0; onComplete(state.trip); }
     } else {
       const island = getIsland(state.currentIsland); const heading = state.atLaunch ? worldSettings.launchHeading : island.dockHeading;
       const rest = state.atLaunch ? HOME_BOAT_POSITION : island.dockingPoint;

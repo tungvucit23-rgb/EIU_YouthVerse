@@ -1,6 +1,7 @@
 import {describe,expect,it} from "vitest";
 import {allIslandIds,getIsland,HOME_BOAT_POSITION,islands} from "../../src/data/islands";
-import {planRoute,planLaunchRoute,samplePlan,easeSailing,cubicPoint} from "../../src/lib/navigation-graph";
+import {planRoute,planLaunchRoute,samplePlan,cubicPoint} from "../../src/lib/navigation-graph";
+import {sampleTravelTiming} from "../../src/lib/travel-timing";
 import {stepCameraYaw,wrappedAngle,preferredCameraYaw} from "../../src/lib/boat-camera";
 import {worldSettings} from "../../src/data/world-settings";
 
@@ -19,7 +20,7 @@ describe("Phase 3 heading-aware lanes",() => {
    const curvature = Math.abs(d[0] * dd[1] - d[1] * dd[0]) / Math.hypot(...d) ** 3;expect(curvature).toBeLessThan(1 / worldSettings.navigation.turnRadius * 1.02);
   }
   let previous = samplePlan(plan,0);
-  for(let time = 1 / 60;time <= plan.duration;time += 1 / 60) {const next = samplePlan(plan,easeSailing(time / plan.duration));expect(Math.hypot(...next.position.map((v,k) => v - previous.position[k]))).toBeLessThan(worldSettings.navigation.maxSpeed / 60 + .001);expect(next.tangent.reduce((n,v,k) => n + v * previous.tangent[k],0)).toBeGreaterThan(.999);previous = next;}
+  for(let time = 1 / 60;time <= plan.duration;time += 1 / 60) {const next = samplePlan(plan,sampleTravelTiming(plan.timing,time).progress);expect(Math.hypot(...next.position.map((v,k) => v - previous.position[k]))).toBeLessThan(worldSettings.navigation.maxSpeed / 60 + .001);expect(next.tangent.reduce((n,v,k) => n + v * previous.tangent[k],0)).toBeGreaterThan(.999);const turn = wrappedAngle(Math.atan2(next.tangent[0],next.tangent[2]) - Math.atan2(previous.tangent[0],previous.tangent[2]));expect(Math.abs(turn) * 60).toBeLessThan(worldSettings.navigation.maxTurnRate * 1.02);previous = next;}
  });
  it("launches facing forward to each of the five islands",() => {for(const id of allIslandIds){const p = planLaunchRoute(id);expect(samplePlan(p,0).position).toEqual(HOME_BOAT_POSITION);expect(samplePlan(p,0).tangent[2]).toBeCloseTo(-1,8);}});
  it("bounds camera speed and acceleration for a 180 degree reversal at multiple frame rates",() => {

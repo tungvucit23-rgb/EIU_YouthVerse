@@ -1,5 +1,7 @@
 # Phase 3 — calm navigation and five physical islands
 
+The subsequent [route optimization](ROUTE-OPTIMIZATION.md) supersedes the fixed six-unit lead, minimum radius and global quintic travel timing described below. The five-island configuration, portal mappings and stabilized camera remain current.
+
 Implemented in the existing repository on 28 October 2026. This supersedes the nine-island layout and boat-yaw chase rig in [BOAT-CENTRIC.md](BOAT-CENTRIC.md). The Phase 2 boat, Campus and Activities GLBs, their animation names and source, environment, lighting, quality modes and content are preserved.
 
 ## Audit: why the old boat and camera turned around
