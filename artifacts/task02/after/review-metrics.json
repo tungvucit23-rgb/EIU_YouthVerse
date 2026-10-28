@@ -1,0 +1,146 @@
+[
+  {
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "view": "boat",
+    "calls": 74,
+    "triangles": 36302,
+    "geometries": 37,
+    "textures": 6,
+    "boat": true
+  },
+  {
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "view": "campus",
+    "calls": 67,
+    "triangles": 69724,
+    "geometries": 53,
+    "textures": 6,
+    "boat": false
+  },
+  {
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "view": "entrance",
+    "calls": 8,
+    "triangles": 7752,
+    "geometries": 4,
+    "textures": 3,
+    "boat": false
+  },
+  {
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "view": "activities",
+    "calls": 22,
+    "triangles": 24014,
+    "geometries": 13,
+    "textures": 6,
+    "boat": false
+  },
+  {
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "view": "boat",
+    "calls": 74,
+    "triangles": 36302,
+    "geometries": 37,
+    "textures": 6,
+    "boat": true
+  },
+  {
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "view": "campus",
+    "calls": 67,
+    "triangles": 69724,
+    "geometries": 53,
+    "textures": 6,
+    "boat": false
+  },
+  {
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "view": "entrance",
+    "calls": 8,
+    "triangles": 7752,
+    "geometries": 4,
+    "textures": 3,
+    "boat": false
+  },
+  {
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "view": "activities",
+    "calls": 22,
+    "triangles": 24014,
+    "geometries": 13,
+    "textures": 6,
+    "boat": false
+  },
+  {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "view": "boat",
+    "calls": 74,
+    "triangles": 36302,
+    "geometries": 37,
+    "textures": 6,
+    "boat": true
+  },
+  {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "view": "campus",
+    "calls": 67,
+    "triangles": 69724,
+    "geometries": 53,
+    "textures": 6,
+    "boat": false
+  },
+  {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "view": "entrance",
+    "calls": 8,
+    "triangles": 7752,
+    "geometries": 4,
+    "textures": 3,
+    "boat": false
+  },
+  {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "view": "activities",
+    "calls": 22,
+    "triangles": 24014,
+    "geometries": 13,
+    "textures": 6,
+    "boat": false
+  }
+]

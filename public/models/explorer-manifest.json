@@ -1,8 +1,23 @@
 {
   "name": "YouthVerse_Explorer",
-  "authoring": "Original Three.js procedural model; not a Blender export",
-  "bytes": 535684,
-  "triangles": 18859,
+  "authoring": "Original procedural Three.js geometry; not a Blender export",
+  "bytes": 544600,
+  "triangles": 18151,
+  "drawPrimitives": 37,
+  "materials": [
+    "Wood_Dark",
+    "Wood_0",
+    "Wood_1",
+    "Wood_2",
+    "Wood_3",
+    "Ocean_Trim",
+    "Ivory_Fabric",
+    "Blue_Fabric",
+    "Sail_Mark",
+    "Sail_Stitched_Binding",
+    "Rope_Hemp",
+    "Brass_Hardware"
+  ],
   "parts": [
     "Hull_Inner_Shell",
     "Hull_Seam_Backing",
@@ -25,6 +40,7 @@
     "Gaff_Support",
     "SailMarkBack",
     "SailMarkFront",
+    "Sewn_Sail_Panels_And_Edge_Binding",
     "Standing_And_Running_Rigging",
     "Guard_Rails_And_Lifelines",
     "Cleats_And_Attachment_Hardware",
@@ -34,8 +50,30 @@
     "Wheel_Pedestal",
     "Rope_Coil",
     "Storage_Crate",
+    "Stern_Bench_Joinery",
+    "Mast_Collars_And_Belaying_Pins",
+    "Staggered_Carvel_Plank_Joints",
+    "Stern_Lantern_Frame",
+    "Stern_Lantern_Glass",
     "Mast_Pennant"
   ],
+  "bounds": {
+    "min": [
+      -1.650466799736023,
+      -0.591015636920929,
+      -1.5717099905014038
+    ],
+    "max": [
+      1.2505098581314087,
+      3.98,
+      1.9881033897399902
+    ],
+    "size": [
+      2.9009766578674316,
+      4.571015636920929,
+      3.559813380241394
+    ]
+  },
   "source": "scripts/lib/explorer-boat.mjs",
   "regenerate": "npm run assets:boat"
 }

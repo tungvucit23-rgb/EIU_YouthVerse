@@ -31,7 +31,8 @@ export function Trees({ positions, scale = 1 }: { positions: Vector3Tuple[]; sca
   useLayoutEffect(() => {
     const dummy = new Object3D();
     positions.forEach(([x,y,z], i) => {
-      const height = (0.72 + (i % 4) * 0.12) * scale;
+      const variation = (Math.sin(x * 12.31 + z * 9.27) + 1) / 2;
+      const height = (.73 + variation * .45) * scale,type = i % 3;
       for (let branch = 0; branch < 3; branch++) {
         dummy.position.set(x + (branch ? (branch === 1 ? -0.11 : 0.1) * height : 0), y + height * (branch ? 0.72 : 0.42), z);
         dummy.scale.set(0.04 * scale * (branch ? 0.55 : 1), height * (branch ? 0.55 : 1), 0.04 * scale * (branch ? 0.55 : 1));
@@ -40,8 +41,9 @@ export function Trees({ positions, scale = 1 }: { positions: Vector3Tuple[]; sca
       }
       for (let cluster = 0; cluster < clusters; cluster++) {
         const [cx,cy,cz,size] = canopyClusters[cluster];
-        dummy.position.set(x + cx * height, y + cy * height, z + cz * height);
-        dummy.scale.set(height * size * 1.16, height * size * 1.12, height * size);
+        const spread = type === 0 ? 1.28 : type === 1 ? .88 : 1.08;
+        dummy.position.set(x + cx * height * spread, y + cy * height * (type === 0 ? .84 : 1), z + cz * height * spread);
+        dummy.scale.set(height * size * spread, height * size * (type === 0 ? .72 : type === 1 ? 1.25 : 1.02), height * size * spread);
         dummy.rotation.set(cluster * 0.7, i * 0.74, cluster * 0.4);
         dummy.updateMatrix(); const index = i * clusters + cluster;
         crowns.current?.setMatrixAt(index, dummy.matrix);
@@ -49,8 +51,8 @@ export function Trees({ positions, scale = 1 }: { positions: Vector3Tuple[]; sca
       }
       dummy.rotation.set(0,0,0);
     });
-    if (trunks.current) trunks.current.instanceMatrix.needsUpdate = true;
-    if (crowns.current) { crowns.current.instanceMatrix.needsUpdate = true; if (crowns.current.instanceColor) crowns.current.instanceColor.needsUpdate = true; }
+    if (trunks.current) {trunks.current.instanceMatrix.needsUpdate = true;trunks.current.computeBoundingSphere();}
+    if (crowns.current) { crowns.current.instanceMatrix.needsUpdate = true; if (crowns.current.instanceColor) crowns.current.instanceColor.needsUpdate = true;crowns.current.computeBoundingSphere(); }
   }, [positions, scale, clusters]);
   return <group>
     <instancedMesh ref={trunks} args={[undefined,undefined,positions.length * 3]} castShadow><cylinderGeometry args={[0.7,1,1,6]} /><meshStandardMaterial color="#796447" /></instancedMesh>

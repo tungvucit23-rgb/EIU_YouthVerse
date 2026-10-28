@@ -1,5 +1,11 @@
 # Verification record
 
+## Task 02A asset upgrade — 28 October 2026
+
+Current source, functional GLBs, matching visual comparisons and test evidence are documented in [TASK02-ASSET-UPGRADE.md](TASK02-ASSET-UPGRADE.md). This adds 6 meaningful unit cases (108 total) and 2 real-browser asset cases for GLB selection, cloth animation, repeat quality-switch resource counts and failed-model procedural fallback. Historical checks below retain their original asset sizes and screenshots; current art captures live in `artifacts/task02/`.
+
+Final Task 02A results: TypeScript, lint, build, **108 unit tests**, **12 production browser tests (6.0 minutes)** and **5 development hydration tests (25.5 seconds)** passed. All 18 required route/viewport combinations retained nine enabled roots and recorded no empty-land viewport frame. The repeated graphics cycle retained **259 geometries before and after** warming LOD caches. **42 before/after screenshots** cover all three viewports. New files contain functional indexed GLBs: boat 544,600 bytes, campus 624,404 bytes, Activities 325,220 bytes. Physical GPU FPS has not been measured.
+
 ## Continuous archipelago correction — 28 October 2026
 
 The current architecture and verification are recorded in [CONTINUOUS-WORLD.md](CONTINUOUS-WORLD.md). The former phase-based island staging described in the historical Task 01 record below has been removed. All nine roots remain enabled; camera intersections and active LOD are measured separately. Current screenshots are in `artifacts/continuous/`.

@@ -17,5 +17,5 @@ export default defineConfig([
       ...hooks.configs.recommended.rules,
     },
   },
-  globalIgnores([".next/**", "out/**", "test-results/**", "playwright-report/**", "next-env.d.ts"]),
+  globalIgnores([".next/**", "out/**", "test-results/**", "playwright-report/**", "next-env.d.ts", ".asset-review-cache/**"]),
 ]);

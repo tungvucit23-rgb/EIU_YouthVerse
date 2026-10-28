@@ -2,6 +2,8 @@
 
 **Hoist the Sails — Khơi buồm hành trình sinh viên.**
 
+**Task 02A (28 October 2026)** upgrades the real boat GLB and adds photo-informed campus and Activities GLBs, with editable generation source, procedural fallbacks and matched before/after captures. See [TASK02-ASSET-UPGRADE.md](TASK02-ASSET-UPGRADE.md) for the art review, costs, checks and limitations. This stops at the campus and one secondary reference island.
+
 The **continuous archipelago correction (28 October 2026)** removes journey-based island hiding. All nine island roots persist; camera lookahead, spatial LOD and collision-aware labels operate independently. Desktop home frames the campus and five recognizable secondary islands. See [CONTINUOUS-WORLD.md](CONTINUOUS-WORLD.md) for the exact changes, verification and screenshots. The existing 3D assets are preserved.
 
 An explorable nine-island university world built in the existing Next.js / React Three Fiber project. The campus remains the visual center; eight distinct islands represent student activities, news, clubs, events, volunteering, digital office, achievements, and community resources.
@@ -63,12 +65,13 @@ Content routes contain no WebGL Canvas. Data flows through `src/lib/repository.t
 - `src/components/world/`: irregular island geometry, detailed scenery, themed modules, boat, water, lighting and camera.
 - `src/components/experience/`: minimal HUD, map, settings, reusable arrival panel and lightweight alternative.
 - `src/components/content/`: existing listings and the five additional destinations.
-- `public/models/youthverse-explorer.glb`: original 535,684-byte, 18,859-triangle boat with named hull, sail, rigging and deck parts.
+- `public/models/youthverse-explorer.glb`: original 544,600-byte, 18,151-triangle boat with corrected hull normals, fair curved profiles, sewn sails and named animated parts.
+- `public/models/eiu-campus.glb`, `public/models/islands/activities.glb`: working original procedural exports selected by the registry; source lives in `src/lib/art/` and runtime fallbacks use the same builders.
 - `scripts/lib/explorer-boat.mjs`: editable procedural model source; regenerate with `npm run assets:boat`.
 - `public/images/sky-clouds-v2.webp`: sky-only background, reused from the earlier visual pass. It contains no islands, campus, boat or UI.
 - `design-references/`: six supplied reference images and their README.
 
-The boat GLB is an actual indexed geometry export produced with Three.js. Blender is unavailable and was not used. No Draco/Meshopt compression is claimed. See [model integration](public/models/README.md) and [sky provenance](public/images/sky-clouds-v2.prompt.md).
+The three GLBs are actual indexed geometry exports produced with Three.js. Blender was not found in the locations checked and was not used; there is no `.blend` deliverable. No Draco/Meshopt compression is claimed. See [model integration](public/models/README.md) and [sky provenance](public/images/sky-clouds-v2.prompt.md).
 
 ## Performance
 
@@ -102,5 +105,7 @@ See [VERIFICATION.md](VERIFICATION.md) for actual results and [REDESIGN.md](REDE
 ## Remaining production work
 
 The campus entrance preserves the reference's long low curved canopy, oval roof opening, columns and right-hand EIU sign wall. It is a stylized procedural approximation, not a surveyed reconstruction. Replace its dedicated model slot with an approved campus GLB when supplied.
+
+The current original campus GLB is already loaded through that slot. A future approved architectural model can replace it; terrain, dock and navigation remain separate. `npm run assets:environment` regenerates the current campus and Activities models. `npm run assets:review` runs the separate local inspector; `npm run assets:capture` captures its current views while it is running.
 
 Approved EIU / Youth Union / Student Association SVG wordmarks, verified production campus geometry, official content, backend authentication and APIs remain to be supplied. Text branding and original decorative compass marks are used in this preview. No hosting or external publication is configured.

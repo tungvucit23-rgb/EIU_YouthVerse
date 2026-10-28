@@ -34,6 +34,13 @@ export function CampusLandscape() {
     }
   }, []);
   return <group>
+    <group name="campus-reflecting-pool" position={[-1.45,.14,3.05]}>
+      <mesh position={[0,.015,0]} receiveShadow><boxGeometry args={[1.9,.065,.95]}/><meshStandardMaterial color="#ded9c4" roughness={.93}/></mesh>
+      <mesh position={[0,.052,0]} rotation={[-Math.PI / 2,0,0]}><planeGeometry args={[1.65,.7]}/><meshStandardMaterial color="#75b6c2" roughness={.24} metalness={.14}/></mesh>
+      {[-1,1].map(side => <mesh key={side} position={[side * .88,.075,0]} receiveShadow><boxGeometry args={[.14,.055,.95]}/><meshStandardMaterial color="#e7e1cf" roughness={.9}/></mesh>)}
+      <mesh position={[0,.1,0]} receiveShadow><boxGeometry args={[.19,.055,.96]}/><meshStandardMaterial color="#cfc9b6" roughness={.94}/></mesh>
+    </group>
+    <mesh name="campus-dock-footpath" position={[.3,.145,3.6]} receiveShadow><boxGeometry args={[.58,.025,2.35]}/><meshStandardMaterial color="#d6d0bb" roughness={.96}/></mesh>
     <instancedMesh ref={curbs} args={[undefined, undefined, 108]}><boxGeometry args={[1, 1, 1]} /><meshStandardMaterial roughness={0.9} /></instancedMesh>
     <instancedMesh ref={hedges} args={[undefined, undefined, 46]} castShadow><icosahedronGeometry args={[1, 1]} /><meshStandardMaterial roughness={1} /></instancedMesh>
     {[-2.7, -0.7, 1.4, 3.5].map((x, i) => <group key={x} position={[x, 0.17, i % 2 ? 3.38 : -3.1]}>

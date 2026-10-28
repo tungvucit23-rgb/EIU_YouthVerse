@@ -34,7 +34,7 @@ export function DestinationIsland({destination,motion,enabled,selected,onSelect}
   return <group name={"island:" + destination.id} position={destination.position} rotation={[0,destination.rotation,0]} scale={destination.scale}
     onClick={(event) => { event.stopPropagation(); if (enabled) onSelect(destination.id); }}
     onPointerOver={(event) => { event.stopPropagation(); if (enabled) setHovered(true); }} onPointerOut={() => setHovered(false)}>
-    <FloatingIsland shape={destination.shape} simple={!showDetail}>
+    <FloatingIsland shape={destination.shape} simple={!showDetail} polished={destination.id === "activities"}>
       <group name={"island-lod-detailed:" + destination.id} visible={showDetail}>{(detailLoaded || selected) && <IslandArt destination={destination} />}</group>
       <group name={"island-lod-simplified:" + destination.id} visible={!showDetail}><IslandSilhouette id={destination.id} /></group>
       <IslandDock position={destination.dock.position} heading={destination.dock.rotation} />

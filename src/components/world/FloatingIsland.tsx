@@ -9,16 +9,16 @@ import { IslandRockStrata } from "./IslandRockStrata";
 import { useWorldQuality } from "./WorldQuality";
 import { makeCliff, makeTerrain, shoreline } from "./islands/terrain-geometry";
 
-type Props = ThreeElements["group"] & { radius?: number; depth?: number; grass?: string; shape?: IslandShape; simple?: boolean };
+type Props = ThreeElements["group"] & { radius?: number; depth?: number; grass?: string; shape?: IslandShape; simple?: boolean;polished?:boolean };
 
-export function FloatingIsland({ radius = 5.3, depth = 3.8, grass = "#ffffff", shape: configured, simple = false, children, ...props }: Props) {
+export function FloatingIsland({ radius = 5.3, depth = 3.8, grass = "#ffffff", shape: configured, simple = false,polished = false, children, ...props }: Props) {
   const { preset,quality } = useWorldQuality();
   const shape = useMemo(() => configured ?? { radius, depth, seed: 1.2, stretch: [1, 0.94] as [number, number] }, [configured, radius, depth]);
   const segments = preset.terrainSegments;
-  const cliff = useMemo(() => makeCliff(shape, segments), [shape, segments]);
-  const terrain = useMemo(() => makeTerrain(shape, segments), [shape, segments]);
-  const distantCliff = useMemo(() => makeCliff(shape,24), [shape]);
-  const distantTerrain = useMemo(() => makeTerrain(shape,24), [shape]);
+  const cliff = useMemo(() => makeCliff(shape, segments,polished), [shape, segments,polished]);
+  const terrain = useMemo(() => makeTerrain(shape, segments,polished), [shape, segments,polished]);
+  const distantCliff = useMemo(() => makeCliff(shape,24,polished), [shape,polished]);
+  const distantTerrain = useMemo(() => makeTerrain(shape,24,polished), [shape,polished]);
   const vines = useMemo(() => {
     const positions: number[] = [];
     for (let root = 0; root < 8; root++) {
@@ -36,9 +36,9 @@ export function FloatingIsland({ radius = 5.3, depth = 3.8, grass = "#ffffff", s
   useEffect(() => () => { cliff.dispose(); terrain.dispose(); }, [cliff,terrain]);
   useEffect(() => () => { distantCliff.dispose(); distantTerrain.dispose(); vines.dispose(); }, [distantCliff,distantTerrain,vines]);
   return <group {...props}>
-    <mesh geometry={simple ? distantCliff : cliff}><meshStandardMaterial vertexColors map={textures?.stone} bumpMap={quality === "low" ? null : textures?.stone} bumpScale={0.075} roughness={0.97} /></mesh>
+    <mesh geometry={simple ? distantCliff : cliff} receiveShadow><meshStandardMaterial vertexColors map={textures?.stone} bumpMap={quality === "low" ? null : textures?.stone} bumpScale={polished ? .045 : .075} roughness={0.97} /></mesh>
     <mesh geometry={simple ? distantTerrain : terrain} receiveShadow><meshStandardMaterial color={grass} vertexColors map={textures?.grass} roughness={1} /></mesh>
-    <group visible={!simple}><IslandRockStrata shape={shape} radius={shape.radius} depth={shape.depth} /><lineSegments geometry={vines}><lineBasicMaterial color="#647044" transparent opacity={0.75} /></lineSegments></group>
+    <group visible={!simple}><IslandRockStrata polished={polished} shape={shape} radius={shape.radius} depth={shape.depth} /><lineSegments geometry={vines}><lineBasicMaterial color="#647044" transparent opacity={0.75} /></lineSegments></group>
     {children}
   </group>;
 }

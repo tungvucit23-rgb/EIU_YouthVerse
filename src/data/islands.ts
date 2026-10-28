@@ -5,7 +5,7 @@ type Derived = "category" | "dockingPoint" | "dockHeading" | "modelPath" | "requ
 type IslandInput = Omit<WorldIsland,Derived> & { viewHeight?:number };
 type DestinationInput = Omit<Destination,Derived | "fullTitle"> & { viewHeight?:number };
 const dock = (position:Vector3Tuple,rotation = 0):IslandDockConfig => ({position,rotation,length:1.3,clearance:1.55,waterOffset:0.5});
-const asset = (key:string) => ({kind:"procedural" as const,key,url:"/models/islands/" + key + ".glb"});
+const asset = (key:string) => ({kind:key === "activities" ? "glb" as const : "procedural" as const,key,url:"/models/islands/" + key + ".glb"});
 
 function defineIsland<T extends IslandInput>(definition:T) {
   const {position,scale,rotation,shape,dock:landing} = definition;
@@ -25,7 +25,7 @@ export const campus = defineIsland({
   id:"campus" as const,title:"EIU Grand Campus",displayName:"EIU Grand Campus",
   position:[0,.4,0] as Vector3Tuple,scale:1,rotation:0,
   shape:{radius:5.3,depth:3.9,seed:1.2,stretch:[1,.94] as [number,number]},
-  asset:{kind:"procedural" as const,key:"campus",url:"/models/eiu-campus.glb"},
+  asset:{kind:"glb" as const,key:"campus",url:"/models/eiu-campus.glb"},
   dock:dock([.3,.12,4.85]),connections:["harbor-channel"],contentRoute:"/",access:"public" as const,nearOnIntro:true,viewHeight:2.7,
 });
 

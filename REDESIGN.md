@@ -1,5 +1,7 @@
 # Bàn giao bản nâng cấp quần đảo EIU YouthVerse
 
+**Bản ghi lịch sử:** phần staging/nhãn đã được thay bằng bản sửa [continuous world](CONTINUOUS-WORLD.md). Art hiện tại, GLB campus/Activities và thuyền được bàn giao trong [Task 02A](TASK02-ASSET-UPGRADE.md); các mô tả và số liệu bên dưới ghi lại phiên bản trước các thay đổi đó.
+
 Bản nâng cấp được triển khai trực tiếp trong dự án Next.js / React Three Fiber hiện có. Thế giới gồm **1 đảo EIU và 8 đảo nội dung**. Ảnh tham chiếu định hướng bố cục, màu sắc và không khí; các đảo, kiến trúc, thuyền và tuyến nước đều là hình học WebGL thật.
 
 ## Các đảo và nội dung

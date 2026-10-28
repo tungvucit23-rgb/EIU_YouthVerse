@@ -10,7 +10,6 @@ import { CampusLandscape } from "./CampusLandscape";
 import { campus } from "@/data/islands";
 import { Bench, IslandDock, Lamp } from "./islands/Scenery";
 import { ReplaceableIslandModel } from "./islands/IslandArt";
-import { StaticSceneryBatch } from "./islands/StaticSceneryBatch";
 import type { Vector3Tuple } from "@/types";
 
 const trees: Vector3Tuple[] = [
@@ -35,7 +34,7 @@ export function CentralEIUIsland() {
   }, []);
   return (
     <group position={campus.position} rotation={[0,campus.rotation,0]} scale={campus.scale}>
-      <FloatingIsland shape={campus.shape}>
+      <FloatingIsland shape={campus.shape} polished>
         <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.121, 0]} receiveShadow>
           <shapeGeometry args={[road, 64]} />
           <meshStandardMaterial color="#969c8f" roughness={1} />
@@ -44,15 +43,7 @@ export function CentralEIUIsland() {
           <boxGeometry args={[6.7, 0.035, 1.9]} />
           <meshStandardMaterial color="#e5ddc7" />
         </mesh>
-        <mesh position={[0, 0.14, 3.1]} rotation={[-Math.PI / 2, 0, 0]}>
-          <circleGeometry args={[0.85, 40]} />
-          <meshStandardMaterial color="#e4ddc8" />
-        </mesh>
-        <mesh position={[0, 0.16, 3.1]} rotation={[-Math.PI / 2, 0, 0]}>
-          <circleGeometry args={[0.64, 40]} />
-          <meshStandardMaterial color="#86bfcc" roughness={0.22} metalness={0.2} />
-        </mesh>
-        <ReplaceableIslandModel asset={campus.asset} fallback={<StaticSceneryBatch><CampusBuildings /><CampusEntrance /></StaticSceneryBatch>} />
+        <ReplaceableIslandModel asset={campus.asset} fallback={<><CampusBuildings /><CampusEntrance /></>} />
         <CampusLandscape />
         <Trees positions={trees} scale={0.95} />
         <IslandDock position={campus.dock.position} heading={campus.dock.rotation} />

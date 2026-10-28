@@ -1,0 +1,96 @@
+[
+  {
+    "name": "EIU_Campus_Architecture",
+    "authoring": "Original procedural Three.js geometry; not a Blender export",
+    "bytes": 624404,
+    "triangles": 9588,
+    "drawPrimitives": 9,
+    "materials": [
+      "Campus_Render",
+      "Campus_Window_Reveals",
+      "Campus_Recessed_Glass",
+      "Campus_Shading_Concrete",
+      "Campus_Roof_Deck",
+      "EIU_White_Concrete",
+      "EIU_Soffit",
+      "EIU_Sign_Stone",
+      "EIU_Lettering"
+    ],
+    "parts": [
+      "EIU_Academic_Quarter_Campus_Render",
+      "EIU_Academic_Quarter_Campus_Window_Reveals",
+      "EIU_Academic_Quarter_Campus_Recessed_Glass",
+      "EIU_Academic_Quarter_Campus_Shading_Concrete",
+      "EIU_Academic_Quarter_Campus_Roof_Deck",
+      "EIU_Entrance_EIU_White_Concrete",
+      "EIU_Entrance_EIU_Soffit",
+      "EIU_Entrance_EIU_Sign_Stone",
+      "EIU_Entrance_EIU_Lettering"
+    ],
+    "bounds": {
+      "min": [
+        -3.988676071166992,
+        0.125,
+        -3.384999990463257
+      ],
+      "max": [
+        3.700000047683716,
+        2.320000171661377,
+        2.597361958026886
+      ],
+      "size": [
+        7.688676118850708,
+        2.195000171661377,
+        5.9823619484901425
+      ]
+    },
+    "source": "src/lib/art/campus-model.ts"
+  },
+  {
+    "name": "Activities_Festival_Courtyard",
+    "authoring": "Original procedural Three.js geometry; not a Blender export",
+    "bytes": 325220,
+    "triangles": 10203,
+    "drawPrimitives": 9,
+    "materials": [
+      "Wood_Endgrain",
+      "Wood_Teak",
+      "Festival_Pavers",
+      "Festival_Canvas",
+      "Festival_Ochre",
+      "Festival_Hardware",
+      "Festival_Navy",
+      "Activities_Leaf_Shade",
+      "Activities_Foliage"
+    ],
+    "parts": [
+      "Activities_Festival_Courtyard_Wood_Endgrain",
+      "Activities_Festival_Courtyard_Wood_Teak",
+      "Activities_Festival_Courtyard_Festival_Pavers",
+      "Activities_Festival_Courtyard_Festival_Canvas",
+      "Activities_Festival_Courtyard_Festival_Ochre",
+      "Activities_Festival_Courtyard_Festival_Hardware",
+      "Activities_Festival_Courtyard_Festival_Navy",
+      "Activities_Festival_Courtyard_Activities_Leaf_Shade",
+      "Activities_Festival_Courtyard_Activities_Foliage"
+    ],
+    "bounds": {
+      "min": [
+        -2.7165513038635254,
+        -2.38418573772492e-9,
+        -2.106858491897583
+      ],
+      "max": [
+        2.575979471206665,
+        1.9695429801940918,
+        2.430000066757202
+      ],
+      "size": [
+        5.29253077507019,
+        1.9695429825782775,
+        4.536858558654785
+      ]
+    },
+    "source": "src/lib/art/activities-model.ts"
+  }
+]

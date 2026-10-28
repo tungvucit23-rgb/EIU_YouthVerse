@@ -7,7 +7,7 @@ import { CanvasTexture, Mesh, MeshStandardMaterial, SRGBColorSpace } from "three
 import { useTerrainTextures } from "../TerrainTextures";
 import { useWorldQuality } from "../WorldQuality";
 
-const MODEL_URL = "/models/youthverse-explorer.glb";
+const MODEL_URL = "/models/youthverse-explorer.glb?v=4.1";
 
 function fabricTexture(mark = false) {
   const canvas = document.createElement("canvas"); canvas.width = 512; canvas.height = mark ? 384 : 1024;
@@ -20,7 +20,7 @@ function fabricTexture(mark = false) {
     const gradient = context.createLinearGradient(0,0,512,0); gradient.addColorStop(0,"#e9ddc1"); gradient.addColorStop(0.45,"#fff9e7"); gradient.addColorStop(1,"#dfd3b7"); context.fillStyle = gradient; context.fillRect(0,0,512,1024);
     for (let y = 0; y < 1024; y += 81) { context.strokeStyle = "#a9987559"; context.lineWidth = 1.5; context.beginPath(); context.moveTo(0,y); context.lineTo(512,y + 13); context.stroke(); }
   }
-  const texture = new CanvasTexture(canvas); texture.colorSpace = SRGBColorSpace; texture.flipY = false; return texture;
+  const texture = new CanvasTexture(canvas); texture.colorSpace = SRGBColorSpace; return texture;
 }
 
 function animateCloth(mesh:Mesh,base:Float32Array,time:number) {
@@ -29,15 +29,15 @@ function animateCloth(mesh:Mesh,base:Float32Array,time:number) {
   position.needsUpdate = true;
 }
 
-export function ExplorerBoatAsset({ onReady }: { onReady: () => void }) {
-  const { scene } = useGLTF(MODEL_URL,false);
+export function ExplorerBoatAsset({ onReady,modelUrl = MODEL_URL }: { onReady: () => void;modelUrl?:string }) {
+  const { scene } = useGLTF(modelUrl,false);
   const terrain = useTerrainTextures();
   const { reducedMotion, quality } = useWorldQuality();
   const lastHeading = useRef(0);
   const maps = useMemo(() => ({ fabric:fabricTexture(), mark:fabricTexture(true) }), []);
   useEffect(onReady, [onReady]);
   const asset = useMemo(() => {
-    const root = scene.clone(true); const materials = new Map<string,MeshStandardMaterial>();
+    const root = scene.clone(true); root.userData.sourceAsset = modelUrl; const materials = new Map<string,MeshStandardMaterial>();
     const sails: { mesh: Mesh; base: Float32Array }[] = [];
     root.traverse((object) => {
       if (!(object instanceof Mesh)) return;
@@ -45,16 +45,16 @@ export function ExplorerBoatAsset({ onReady }: { onReady: () => void }) {
       const original = object.material as MeshStandardMaterial;
       if (!materials.has(original.uuid)) {
         const material = original.clone();
-        if (original.name.startsWith("Wood")) material.map = terrain?.wood ?? null;
+        if (original.name.startsWith("Wood")) {material.map = terrain?.wood ?? null;material.bumpMap = quality === "low" ? null : terrain?.wood ?? null;material.bumpScale = .012;}
         if (original.name === "Ivory_Fabric") material.map = maps.fabric;
         if (original.name === "Sail_Mark") { material.map = maps.mark; material.transparent = true; material.depthWrite = false; }
         material.needsUpdate = true; materials.set(original.uuid,material);
       }
       object.material = materials.get(original.uuid)!;
-      if (object.name === "MainSail" || object.name === "JibSail" || object.name === "Mast_Pennant") { object.geometry = object.geometry.clone(); sails.push({ mesh:object,base:Float32Array.from(object.geometry.attributes.position.array) }); }
+      if (["MainSail","JibSail","Mast_Pennant","SailMarkFront","SailMarkBack"].includes(object.name)) { object.geometry = object.geometry.clone(); sails.push({ mesh:object,base:Float32Array.from(object.geometry.attributes.position.array) }); }
     });
     return { root, materials:[...materials.values()], sails, rig:root.getObjectByName("SailRig"),wheel:root.getObjectByName("Wheel") };
-  }, [scene,terrain,maps]);
+  }, [scene,terrain,maps,quality,modelUrl]);
   const animated = useRef<typeof asset|null>(null);
   useEffect(() => { animated.current = asset; return () => { animated.current = null; asset.materials.forEach((material) => material.dispose()); asset.sails.forEach(({mesh}) => mesh.geometry.dispose()); }; }, [asset]);
   useEffect(() => () => { maps.fabric.dispose(); maps.mark.dispose(); }, [maps]);

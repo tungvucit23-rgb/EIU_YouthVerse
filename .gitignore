@@ -6,6 +6,7 @@ test-results/
 playwright-report/
 .npm-cache/
 *.tsbuildinfo
+.asset-review-cache/
 .env*
 !.env.example
 !.env.sample

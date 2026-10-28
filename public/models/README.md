@@ -1,42 +1,51 @@
-# Model assets and replacement boundaries
+# Task 02A model assets
 
-## YouthVerse Explorer
+These are functioning original glTF 2.0 binary models, exported from editable Three.js source. They are stylized procedural art, not approved surveyed EIU architecture or Blender-authored production deliverables. No `.blend` file was created. Blender was not found on PATH or in the standard Blender Foundation installation directory checked on this machine.
 
-`youthverse-explorer.glb` is a real original glTF 2.0 binary model:
+| File | Bytes | Triangles | Mesh primitives |
+| --- | ---: | ---: | ---: |
+| `youthverse-explorer.glb` | 544,600 | 18,151 | 37 |
+| `eiu-campus.glb` | 624,404 | 9,588 | 9 |
+| `islands/activities.glb` | 325,220 | 10,203 | 9 |
 
-- 535,684 bytes; 18,859 triangles.
-- 31 named mesh parts plus organizing groups.
-- Curved plank hull, inner shell, thick gunwale, transom, keel, deck boards and navy trim.
-- Mast, bowed main sail and jib, boom, support beam, standing/running rigging, lifelines and cleats.
-- Wheel, hatch, rope coil, crate and pennant.
-- PBR wood/fabric/metal materials. Runtime adds shared wood grain, fabric seams and original EIU text/compass decoration.
-- `MainSail`, `JibSail`, `Mast_Pennant`, `SailRig` and `Wheel` are animation interfaces.
+All geometry is indexed with normals and UVs. Materials are glTF metallic/roughness PBR; no external decoder, remotely downloaded material or missing texture URL is required. No Draco/Meshopt/KTX2 compression is claimed. Small shared runtime wood, grass, stone and fabric CanvasTextures remain in use; the models also render with their base PBR colors in a standalone glTF viewer.
 
-Authoring source: `scripts/lib/explorer-boat.mjs`.
-Exporter: `scripts/build-boat-model.mjs`.
-Regenerate: `npm run assets:boat`.
-Statistics and part names: `explorer-manifest.json`.
+## Regenerate and inspect
 
-The source is procedural Three.js, exported using GLTFExporter with indexed vertices. Blender was not installed or used. The file is not Draco/Meshopt compressed. No external model license or remote decoder is required.
+Use Node.js 24, as tested in this workspace. Environment generation uses Node's native TypeScript stripping.
 
-Runtime loading is isolated in `ExplorerBoatAsset.tsx`. The cached GLB is cloned; only cloned animated geometry and cloned materials are modified/disposed. A small boat proxy is shown during loading; navigation falls back to the lightweight world if startup fails.
-
-## Approved campus model
-
-The referenced campus and entrance currently use original procedural geometry. Place a verified, licensed, optimized `eiu-campus.glb` here, then change `campus.asset.kind` in `src/data/islands.ts` from `procedural` to `glb`. Its URL is already configured.
-
-`ReplaceableIslandModel` in `islands/IslandArt.tsx` supplies lazy GLB loading, local Suspense and a procedural fallback on failure. The campus replacement slot wraps the buildings and entrance; terrain, docks and navigation remain separate. Align the model around the origin with ground near Y=0.13 and a footprint of approximately 10 × 8 world units.
-
-For entrance-only replacement, swap `CampusEntrance.tsx`, keeping its width/height/position props. Preserve the low white curved roof, oval opening, slender columns and right sign wall. Validate proportions against the supplied photographs rather than treating the preview as authoritative.
-
-## Destination models
-
-Every destination declares:
-
-```ts
-asset: { kind: "procedural", key: "events", url: "/models/islands/events.glb" }
+```powershell
+npm.cmd run assets:boat
+npm.cmd run assets:environment
+npm.cmd run assets:review
+# Separate terminal, while the review server is running:
+npm.cmd run assets:capture
 ```
 
-Its current theme is procedural and lazy-loaded. To replace it, provide the file and set `kind: "glb"`. Do not enable missing URLs. Model coordinates are local to the island; retain the island scale, terrain, dock and graph connection configuration.
+The local review URL printed by the script is `http://127.0.0.1:4174/scripts/review/`. Add `?view=boat`, `campus`, `entrance`, or `activities`. This harness is outside the application's routes and imports the actual runtime components. It uses the Vite installation already locked through Vitest. Stop it with Ctrl+C.
 
-Prefer shared materials, indexed geometry, baked ambient shading and optimized texture dimensions. Meshopt/Draco and KTX2 can be added with locally configured decoders; the current build intentionally requests no missing decoders or placeholder GLBs.
+`scripts/asset-review.mjs` can reconstruct the historical source and boat from commit `6d651e5` into ignored `.asset-review-cache/`. `&baseline=1` displays that historical version with the same camera and lighting. It does not change the working tree's application source or Git state. Before/after screenshots and renderer observations are in `artifacts/task02/`.
+
+## Boat
+
+Source: `scripts/lib/explorer-boat.mjs`; exporter: `scripts/build-boat-model.mjs` and `scripts/lib/export-model.mjs`. Statistics: `explorer-manifest.json`.
+
+The hull uses monotone Hermite profiles, fuller stern shoulders, a finer raised bow, outward-facing carvel planks and a thick inner rim. The model includes curved main/jib sails with sewn bindings, conformal EIU markings, rigging, deck planks, hatch, cleats, rope coil, crate, stern benches, mast collars, belaying pins and a lantern. Geometry was redistributed rather than uniformly subdivided: 18,859 → 18,151 triangles; file size increased 8,916 bytes.
+
+Coordinates: Y up, bow +Z. Actual bounds are recorded in the manifest and stay within the existing rotated boat camera envelope. `MainSail`, `JibSail`, `Mast_Pennant`, `SailRig` and `Wheel` remain animation interfaces. Runtime cloth and mark geometry is cloned before deformation; shared loader geometry is not disposed by an instance. Cloned materials/animated buffers and private CanvasTextures have explicit cleanup. Low and reduced motion avoid cloth vertex updates.
+
+## Campus and entrance
+
+Source: `src/lib/art/campus-model.ts` and `model-kit.ts`. The campus GLB includes architecture only: buildings, entrance and right sign wall. Terrain, trees, pool, paths and dock remain runtime components. Ground is near Y=.13; local architecture bounds are approximately 7.69 × 2.20 × 5.98. The reference canopy is 7.2 units wide, with an actual oval hole, slender columns, slim fascia and extruded EIU text on the right wall. The canopy is tested by raycasting through the exported skylight.
+
+`campus.asset.kind` is now `glb`, with `/models/eiu-campus.glb`. `CentralEIUIsland` actually loads it through `ReplaceableIslandModel`. `CampusBuildings.tsx` and `CampusEntrance.tsx` retain procedural fallbacks from the same generation source. The entrance adapter preserves its width/height/position interface.
+
+Architecture dimensions and layout are photo-informed approximations. The EIU text is original geometric lettering, not an approved official wordmark.
+
+## Activities reference island
+
+Source: `src/lib/art/activities-model.ts`. The GLB contains a timber courtyard, detailed benches and stage, curved sewn canopies, poles, guy lines, speakers, pennants, steps and varied trees. The existing terrain and dock stay separate. The Activities registry selects `/models/islands/activities.glb`; the matching theme component supplies the procedural fallback.
+
+Static geometry is merged by material. Generic island instances clone materials before adding shared maps, retain cached loader geometry and use `dispose={null}` with scoped material cleanup. Distance LOD still switches child detail/silhouette groups; all nine island roots remain enabled. Seven other destination themes keep their existing procedural identities and asset configuration.
+
+See [TASK02-ASSET-UPGRADE.md](../../TASK02-ASSET-UPGRADE.md) for visual comparisons, exact source changes, actual checks and limitations.

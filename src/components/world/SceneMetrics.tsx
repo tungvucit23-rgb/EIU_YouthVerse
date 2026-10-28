@@ -32,6 +32,12 @@ export function SceneMetrics({state,motion,plan}: {state:JourneyState;motion:Ref
     canvas.dataset.loadedDetailedIslands = ids(observations.filter((island) => island.detailLoaded));
     canvas.dataset.viewportDetailedIslands = ids(viewport.filter((island) => island.lod === "detailed"));
     canvas.dataset.quality = quality;
+    const modelAssets = new Set<string>();scene.traverse(object => {if(typeof object.userData.sourceAsset === "string") modelAssets.add(object.userData.sourceAsset);});
+    canvas.dataset.modelAssets = JSON.stringify([...modelAssets].sort());
+    canvas.dataset.campusArchitecture = String(Boolean(scene.getObjectByName("EIU_Academic_Quarter")));
+    const main = scene.getObjectByName("MainSail"),jib = scene.getObjectByName("JibSail");
+    const cloth = (mesh:typeof main) => mesh instanceof Mesh ? mesh.geometry.attributes.position.getZ(Math.floor(mesh.geometry.attributes.position.count / 2)) : null;
+    canvas.dataset.boatAnimation = JSON.stringify({main:cloth(main),jib:cloth(jib),rig:scene.getObjectByName("SailRig")?.rotation.y,wheel:scene.getObjectByName("Wheel")?.rotation.z});
     canvas.dataset.phase = state.phase;
     canvas.dataset.journeyProgress = String(motion.current.progress);
     canvas.dataset.journeyElapsed = String(motion.current.elapsed);
